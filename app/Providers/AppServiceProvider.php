@@ -1,11 +1,11 @@
-<?php
-
-namespace App\Providers;
+<?php namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\Resource;
 
 class AppServiceProvider extends ServiceProvider
 {
+    protected $resources;
     /**
      * Bootstrap any application services.
      *
@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->resources = Resource::all();
+        view()->share('resources', $this->resources);
     }
 
     /**
