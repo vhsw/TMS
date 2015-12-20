@@ -21,6 +21,8 @@
     <!-- GLOBAL STYLE (Sass) -->
     {!! HTML::style('css/global.css') !!}
     <!-- PAGE SPECIFIC STYLE -->
+    {!! HTML::style('global/plugins/select2/css/select2.css') !!}
+    {!! HTML::style('global/plugins/select2/css/select2-bootstrap.min.css') !!}
     @yield('css')
     <!-- LAYOUT STYLE (Sass) -->
     {!! HTML::style('css/layout.css') !!}
