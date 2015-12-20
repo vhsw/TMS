@@ -64,4 +64,17 @@ return [
         'expire' => 60,
     ],
 
+
+
+
+    'role'                  => App\Role::class,
+    'roles_table'           => 'roles',
+    'permission'            => App\Permission::class,
+    'permissions_table'     => 'permissions',
+    'permission_role_table' => 'permission_role',
+    'role_user_table'       => 'role_user',
+    'user_foreign_key'      => 'user_id',
+    'role_foreign_key'      => 'role_id',
+
+
 ];

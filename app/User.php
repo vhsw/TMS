@@ -11,8 +11,10 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 use App\Models\Notification;
 use App\Role;
 
-class User extends Model
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
+    use Authenticatable;
+    use CanResetPassword;
     use EntrustUserTrait;
 
     /**
