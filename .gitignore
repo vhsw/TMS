@@ -2,6 +2,9 @@
 .env.*.php
 .env.php
 .env
+/node_modules
+/vendor
+/storage
 
 # =========================
 # Operating System Files
