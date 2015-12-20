@@ -216,7 +216,7 @@
 /********************************************/
     Overlay.prototype.ajaxResource = function(){
         var _this = this;
-
+        
         $.ajax({
             url: this.options.ajaxResourceUrl,
             type:'POST',
