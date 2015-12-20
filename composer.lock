@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9fb4f9a85c2d63d04343517cf500a639",
+    "hash": "6fe41d257cd8c8901c581db984a109a2",
     "content-hash": "2b9c15ea662a164bca068ac7eb7c21e4",
     "packages": [
         {
@@ -73,16 +73,16 @@
         },
         {
             "name": "arcanedev/support",
-            "version": "3.6.9",
+            "version": "3.6.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ARCANEDEV/Support.git",
-                "reference": "4bd9c5bd2ad7032f89b6c4f9ba9b9bb979bf0c75"
+                "reference": "e5f1557b8e570bce7de3d40cde4311559042d15e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ARCANEDEV/Support/zipball/4bd9c5bd2ad7032f89b6c4f9ba9b9bb979bf0c75",
-                "reference": "4bd9c5bd2ad7032f89b6c4f9ba9b9bb979bf0c75",
+                "url": "https://api.github.com/repos/ARCANEDEV/Support/zipball/e5f1557b8e570bce7de3d40cde4311559042d15e",
+                "reference": "e5f1557b8e570bce7de3d40cde4311559042d15e",
                 "shasum": ""
             },
             "require": {
@@ -129,7 +129,7 @@
                 "laravel",
                 "support"
             ],
-            "time": "2015-12-08 17:25:35"
+            "time": "2015-12-19 14:21:36"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -982,16 +982,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.15",
+            "version": "1.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "31525caf9e8772683672fefd8a1ca0c0736020f4"
+                "reference": "183e1a610664baf6dcd6fceda415baf43cbdc031"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/31525caf9e8772683672fefd8a1ca0c0736020f4",
-                "reference": "31525caf9e8772683672fefd8a1ca0c0736020f4",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/183e1a610664baf6dcd6fceda415baf43cbdc031",
+                "reference": "183e1a610664baf6dcd6fceda415baf43cbdc031",
                 "shasum": ""
             },
             "require": {
@@ -1005,7 +1005,7 @@
                 "mockery/mockery": "~0.9",
                 "phpspec/phpspec": "^2.2",
                 "phpspec/prophecy-phpunit": "~1.0",
-                "phpunit/phpunit": "~4.1"
+                "phpunit/phpunit": "~4.8"
             },
             "suggest": {
                 "ext-fileinfo": "Required for MimeType",
@@ -1062,7 +1062,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2015-09-30 22:26:59"
+            "time": "2015-12-19 20:16:43"
         },
         {
             "name": "maximebf/debugbar",

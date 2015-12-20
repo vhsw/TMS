@@ -6,6 +6,7 @@
 /vendor
 /storage
 /public/global/plugins
+SyncToy*
 
 # =========================
 # Operating System Files
