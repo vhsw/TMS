@@ -1,6 +1,7 @@
 @extends('master')
 
 @section('content')
+
 <div class="portlet box b-a b-grey">
         <div class="portlet-body form">
             <!-- BEGIN FORM-->
@@ -42,6 +43,7 @@
     </div>
 </div>
 
+@if(Auth::check())
 <div class="row">
     <div class="col-md-6 col-sm-6">
                             <div class="portlet light ">
@@ -79,6 +81,9 @@
                             </div>
     </div>
 </div>
+@endif
+
+
 @endsection
 
 @section('script')

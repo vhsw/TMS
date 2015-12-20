@@ -5,6 +5,7 @@ use App\User;
 use App\Models\Requests;
 use App\Models\Tool;
 use DB;
+use Auth;
 
 /**
  * Class DashboardController
@@ -35,9 +36,14 @@ class DashboardController extends Controller {
 			$sum = $sum + str_replace(',', '', $total);
 		}
 
-		$user = User::find(auth()->user()->id);
-		$notifications = $user->notifications()->unread()->get();
-
-		return view('index', compact('requests', 'last_monday', 'sum', 'user', 'notifications'));
+		if (Auth::check())
+		{
+			$user = User::find(auth()->user()->id);
+			$notifications = $user->notifications()->unread()->get();
+			return view('index', compact('requests', 'last_monday', 'sum', 'user', 'notifications'));
+		} else
+		{
+			return view('index', compact('requests', 'last_monday', 'sum'));
+		}
 	}
 }

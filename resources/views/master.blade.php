@@ -72,7 +72,7 @@
             <div class="clearfix"> </div>
             <!-- END HEADER & CONTENT DIVIDER -->
             <!-- BEGIN CONTAINER -->
-@if (Auth::check())
+
             <div class="page-container">
                 <!-- BEGIN SIDEBAR -->
                 <div class="page-sidebar-wrapper">
@@ -123,7 +123,7 @@
 
             @include('includes.footer')
 
-@endif
+
             <!-- END FOOTER -->
         <!--[if lt IE 9]>
 <script src="../assets/global/plugins/respond.min.js"></script>

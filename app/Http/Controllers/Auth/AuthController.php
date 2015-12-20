@@ -77,7 +77,7 @@ class AuthController extends Controller
         { 
             if ($request->ajax()) 
             { 
-                return response()->json(['resource_id' => Auth::user()->resource->id, 'user_id' => Auth::user()->id ]);
+                return redirect('auth/returnAjax'); //return response()->json(['resource_id' => Auth::user()->name, 'user_id' => Auth::user()->id ]);
             }
             else
             {
@@ -89,6 +89,11 @@ class AuthController extends Controller
         {
             return response()->json(['error' => 'Wrong']);
         }
+    }
+
+    public function returnAjax(Request $request)
+    {
+        return response()->json(['resource_id' => User::find(Auth::user()->id)->resource->id, 'user_id' => Auth::user()->id ]);
     }
 
 }
