@@ -44,7 +44,17 @@
               <label for="select2-single-append" class="control-label">Select Resource</label>
               <div class="input-group input-group-lg input-large select2-bootstrap-prepend">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                
+                <select name="resource" class="form-control select2-allow-clear input-large">
+                  @if (Auth::check())
+                    @foreach ($resources as $resource)
+                    <option value="{{ $resource->id }}" {{ (Auth::user()->resource_id == $resource->id) ? 'selected' : '' }}>{{ $resource->short_name }}</option>
+                    @endforeach
+                  @else 
+                    @foreach ($resources as $resource)
+                    <option value="{{ $resource->id }}">{{ $resource->short_name }}</option>
+                    @endforeach
+                  @endif
+                </select>
               </div>
             </div>
           </form>
