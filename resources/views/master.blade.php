@@ -145,7 +145,7 @@
 <script>
     var overlay = $('.burger-trigger').overlay({
         'ajaxUserUrl' : '{!! url("auth/login") !!}',
-        'ajaxResourceUrl' : '{!! url("resource/select") !!}',
+        'ajaxResourceUrl' : '{!! url("resource/change") !!}',
         'ajaxSearchUrl' : '{!! url("tools/barcode") !!}'
     });
 

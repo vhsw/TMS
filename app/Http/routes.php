@@ -7,7 +7,8 @@ post('auth/login', 'Auth\AuthController@postLogin');
 
 Route::group(['middleware' => 'auth'], function () {
 	get('auth/logout', 'Auth\AuthController@getLogout');
-	get('auth/returnAjax', 'Auth\AuthController@returnAjax'); //AJAX -> JSON
+	get('auth/returnAjax', 'Auth\AuthController@returnAjax'); // AJAX -> JSON
+	post('resource/change', 'ResourceController@change'); // AJAX
 
 	require(__DIR__ . "/Routes/Tool.php");
 });
