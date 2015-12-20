@@ -41,7 +41,7 @@ class ResourceController extends Controller {
     }
 
 
-    public function select(Request $request)
+    public function change(Request $request)
     {
         if ($request->ajax()) 
         {               
