@@ -1,8 +1,14 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Zizaco\Entrust\EntrustRole;
 
-class Role extends EntrustRole
+class Role extends Model
 {
+	public $timestamps = false;
+
+
+	public function users()
+     {
+         return $this->belongsToMany('User', 'users_roles');
+     }
 }

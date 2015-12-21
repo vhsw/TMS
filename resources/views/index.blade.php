@@ -2,6 +2,8 @@
 
 @section('content')
 
+<?php if ( $user->hasRole('admin') ) {echo "1";} ?>
+
 <div class="portlet box b-a b-grey">
         <div class="portlet-body form">
             <!-- BEGIN FORM-->
