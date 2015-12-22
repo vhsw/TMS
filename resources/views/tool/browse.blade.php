@@ -9,7 +9,6 @@
 @endsection
 
 @section('js')
-{!! HTML::script('global/plugins/jstree/dist/jstree.min.js') !!}
 {!! HTML::script('global/scripts/datatable.js') !!}
 {!! HTML::script('global/plugins/datatables/datatables.js') !!}
 {!! HTML::script('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}
@@ -160,26 +159,6 @@ $('div.dataTables_filter').remove();
     <div class="col-lg-2 p-t-20">
 <div class="accordion navbar-collapse collapse" style="width:100%">
 
-{{--
-<ul data-height="505" style="width:100%" class="menu-trigger accordion-menu" data-keep-expanded="true" data-auto-scroll="true" data-slide-speed="200">
-                        <li class="nav-item start ">
-                            <a href="javascript:;" class="nav-link nav-toggle">
-                                <img src="{!! url('assets/ICO/A020.png') !!}">
-                                <span class="title">Tools</span>
-                                <span class="selected start "></span>
-                                <span class="arrow "></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item ">
-                                    <a href="" class="nav-link ">
-                                        <i class="icon-folder"></i>
-                                        <span class="title">Search</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-</ul>
---}}
 
 {!! $accordion !!}
 

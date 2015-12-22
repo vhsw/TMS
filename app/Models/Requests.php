@@ -42,6 +42,6 @@ class Requests extends BaseModel {
 
 	public function user()
     {
-        return $this->belongsTo('App\Models\Access\User\User');
+        return $this->belongsTo('App\User');
     }
 }

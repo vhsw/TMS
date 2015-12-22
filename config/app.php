@@ -150,7 +150,6 @@ return [
          * Added Service Providers...
          */
         Illuminate\Html\HtmlServiceProvider::class,
-        Zizaco\Entrust\EntrustServiceProvider::class,
         HieuLe\Active\ActiveServiceProvider::class,
 
     ],
@@ -203,7 +202,6 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
         'HTML'      => Illuminate\Html\HtmlFacade::class,
-        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Active'    => HieuLe\Active\Facades\Active::class,
         'Form'      => Illuminate\Html\FormFacade::class,
 

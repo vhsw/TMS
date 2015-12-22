@@ -23,22 +23,18 @@ class CustomDate {
 		if ($time->isToday() == $now->isToday())	// Today
 		{
 			return 'Today at '.$val->format('H:i');
-			break;
 		}
 		elseif ($time->isYesterday())	// Yesterday
 		{
 			return 'Yesterday at '.$val->format('H:i');
-			break;
 		}
 		elseif ($time->format('Y') == $now->format('Y'))  	// If month
 		{
 			return $val->format('d M, H:i');
-			break;
 		}
 		elseif ($time->format('Y') != $now->format('Y'))	// If year
 		{
 			return $val->format('d M Y, H:i');
-			break;
 		}
 	}
 

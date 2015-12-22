@@ -32,8 +32,6 @@ class User extends Model implements AuthenticatableContract,
         return in_array($role, array_fetch($this->roles->toArray(), 'name'));
     }
 
-
-
     public function requests()
     {
         return $this->hasMany('App\Models\Requests');
@@ -51,7 +49,7 @@ class User extends Model implements AuthenticatableContract,
 
     public function newNotification()
     {
-        $notification = new Notification;
+        $notification = new Models\Notification;
         $notification->user()->associate($this);
  
         return $notification;

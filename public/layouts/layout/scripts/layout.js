@@ -116,12 +116,12 @@ var Layout = function () {
     // Handle sidebar menu
     var handleSidebarMenu = function () {
         // handle sidebar link click
-        $('.page-sidebar-menu').on('click', 'li > a.nav-toggle, li > a > span.nav-toggle', function (e) {
+        $('.menu-trigger').on('click', 'li > a.nav-toggle, li > a > span.nav-toggle', function (e) {
             var that = $(this).closest('.nav-item').children('.nav-link');
 
-            if (App.getViewPort().width >= resBreakpointMd && !$('.page-sidebar-menu').attr("data-initialized") && $('body').hasClass('page-sidebar-closed') &&  that.parent('li').parent('.page-sidebar-menu').size() === 1) {
+           /* if (App.getViewPort().width >= resBreakpointMd && !$('.menu-trigger').attr("data-initialized") && $('body').hasClass('page-sidebar-closed') &&  that.parent('li').parent('.menu-trigger').size() === 1) {
                 return;
-            }
+            } */  // NOTE: Removed because of Accordion Script
 
             var hasSubMenu = that.next().hasClass('sub-menu');
 
@@ -142,7 +142,7 @@ var Layout = function () {
 
             var parent =that.parent().parent();
             var the = that;
-            var menu = $('.page-sidebar-menu');
+            var menu = $('.menu-trigger');
             var sub = that.next();
 
             var autoScroll = menu.data("auto-scroll");

@@ -2,10 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class User
- * @package App\Models\Access\User
- */
+
 class Notification extends BaseModel {
 
 	protected $table = 'notifications';
@@ -14,7 +11,7 @@ class Notification extends BaseModel {
 
 	public function user()
     {
-        return $this->belongsTo('App\Models\Access\User\User');
+        return $this->belongsTo('App\User');
     }
 
     public function scopeUnread($query)
@@ -40,6 +37,7 @@ class Notification extends BaseModel {
 	    {
 	        $this->object_id   = $object->id;
 	        $this->object_type = get_class($object);
+	        $this->status = $object->status;
 	    }
 	 
 	    return $this;

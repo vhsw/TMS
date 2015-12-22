@@ -2,8 +2,6 @@
 
 @section('content')
 
-<?php if ( $user->hasRole('admin') ) {echo "1";} ?>
-
 <div class="portlet box b-a b-grey">
         <div class="portlet-body form">
             <!-- BEGIN FORM-->
@@ -65,13 +63,13 @@
                                                 <div class="item-head">
                                                     <div class="item-details">{{ $notification->body }} @if($notification->hasValidObject() && $notification->status == "REQUESTED") by <b>{{ $notification->getObject()->user->name }} </b> @endif
 
-                                                        <span class="item-label">{{ CustomDate::formatHuman($notification->created_at) }}</span>
+                                                        <span class="item-label">{{ \App\Services\CustomDate::formatHuman($notification->created_at) }}</span>
                                                     </div>
                                                 </div>
                                                 <div class="item-body"> 
                                                 Request @if($notification->hasValidObject())
                                                     <a href="" class="item-name primary-link">"{{ $notification->getObject()->description }}" : {{ $notification->getObject()->tool_serialnr }}</a>
-                                                has been <span class="label {{ Metronic::classStatus($notification->status) }}">{{ $notification->status }}</span> 
+                                                has been <span class="label {{ \App\Services\Metronic::classStatus($notification->status) }}">{{ $notification->status }}</span> 
                                                 </div>
                                                 @endif
                                             </div>

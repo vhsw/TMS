@@ -16,7 +16,8 @@
 @import 'layout/_quick-sidebar';  // quick sidebar toggler  
 
 //## Extra content
-@import '../custom/_overlay';                
+@import '../custom/_overlay';  // overlay
+@import 'layout/_accordion';  // accordion              
 
 @import '../quick-sidebar/_quick-sidebar';  // quick sidebar content     
 

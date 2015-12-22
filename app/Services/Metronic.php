@@ -5,6 +5,7 @@ class Metronic {
 
 	public static function classStatus($val)
 	{
+		$class = "";
 		switch($val){
 			case 'REST': $class = "label-warning"; break;
 			case 'REQUESTED': $class = "label-danger"; break;
