@@ -31,7 +31,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
 
         'role' => \App\Http\Middleware\AcceptRole::class,
-        'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
-        'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
+        //'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
+        //'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
     ];
 }
