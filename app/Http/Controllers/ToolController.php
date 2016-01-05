@@ -140,11 +140,18 @@ class ToolController extends Controller {
     public function edit($id)
     {
         $tool = Tool::where('id', $id)->first();
+
+        $prev = DB::select('SELECT id FROM tools WHERE id < '.$tool->id.' ORDER BY id DESC LIMIT 1');
+        $next = DB::select('SELECT id FROM tools WHERE id > '.$tool->id.' ORDER BY id ASC LIMIT 1');
+        if (!$prev) { $prev = false; } else { $prev = $prev[0]->id; }
+        if (!$next) { $next = false; } else { $next = $next[0]->id; }
+        $navigate = ['prev' => $prev, 'next' => $next];
+
         $suppliers = Supplier::all();
         $categories = Category::getParentCategories($tool->category_id);
         $costs = Cost::where("tool_id", "=", $id)->orderBy('supplier_id', "asc")->orderBy('updated_at', "desc")->get();
 
-        return view('tool.edit', compact('tool', 'categories', "suppliers", "costs"));
+        return view('tool.edit', compact('tool', 'categories', 'suppliers', 'costs', 'navigate'));
     }
 
 
@@ -180,7 +187,15 @@ class ToolController extends Controller {
         $tool->category_id = $category_id;
         $tool->save();
 
-        return redirect('tool/'.($id + 1).'/edit');
+        $next = DB::select('SELECT id FROM tools WHERE id > '.$tool->id.' ORDER BY id ASC LIMIT 1');
+        if (!$next) 
+        { 
+            return redirect('tool/'.$id.'/edit'); 
+        } 
+        else 
+        { 
+            return redirect('tool/'.$next[0]->id.'/edit'); 
+        }
     }
 
 

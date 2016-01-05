@@ -71,12 +71,16 @@ jQuery(document).ready(function() {
 <div class="page-bar">        
 <div class="row p-t-10 p-b-10">
     <div class="col-sm-2">
-        <a href="{!!url('tool/'.($tool->id - 1).'/edit')!!}" class="btn default"><i class="fa fa-arrow-left"></i> {{ $tool->id - 1 }} </a> 
+        @if($navigate['prev'])
+            <a href="{!!url('tool/'.($navigate['prev']).'/edit')!!}" class="btn default"><i class="fa fa-arrow-left"></i> {{ $navigate['prev'] }} </a> 
+        @endif
     </div>
     <div class="col-sm-10">
         <button class="btn blue">Save</button> 
-        <button type="submit" class="btn blue">Save & Goto {{ $tool->id + 1 }}</button>
-        <a href="{!!url('tool/'.($tool->id + 1).'/edit')!!}" class="btn default pull-right">{{ $tool->id + 1 }} <i class="fa fa-arrow-right"></i></a> 
+        <button type="submit" class="btn blue">Save @if($navigate['next']) & Goto {{ $navigate['next'] }} @endif</button>
+        @if($navigate['next'])
+            <a href="{!!url('tool/'.($navigate['next']).'/edit')!!}" class="btn default pull-right">{{ $navigate['next'] }} <i class="fa fa-arrow-right"></i></a> 
+        @endif
     </div>  
 </div>
 </div>
