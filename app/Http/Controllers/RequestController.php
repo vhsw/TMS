@@ -149,7 +149,7 @@ class RequestController extends Controller {
 
         /** Format Cost **/
         if($request->cost) {
-            $cost = str_replace(',', '', substr($request->cost, 4));
+            $cost = $request->cost; //str_replace(',', '', substr($request->cost, 4));
         } else {
             $cost = '0.00';
         }
@@ -168,7 +168,7 @@ class RequestController extends Controller {
             }
         }
 
-        //return view('frontend.test', compact('lastCost'));
+        //return view('test', compact('cost'));
 
         $item = Requests::find($id);
 
