@@ -108,7 +108,7 @@ class AjaxTable {
 				else {
 					$sWhere .= " AND ";
 				}
-				$sWhere .= $this->_search[$i]." LIKE '%".$this->_request->input('search')['value']."%' ";
+				$sWhere .= $this->_search[$i]." LIKE '".$this->_request->input('columns')[$i]['search']['value']."' ";
 			}
 		}
 
