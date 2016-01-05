@@ -163,6 +163,7 @@ class RequestController extends Controller {
             if($lastCost != $cost) {
                 $costRow = new Cost;
                 $costRow->tool_id = $tool_id;
+                $costRow->supplier_id = $request->supplier_id;
                 $costRow->cost = $cost;
                 $costRow->save();
             }

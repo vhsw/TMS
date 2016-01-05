@@ -185,7 +185,7 @@ jQuery(document).ready(function() {
                                     <tr>
                                         <td>{{ $cost->supplier->name }}</td>
                                         <td>{{ $cost->cost }}</td>
-                                        <td>{{ CustomDate::formatHuman($cost->updated_at) }}</td>
+                                        <td>{{ \App\Services\CustomDate::formatHuman($cost->updated_at) }}</td>
                                     </tr>
                                     <?php
                                 }

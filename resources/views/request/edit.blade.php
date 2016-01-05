@@ -116,9 +116,9 @@ $(function() {
                               </div>
                               <label class="control-label col-md-1">Supplier</label>
                               <div class="col-md-4">
-                                <select class="form-control" name="supplier">
-                                 @foreach($suppliers as $supplier)
-                                  <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                <select class="form-control" name="supplier_id">
+                                @foreach($suppliers as $supplier)
+                                  <option value="{{ $supplier->id }}" {{ ($supplier->id == $request->tool->supplier_id) ? 'SELECTED' : '' }}>{{ $supplier->name }}</option>
                                 @endforeach
                                 </select>
                               </div>
