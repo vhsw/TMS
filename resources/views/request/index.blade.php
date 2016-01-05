@@ -72,7 +72,7 @@ var table = $('#table1');
             }
             td.eq(4).html('<span class="label label-'+btnclass+'">'+data[6]+'</span>');
 
-            td.eq(6).html('<span class="hidden">'+data[8]+'</span>'+moment(data[8], 'YYYY-MM-DD HH:mm:ss').fromNow());
+            td.eq(6).html('<span class="hidden">'+data[8]+'</span>'+moment(data[8], 'YYYY-MM-DD HH:mm:ss').add(1, 'h').fromNow());
 
             if(!data[3] == 0) {
                 td.eq(1).html('<a href="'+toolUrl+'/'+data[3]+'/view">'+data[2]+'</a>');
