@@ -44,4 +44,9 @@ class Requests extends BaseModel {
     {
         return $this->belongsTo('App\User');
     }
+
+    public function tool()
+    {
+    	return  $this->belongsTo('App\Models\Tool');
+    }
 }

@@ -21,16 +21,12 @@ jQuery(document).ready(function() {
 
 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 
+var toolUrl = "{!!url('tool')!!}";
 var table = $('#table1');
-  table.DataTable({
+  table.dataTable({
          "bProcessing": true,
          "serverSide": true,
-
-         "columnDefs": [ {
-                "targets": [2, 3],
-                "orderable": false,
-                "searchable": false
-            }],
+         "bFilter": true,
 
          "lengthMenu": [
                 [10, 15, 20, -1],
@@ -46,9 +42,28 @@ var table = $('#table1');
               //$("#employee_grid").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
               //$("#employee_grid_processing").css("display","none");
             }
-          }
+        },
+
+        "columns": [
+                null,
+                null,
+                { "visible" : false},
+                null,
+                null
+            ],
+
+        "createdRow": function ( row, data, index ){ 
+            var td = $('td', row);
+            
+            if(!data[3] == 0) {
+                td.eq(1).html('<a href="'+toolUrl+'/'+data[3]+'/view">'+data[2]+'</a>');
+            }
+
+            td.eq(8).html('<div class="btn-group btn-group-xs btn-group-solid">'+
+                '<a href="'+requestUrl+'/'+data[0]+'/edit" class="btn blue">Edit</a></div>');
+        }
+
         });   
-});
 
  /*
 var table = $('#table1');
@@ -92,27 +107,34 @@ var table = $('#table1');
             },
             "plugins": ["types", "wholerow"],
         });
-
-        // handle link clicks in tree nodes(support target="_blank" as well)
-        $('#tree_1').on('select_node.jstree', function(e, data) { 
-
-            var cat = $("li[aria-selected='true']").attr('id').split('-');
-            //console.log(cat[1]);
-            table.fnFilter(cat[1],[4,5]);
-            
-            var link = $('#' + data.selected).find('a');
-            if (link.attr("href") != "#" && link.attr("href") != "javascript:;" && link.attr("href") != "") {
-                if (link.attr("target") == "_blank") {
-                    link.attr("href").target = "_blank";
-                }
-                document.location.href = link.attr("href");
-                return false;
-            }
-        });
-});
 */
 
+        // handle link clicks in tree nodes(support target="_blank" as well)
+
+    $('#category-menu a').click( function() { 
+
+        var cat = $(this).closest('li').attr('id').split('-');
+        console.log(cat[1]);
+        table.fnFilter(cat[1],2);
+        table.fnDraw();
+
+           
+        /* 
+        var link = $('#' + data.selected).find('a');
+        if (link.attr("href") != "#" && link.attr("href") != "javascript:;" && link.attr("href") != "") {
+            if (link.attr("target") == "_blank") {
+                link.attr("href").target = "_blank";
+            }
+            document.location.href = link.attr("href");
+            return false;
+        } */
+    });
+
+
+});
+
 $(window).load(function() {
+
 $('div.dataTables_filter > label').children('input').appendTo('#dataTables_filter').removeClass('input-inline input-sm input-small').addClass("form-control");
 $('div.dataTables_length > label').children('select').appendTo('#dataTables_length').removeClass('input-inline input-sm input-xsmall').addClass("form-control");
 $('div.dataTables_length').remove();
@@ -191,7 +213,7 @@ $('div.dataTables_filter').remove();
                     </th>
                 </tr>
             </thead>
-
+            
         </table>
     </div>
 </div>

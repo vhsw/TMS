@@ -48,7 +48,9 @@ class ToolController extends Controller {
             $tools->with('suppliers', array('name'), 'supplier', 'supplier_id');
 
             return $tools->get();
-        } else 
+
+        } 
+        else 
         {}
         
     }
@@ -235,7 +237,7 @@ class ToolController extends Controller {
 
     public function build_menu($rows,$parent=0)
     {  
-      $result = '<ul data-height="505" style="width:100%" class="menu-trigger accordion-menu" data-keep-expanded="true" data-auto-scroll="true" data-slide-speed="200">';
+      $result = '<ul id="category-menu" data-height="505" style="width:100%" class="menu-trigger accordion-menu" data-keep-expanded="true" data-auto-scroll="true" data-slide-speed="200">';
       foreach ($rows as $row)
       {
         $nav_toggle = '';
@@ -243,7 +245,7 @@ class ToolController extends Controller {
         if ($this->has_children($rows,$row->id)) 
         {
             $nav_toggle = 'nav-toggle';
-            $span = '<span class="arrow "></span></a>';
+            $span = '<span class="arrow "></span>';
         }
 
         if ($row->icon != "") 
@@ -256,7 +258,7 @@ class ToolController extends Controller {
 
         if ($row->parent_id == $parent){
           $result.= '<li id="category-'.$row->id.'" class="nav-item"><a href="javascript:;" class="nav-link '.$nav_toggle.'">'
-                    .$icon.'<span class="title"> '.$row->name.'</span>'.$span;
+                    .$icon.'<span class="title"> '.$row->name.'</span>'.$span.'</a>';
 
           if ($this->has_children($rows,$row->id))
             $result.= $this->build_submenu($rows,$row->id);
@@ -279,7 +281,7 @@ class ToolController extends Controller {
         if ($this->has_children($rows,$row->id)) 
         {
             $nav_toggle = 'nav-toggle';
-            $span = '<span class="arrow "></span></a>';
+            $span = '<span class="arrow "></span>';
         }
 
         if ($row->icon != "") 
@@ -292,7 +294,7 @@ class ToolController extends Controller {
 
         if ($row->parent_id == $parent){
           $result.= '<li id="category-'.$row->id.'" class="nav-item start "><a href="javascript:;" class="nav-link '.$nav_toggle.'">'
-                    .$icon.'<span class="title"> '.$row->name.'</span>'.$span;
+                    .$icon.'<span class="title"> '.$row->name.'</span>'.$span.'</a>';
 
           if ($this->has_children($rows,$row->id))
             $result.= $this->build_submenu($rows,$row->id);
