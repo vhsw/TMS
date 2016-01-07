@@ -45,89 +45,33 @@ var table = $('#table1');
         },
 
         "columns": [
+                { "visible" : false},
                 null,
                 null,
                 { "visible" : false},
                 null,
-                null
+                null,
+                {"data": null, "defaultContent": "", "width" : "1%"}
             ],
 
         "createdRow": function ( row, data, index ){ 
             var td = $('td', row);
             
-            if(!data[3] == 0) {
-                td.eq(1).html('<a href="'+toolUrl+'/'+data[3]+'/view">'+data[2]+'</a>');
-            }
-
-            td.eq(8).html('<div class="btn-group btn-group-xs btn-group-solid">'+
-                '<a href="'+requestUrl+'/'+data[0]+'/edit" class="btn blue">Edit</a></div>');
+            td.eq(0).html('<a href="'+toolUrl+'/'+data[0]+'/view">'+data[1]+'</a>');
+            
+            td.eq(4).html('<div class="btn-group btn-group-xs btn-group-solid">'+
+                '<a href="'+toolUrl+'/'+data[0]+'/edit" class="btn blue">Edit</a></div>');
         }
 
         });   
 
- /*
-var table = $('#table1');
-        // begin first table
-        table.dataTable({
-            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
-            "columnDefs": [ {
-                "targets": 0,
-                "orderable": false,
-                "searchable": false
-            }],
-            "lengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
-            ],
-            // set the initial value
-            "pageLength": 20,
-            "pagingType": "bootstrap_full_number",
-            "columnDefs": [],
-            "order": [
-                [1, "asc"]
-            ] // set first column as a default sort by asc
-        });
-
-
-
-
-        $('#tree_1').jstree({
-            "core" : {
-                "themes" : {
-                    "responsive": false
-                }            
-            },
-            "types" : {
-                "default" : {
-                    "icon" : "fa fa-folder icon-state-warning icon-lg"
-                },
-                "file" : {
-                    "icon" : "fa fa-file icon-state-warning icon-lg"
-                }
-            },
-            "plugins": ["types", "wholerow"],
-        });
-*/
-
-        // handle link clicks in tree nodes(support target="_blank" as well)
 
     $('#category-menu a').click( function() { 
 
         var cat = $(this).closest('li').attr('id').split('-');
         console.log(cat[1]);
         table.fnFilter(cat[1],2);
-        table.fnDraw();
-
-           
-        /* 
-        var link = $('#' + data.selected).find('a');
-        if (link.attr("href") != "#" && link.attr("href") != "javascript:;" && link.attr("href") != "") {
-            if (link.attr("target") == "_blank") {
-                link.attr("href").target = "_blank";
-            }
-            document.location.href = link.attr("href");
-            return false;
-        } */
+        table.fnDraw();     
     });
 
 
@@ -197,6 +141,9 @@ $('div.dataTables_filter').remove();
             <thead>
                 <tr>
                     <th>
+                       Id
+                    </th>
+                    <th>
                         Tool Serialnr
                     </th>
                     <th>
@@ -210,6 +157,9 @@ $('div.dataTables_filter').remove();
                     </th>
                     <th>
                         Supplier
+                    </th>
+                    <th>
+                        Action
                     </th>
                 </tr>
             </thead>

@@ -59,7 +59,7 @@ var table = $('#table1');
                 { "width" : "1%", "orderable" : false},
                 null,
                 {"orderable" : false},
-                {"data": null, "defaultContent": "", "width" : "1%",}
+                {"data": null, "defaultContent": "", "width" : "1%"}
             ],
 
         "createdRow": function ( row, data, index ){ 

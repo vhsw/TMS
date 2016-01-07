@@ -5,7 +5,7 @@
 
 
 
-{{ $cost }}
+{{ json_encode($ret) }}
 
 
 

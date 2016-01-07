@@ -43,7 +43,7 @@ class ToolController extends Controller {
         if ($request->ajax()) 
         {  
             $tools = new AjaxTable($request);
-            $tools->select('tools', array('serialnr', 'barcode'));
+            $tools->select('tools', array('id', 'serialnr', 'barcode'));
             $tools->with('categories', array('id', 'name'), 'category', 'category_id');
             $tools->with('suppliers', array('name'), 'supplier', 'supplier_id');
 
