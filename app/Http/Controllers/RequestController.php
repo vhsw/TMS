@@ -63,23 +63,37 @@ class RequestController extends Controller {
 
     public function create(Request $request)
     {
-        if($request->serialnr)
-            $tool = Tool::where('serialnr', $request->serialnr)->first();
 
-        if(isset($tool))
-        { 
+        if($request->serialnr) // If Requested from Request Page
+        {
+            $tool = Tool::where('serialnr', $request->serialnr)->first();
+            if(isset($tool))
+            { 
+                $tool_id = $tool->id;
+                $barcode = $tool->barcode;
+            }
+            else 
+            { 
+                $tool_id = ""; 
+                $barcode = "";
+            }
+            $serialnr = $request->serialnr;
+            $description = $request->description;
+        }
+        elseif($request->search_str) // If Requested from Search Overlay
+        {
+            $search_str = trim($request->search_str, "(..)"); // Clean barcode
+            $tool = Tool::where('barcode', $search_str)->first();
             $tool_id = $tool->id;
-            $barcode = $tool->barcode;
+            $barcode = $search_str;
+            $serialnr = $tool->serialnr;
+            $description = "";
         }
-        else 
-        { 
-            $tool_id = ""; 
-            $barcode = "";
-        }
+
         
        $newRequest = Requests::create(array(
-                'description' => $request->description,
-                'tool_serialnr' => $request->serialnr,
+                'description' => $description,
+                'tool_serialnr' => $serialnr,
                 'barcode' => $barcode,
                 'tool_id' => $tool_id,
                 'user_id' => auth()->user()->id,

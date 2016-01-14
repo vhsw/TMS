@@ -128,12 +128,9 @@
 
             <!-- END FOOTER -->
         <!--[if lt IE 9]>
-<script src="../assets/global/plugins/respond.min.js"></script>
-<script src="../assets/global/plugins/excanvas.min.js"></script> 
-<![endif]-->
-
-
-
+            {!! HTML::script('global/plugins/respond.min.js') !!}
+            {!! HTML::script('global/plugins/excanvas.min.js') !!}
+        <![endif]-->
 
 
 <!-- CORE PLUGINS -->
@@ -159,6 +156,20 @@
                     overlay.show();
                 }
     }
+
+    function submitRequest() {
+        var submitForm = $('.burger-trigger').find('[data-form="barcode"]');
+        submitForm.append( $('.burger-trigger').find('#search_str') );
+        submitForm.attr('action', '{!! url("tools/requests/create") !!}');
+        submitForm.submit();
+    };
+
+$(document).ready(function(){
+     $( document ).on( 'focus', ':input', function(){
+        $( this ).attr( 'autocomplete', 'off' );
+    });
+});
+
 </script>
 <!-- EXTRA SCRIPT -->
 @yield('script')

@@ -67,6 +67,7 @@
 <div class="row p-t-30 m-l-30 m-r-30">
   <div class="col-md-12">
   <form class="hidden" action="" method="post" data-form="barcode">
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <table class="table table-condensed">
       <tbody>
         <tr>
@@ -101,8 +102,8 @@
 
           <td style="background-color: #2B3643; border-top:none">
             <div class="form-group p-t-40" >
-              <a href="javascript:;" class="btn btn-lg green"> <i class="fa fa-hand-paper-o"></i> Take </a>
-              <a href="javascript:;" class="btn btn-lg blue"> <i class="icon-magic-wand"></i> Request </a>
+              <button id="btn-take" class="btn btn-lg green" onclick="submitTake()"> <i class="fa fa-hand-paper-o"></i> Take </button>
+              <button id="btn-request" class="btn btn-lg blue" onclick="submitRequest()"> <i class="icon-magic-wand"></i> Request </button>
             </div>
           </td>
 
