@@ -11,7 +11,7 @@ use Auth;
  * Class DashboardController
  * @package App\Http\Controllers\Backend
  */
-class DashboardController extends Controller {
+class DashboardController extends BaseController {
 
 	/**
 	 * @return \Illuminate\View\View
