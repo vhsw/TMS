@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller as BaseController;
 use App\User;
 use App\Models\Requests;
 use App\Models\Tool;

@@ -16,10 +16,10 @@ class EntrustTableSeeder extends Seeder {
 		Role::create(['name' => 'director', 'display_name' => 'Supervisor', 'description' => 'User have supervisor access']);
 
 
-		DB::table('role_user')->delete();
+		DB::table('users_roles')->delete();
 		
-		DB::table('role_user')->insert(['user_id' => 1, 'role_id' => 1 ]);
-		DB::table('role_user')->insert(['user_id' => 2, 'role_id' => 2 ]);
+		DB::table('users_roles')->insert(['user_id' => 1, 'role_id' => 1 ]);
+		DB::table('users_roles')->insert(['user_id' => 2, 'role_id' => 2 ]);
 
 	}
 }

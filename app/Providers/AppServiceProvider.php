@@ -13,8 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //$this->resources = Resource::all();
-        //view()->share('resources', $this->resources);
+        //
     }
 
     /**
