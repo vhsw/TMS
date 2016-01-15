@@ -12,7 +12,6 @@ abstract class Controller extends BaseController
 
     public function __construct()
  	{
-	    $this->resources = Resource::all();
-	    view()->share('resources', $this->resources);
+	    
 	}
 }

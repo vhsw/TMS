@@ -13,7 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        if (\Schema::hasTable('resources')) {
+            $this->resources = Resource::all();
+            view()->share('resources', $this->resources);
+        }
     }
 
     /**
