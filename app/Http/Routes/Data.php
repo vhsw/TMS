@@ -5,6 +5,7 @@
 get('data/categories', 				'CategoryController@index');
 post('data/categories/save', 		'CategoryController@save');
 get('data/categories/tree', 		'CategoryController@tree'); // AJAX
+get('data/categories/children', 	'CategoryController@children'); // AJAX
 
 // LOCATIONS
 

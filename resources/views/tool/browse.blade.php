@@ -27,6 +27,9 @@ var table = $('#table1');
          "bProcessing": true,
          "serverSide": true,
          "bFilter": true,
+         "search": {
+            "regex": true
+            },
 
          "lengthMenu": [
                 [10, 15, 20, -1],
@@ -68,10 +71,20 @@ var table = $('#table1');
 
     $('#category-menu a').click( function() { 
 
-        var cat = $(this).closest('li').attr('id').split('-');
-        console.log(cat[1]);
-        table.fnFilter(cat[1],2);
-        table.fnDraw();     
+        var cat = $(this).closest('li').attr('id').split('-')[1];
+        console.log(cat);
+
+        $.get("{!!url('admin/data/categories/children')!!}", {id: cat})
+            .done(function( data ) {
+                console.log(data);
+                if (data == "0") 
+                {
+                    table.fnFilter("",3);
+                } else {
+                    table.fnFilter(data,3); // TODO: Add multiple filter 1|2|4, server side filtering
+                }
+                table.fnDraw(); 
+            }); 
     });
 
 

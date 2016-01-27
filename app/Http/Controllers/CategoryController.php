@@ -11,6 +11,7 @@ class CategoryController extends Controller {
 
     public $nested = "";
     public $sort = 0;
+    public $result = "";
     /**
      * Instantiate a new UserController
      */
@@ -46,6 +47,40 @@ class CategoryController extends Controller {
     {
         $categories = Category::getParentCategories($request->id);
         return $categories;
+    }
+
+    public function children(Request $request)
+    {
+        $categories = Category::where('parent_id', $request->id)->get();
+
+        $this->result = $request->id;
+        //$this->build_children($categories, $request->id);
+
+        return $this->result;
+    }
+
+
+
+
+
+
+
+    // Get all children and sub children of clicked category menu item.
+    public function build_children($rows, $parent)
+    {  
+
+      foreach ($rows as $row)
+      {
+            $children = null;
+            $this->result = $this->result . "|" . $row->id;
+
+            $children = Category::where('parent_id', '=', $row->id)->get();
+
+            if (count($children) > 0) 
+            {
+                $this->result .= $this->build_children($children, $row->id);
+            }
+        }
     }
 
 }

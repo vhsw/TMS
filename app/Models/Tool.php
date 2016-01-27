@@ -62,4 +62,9 @@ class Tool extends BaseModel
         return $this->hasMany('App\Models\Detail');
     }
 
+    public function locations()
+    {
+        return $this->belongsToMany('App\Location', 'locations_tools');
+    }
+
 }

@@ -17,7 +17,7 @@
 
 @section('script')
 <script>
-var iconUrl = "{!!url('assets/ICO')!!}";
+var iconUrl = "{!!url('img/ICO')!!}";
 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 
 jQuery(document).ready(function() {  

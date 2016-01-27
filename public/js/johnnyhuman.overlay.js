@@ -174,11 +174,11 @@
                 }
 
                 $(".in_database").html(ul);*/
-                if(data.length > 0) {
+                if(data) {
                     _this.$element.find("#barcodeError").addClass('hidden');
-                    _this.$element.find("#title").html('<a href="http://tms.local/tool/'+data[0]['id']+'/view" style="font-size: 19px; font-weight: 600;">'+data[0]['serialnr']+'</a>');
-                    _this.$element.find("#location").html('Location: <a href="javascript:;"> V02-02-12</a> - <span class="font-grey-cascade">25 stk</span>');
-                    _this.$element.find("#info").html('<h4>'+data[0]['category']['name']+'</h4><h4>'+data[0]['name0']+'</h4><h4>'+data[0]['supplier']['name']+'</h4>');
+                    _this.$element.find("#title").html('<a href="http://tms.local/tool/'+data['tool']['id']+'/view" style="font-size: 19px; font-weight: 600;">'+data['tool']['serialnr']+'</a>');
+                    _this.$element.find("#location").html('Location: <a href="javascript:;"> '+ data['locations'][0]['location'] +'</a> - <span class="font-grey-cascade">'+ data['locations'][0]['amount'] +' stk</span>');
+                    _this.$element.find("#info").html('<h4>'+data['tool']['category']['name']+'</h4><h4>'+data['tool']['name0']+'</h4><h4>'+data['tool']['supplier']['name']+'</h4>');
                     _this.$barcodeForm.removeClass('hidden');
                 } else {
                     _this.$barcodeForm.addClass('hidden');

@@ -88,8 +88,17 @@ class ToolController extends Controller {
             $query = rtrim($request->input("query"), ")");
             $query = trim($query, "(");
 
-            $tool = Tool::with('supplier', 'category')->where('barcode', $query)->get();
-            return json_encode($tool);
+            $tool = Tool::with('supplier', 'category')->where('barcode', $query)->first();
+
+            $locations = DB::table('locations_tools')->where('tool_id', $tool->id)
+                ->join('locations', 'locations_tools.location_id', '=', 'locations.id')->get();
+
+            $result = array(
+                'locations' => $locations,
+                'tool' => $tool
+                );
+
+            return json_encode($result);
         }
     }
 
@@ -347,7 +356,12 @@ class ToolController extends Controller {
 
     public function build_menu($rows,$parent=0)
     {  
-      $result = '<ul id="category-menu" data-height="505" style="width:100%" class="menu-trigger accordion-menu" data-keep-expanded="true" data-auto-scroll="true" data-slide-speed="200">';
+      $result = '<ul id="category-menu" data-height="505" style="width:100%" class="menu-trigger accordion-menu" data-keep-expanded="true" data-auto-scroll="true" data-slide-speed="200">
+      <li id="category-0" class="nav-item">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <img src="">
+            <span class="title"> Alla Verktøy</span>
+        </a></li>';
       foreach ($rows as $row)
       {
         $nav_toggle = '';
@@ -360,7 +374,7 @@ class ToolController extends Controller {
 
         if ($row->icon != "") 
         {
-            $icon = '<img src="http://tms.local/assets/ICO/'.$row->icon.'.png">';
+            $icon = '<img src="http://tms.local/img/ICO/'.$row->icon.'.png">';
         } else
         {
             $icon = '<i class=" icon-plus"></i>';
@@ -396,7 +410,7 @@ class ToolController extends Controller {
 
         if ($row->icon != "") 
         {
-            $icon = '<img src="http://tms.local/assets/ICO/'.$row->icon.'.png">';
+            $icon = '<img src="http://tms.local/img/ICO/'.$row->icon.'.png">';
         } else
         {
             $icon = '<i class=" icon-plus"></i>';
