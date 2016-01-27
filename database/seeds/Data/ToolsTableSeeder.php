@@ -8,12 +8,15 @@ use App\Models\Tool;
 class ToolsTableSeeder extends Seeder {
     public function run(){
 
-        DB::table('tools')->delete();
-        $contents = Storage::disk('database')->get('tools.json');
-        $tools = json_decode($contents);
+        \DB::table('tools')->delete();
+        $contents = \Storage::disk('database')->get('tools2.json');
+        //$tools = json_decode($contents);
 
-        foreach ($tools as $tool)
+        $jsonIterator = json_decode($contents, TRUE);
+
+        foreach ($jsonIterator as $key => $val)
         {
-            Tool::create(['serialnr'=>$tool->serialnr, 'name0'=>$tool->name1, 'barcode'=>$tool->barcode, 'category_id' =>$tool->category_id, 'brand_id' =>$tool->brand_id]);
+            echo $val['serialnr']; //Tool::create(['serialnr'=>$tool->serialnr, 'name0'=>$tool->name0, 'category_id' =>1, 'supplier_id' =>$tool->supplier_id]);
         }
-}}
+	}
+}

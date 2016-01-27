@@ -151,6 +151,7 @@ return [
          */
         Illuminate\Html\HtmlServiceProvider::class,
         HieuLe\Active\ActiveServiceProvider::class,
+        Cucxabeng\SimpleHtmlDom\HtmlDomServiceProvider::class,
 
     ],
 
@@ -204,6 +205,8 @@ return [
         'HTML'      => Illuminate\Html\HtmlFacade::class,
         'Active'    => HieuLe\Active\Facades\Active::class,
         'Form'      => Illuminate\Html\FormFacade::class,
+        'HtmlDom'   => Cucxabeng\SimpleHtmlDom\HtmlDom::class,
+        'HtmlDomNode'   => Cucxabeng\SimpleHtmlDom\HtmlDomNode::class,
 
     ],
 

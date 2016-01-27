@@ -19,6 +19,7 @@ class DashboardController extends Controller {
 	 */
 	public function index()
 	{
+
 		// Monday this week
 		$last_monday = date('Y-m-d H:i:s', strtotime("last monday"));
 

@@ -18,6 +18,7 @@ class CreateContactsTable extends Migration {
 			{
 				$table->increments('id')->unsigned();
 				$table->string('name');
+				$table->string('shortname');
 				$table->tinyInteger('producer')->default(0);
 				$table->string('website');
 				$table->integer('phone');

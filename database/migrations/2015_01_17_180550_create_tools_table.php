@@ -21,7 +21,6 @@ class CreateToolsTable extends Migration {
 				$table->string('name0');
 				$table->string('name1');
 				$table->string('barcode');
-				$table->integer('brand_id')->default(0);
 				$table->integer('category_id')->default(0);
 				$table->integer('supplier_id')->default(0);
 				$table->timestamps();

@@ -10,9 +10,13 @@ use App\Http\Requests\Frontend\Tool\SearchToolRequest;
 use TomLingham\Searchy\Facades\Searchy as Searchy;
 use App\Models\Tool;
 use App\Models\Cost;
+use App\Models\Detail;
+use App\Models\File;
 use App\Models\Supplier;
 use App\Models\Category;
 use App\Services\AjaxTable;
+use HtmlDom;
+use Storage;
 
 
 
@@ -135,7 +139,36 @@ class ToolController extends Controller {
     {
         $tool = Tool::where('id', $id)->first();
 
-        return view('tool.view', compact('tool'));
+        // Get files and images connected to tool
+        $files = DB::table('objects_files')
+                    ->select('file_id')
+                    ->where('object_id', $tool->id)
+                    ->where('object_type', 'App\Models\Tool')->get();
+        $collection = collect($files);
+        $file_ids = $collection->pluck('file_id');
+        $images = File::whereIn('id', $file_ids)->whereIn('file_type', ['jpg', 'png', 'gif'])->get();
+
+        // Get additional information
+        $detail = Detail::where('tool_id', $tool->id)->first();
+        $costs = Cost::where("tool_id", "=", $tool->id)->orderBy('supplier_id', "asc")->orderBy('updated_at', "desc")->get();
+
+        // Get Category
+        $category = $tool->category->name;
+        $parent_id = $tool->category->parent_id;
+
+        while ($parent_id > 0)
+        {
+            $cat = Category::find($parent_id);
+            $category = $cat->name.' / '.$tool->category->name;
+            $parent_id = $cat->parent_id;
+        }
+
+        // Get Stock amount
+        $amount = DB::table('locations_tools')
+            ->select('amount', DB::raw('SUM(amount) as amount'))
+            ->where('tool_id', $tool->id)->first();
+
+        return view('tool.view', compact('tool', 'images', 'detail', 'costs', 'category', 'amount'));
     }
 
 
@@ -151,9 +184,10 @@ class ToolController extends Controller {
 
         $suppliers = Supplier::all();
         $categories = Category::getParentCategories($tool->category_id);
+        $detail = Detail::where('tool_id', '=', $tool->id)->first();
         $costs = Cost::where("tool_id", "=", $id)->orderBy('supplier_id', "asc")->orderBy('updated_at', "desc")->get();
 
-        return view('tool.edit', compact('tool', 'categories', 'suppliers', 'costs', 'navigate'));
+        return view('tool.edit', compact('tool', 'categories', 'suppliers', 'costs', 'navigate', 'detail'));
     }
 
 
@@ -200,6 +234,82 @@ class ToolController extends Controller {
         }
     }
 
+
+    public function savetoolinfo(Request $request)
+    {
+        $id = $request->id;
+        $data = $request->data;
+        $fn = $data['fn']; // supplier shortname
+
+        $detail = Detail::where('tool_id', '=', $id)->first();
+        // Create new Detail
+        if ($detail === null){
+            $detail = Detail::create(array(
+                'tool_id' => $id,
+                'title1' => $data['title1'],
+                'title2' => $data['title2'],
+                'cuttingdata' => $data['cuttingdata'],
+                'description' => $data['description']
+                ));
+        } else {
+            // Update Detail
+            $detail->tool_id = $id;
+            $detail->title1 = $data['title1'];
+            $detail->title2 = $data['title2'];
+            $detail->cuttingdata = $data['cuttingdata'];
+            $detail->description = $data['description'];
+            $detail->save();
+        }
+
+        if (count($data['images']) > 0)
+        {
+            foreach($data['images'] as $url)
+            {
+                $filename = '/images/'.$fn.'/'.basename($url);
+                $ext = pathinfo($url, PATHINFO_EXTENSION);
+
+                //$exists = Storage::disk('files')->has($filename);
+
+                $file = File::where('path', '=', $filename)->first();
+                if($file === null)
+                {
+                    $content = file_get_contents($url);
+                    Storage::disk('files')->put($filename, $content);
+
+                    $file = File::create(array(
+                        'file_type' => $ext,
+                        'title' => basename($url),
+                        'path' => $filename
+                        ));
+
+                    DB::table('objects_files')->insert([   
+                            'object_id' => $id,  
+                            'object_type' => 'App\Models\Tool',
+                            'file_id' => $file->id
+                        ]);
+                } elseif ($file)
+                {
+                    $object_file = DB::table('objects_files')
+                        ->where('object_id', $id)
+                        ->where('object_type', 'App\Models\Tool')
+                        ->where('file_id', $file->id)->first();
+                    if(!$object_file)
+                    {
+                        DB::table('objects_files')->insert([   
+                            'object_id' => $id,  
+                            'object_type' => 'App\Models\Tool',
+                            'file_id' => $file->id
+                        ]);
+                    }
+                }
+
+            }
+
+        }
+
+
+        return "Success";
+    }
 
 
 

@@ -17,6 +17,9 @@ get('tools/request/{id}/delete', 	'RequestController@delete');
 post('admin/data/requests/db', 		'RequestController@db'); // AJAX
 
 
+//post('plugins/download', 			'Plugins\CurlController@index');
+get('plugins/download', 			'Plugins\CurlController@index');
+get('plugins/download/save', 		'ToolController@savetoolinfo');
 
 Route::group(['middleware' => 'auth'], function () 
 {

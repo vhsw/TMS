@@ -6,16 +6,19 @@
 {!! HTML::style('global/plugins/bootstrap-select/css/bootstrap-select.min.css') !!}
 {!! HTML::style('global/plugins/datatables/datatables.min.css') !!}
 {!! HTML::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
+{!! HTML::style('global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') !!}
 @endsection
 
 @section('js')
 {!! HTML::script('global/plugins/bootstrap-select/js/bootstrap-select.min.js') !!}
+{!! HTML::script('global/plugins/bootstrap-markdown/lib/markdown.js') !!}
+{!! HTML::script('global/plugins/bootstrap-markdown/js/bootstrap-markdown.js') !!}
 @endsection
 
 @section('script')
 <script>
-
 var iconUrl = "{!!url('assets/ICO')!!}";
+$.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 
 jQuery(document).ready(function() {  
     $('.bs-select').selectpicker({
@@ -23,9 +26,11 @@ jQuery(document).ready(function() {
         tickIcon: 'fa-check'
     });
 
+    $('#tool_info').hide();
+    $('.save').hide();
+
 
     var updateCategories = function(v){
-
         $.getJSON("{!!url('admin/data/categories/tree')!!}", {id: v})
         .done(function( data ) {
             $("#categories").empty();
@@ -49,11 +54,72 @@ jQuery(document).ready(function() {
 
             $('.bs-select').selectpicker('refresh');
         })
-    };
+    }
+
+    var _data;
+    var downloadToolInfo = function(tool_info_supplier, searchstr){
+        $.ajax({
+            url: "{!! url('plugins/download') !!}",
+            cache: false,
+            dataType: "json",
+            data: {tool_info_supplier: tool_info_supplier, searchstr: searchstr},
+            success: function(data){
+                //console.log(data);
+                _data = data;
+                $('input[name=title1]').val(data.title1);
+                $('input[name=title2]').val(data.title2);
+                $('textarea[name=description]').html(data.description);
+
+                var html;
+                data.images.forEach(function(url){
+                    $('#images').append('<img src="'+ url +'"><br>');
+                });
+
+                $('#tool_info').show();
+                $('.save').show();
+            },
+            error: function( XMLHttpRequest, jqXHR, textStatus ){
+                console.log(XMLHttpRequest);
+            }
+        });
+    }
+
+    var saveToolInfo = function(id, data){
+        
+        data.title1 = $('input[name=title1]').val();
+        data.title2 = $('input[name=title2]').val();
+        data.description = $('textarea[name=description]').val();
+        //console.log(data);
+
+        $.ajax({
+            url: "{!! url('plugins/download/save') !!}",
+            cache: false,
+            data: {id: id, data: data},
+            success: function(ev){
+                console.log(ev)
+                $('#tool_info').hide();
+                //$('.save').hide();
+            },
+            error: function( XMLHttpRequest, jqXHR, textStatus ){
+                console.log(XMLHttpRequest);
+            }
+        });
+    }
 
     $('#categories').on('change', '.bs-select', function() {
-        updateCategories($(this).val());
-    })
+        updateCategories( $(this).val() );
+    });
+
+    $('.download').on('click', function(event) {
+        downloadToolInfo( $("select[name='tool_info_supplier']").val(), $("input[name='searchstr']").val() );
+        return false;
+    });
+
+    $('.save').on('click', function(event) {
+        //console.log(_data);
+        saveToolInfo( {{ $tool->id }}, _data);
+        return false;
+    });
 
     updateCategories( {{ $tool->category_id }} );
 
@@ -64,10 +130,7 @@ jQuery(document).ready(function() {
 
 @section('content')
 
-
 <form class="form-horizontal form-row-seperated" method="get" action="{!!url('tool/'.$tool->id.'/save')!!}"> 
-<input type="hidden" name="_token" value="{{ csrf_token() }}">
-
 <div class="page-bar">        
 <div class="row p-t-10 p-b-10">
     <div class="col-sm-2">
@@ -97,9 +160,15 @@ jQuery(document).ready(function() {
                     <li>
                         <a href="#tab_supplier" data-toggle="tab"> Supplier </a>
                     </li>
+                    <li>
+                        <a href="#tab_download" data-toggle="tab"> Download Supplier Info </a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade active in" id="tab_general">
+                        
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
                         <div class="form-body">
 
                             <h4 class="form-section">Basic</h4>
@@ -161,6 +230,7 @@ jQuery(document).ready(function() {
                             </div>
 
                         </div>
+                        </form>
                     </div>
 
                     <div class="tab-pane fade" id="tab_supplier">
@@ -175,7 +245,11 @@ jQuery(document).ready(function() {
                              </thead>
                              <tbody>
 
-                        <?php // Get Only Unique Costs
+                        <?php 
+                            // Add Supplier to download list
+                            $suppliers_tool_info[] = $tool->supplier;
+
+                            // Get Only Unique Costs
                             $oldid=0;
                             foreach($costs as $cost)
                             {
@@ -188,6 +262,9 @@ jQuery(document).ready(function() {
                                         <td>{{ \App\Services\CustomDate::formatHuman($cost->updated_at) }}</td>
                                     </tr>
                                     <?php
+
+                                    // Add Supplier to download list
+                                    $suppliers_tool_info[] = $cost->supplier;
                                 }
                                 $oldid = $id;
                             }
@@ -200,12 +277,86 @@ jQuery(document).ready(function() {
 
                     </div>
                     </div>
-                </div>
-            </div>
- 
+                
+                    <div class="tab-pane fade" id="tab_download">
+                        <form class="horizontal-form">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="sr-only">Download From</label>
+                                            <select name="tool_info_supplier" class="form-control">
+                                                @foreach($suppliers_tool_info as $supplier_tool_info)
+                                                <option value="{{ $supplier_tool_info->id }}" SELECTED>{{ $supplier_tool_info->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="sr-only">Search String</label>
+                                            <input value="{{ $tool->name0 }}" type="text" class="form-control" name="searchstr">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <button class="btn btn-info download">Download</button>
+                                            <button class="btn blue save">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
 
+                        @if ($detail)
+                        Details was last downloaded  {{ \App\Services\CustomDate::formatHuman($detail->updated_at) }}
+                        @endif
+
+
+                        <form id="tool_info" class="form-horizontal form-row-seperated" method="get" action="{!!url('plugins/download/save')!!}"> 
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                        <div class="form-body">
+
+                        <div class="row">
+                            <div class="col-lg-12 p-t-20">
+                                <h4 class="form-section">Downloaded:</h4>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Title 1
+                                        </label>
+                                        <div class="col-md-5">
+                                            <input value="" type="text" class="form-control" name="title1"> 
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Title 2
+                                        </label>
+                                        <div class="col-md-5">
+                                            <input value="" type="text" class="form-control" name="title2"> 
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Description</label>
+                                        <div class="col-md-10">
+                                            <textarea name="description" data-provide="markdown" rows="10">
+                                                
+                                            </textarea>
+                                        </div>
+                                    </div>
+
+                                    <h4 class="form-section">Images</h4>
+
+                                    <div id="images">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+            </div>
     </div>
 </div>
-       </form>
 
 @endsection

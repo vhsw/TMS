@@ -5,8 +5,10 @@
 
 
 
-{{ json_encode($ret) }}
 
+
+
+{{ print_r($tools) }}
 
 
 

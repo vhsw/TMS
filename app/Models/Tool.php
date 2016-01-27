@@ -57,4 +57,9 @@ class Tool extends BaseModel
         return $this->belongsTo('App\Models\Category');
     }
 
+    public function details()
+    {
+        return $this->hasMany('App\Models\Detail');
+    }
+
 }
