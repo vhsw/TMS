@@ -1,29 +1,31 @@
 @extends('master')
 
 @section('content')
-
+<div class="container">
     <div class="row">
-
         <div class="col-md-8 col-md-offset-2">
-
             <div class="panel panel-default">
-                <div class="panel-heading">{{trans('labels.login_box_title')}}</div>
-
+                <div class="panel-heading">Login</div>
                 <div class="panel-body">
-
-                    {!! Form::open(['url' => 'auth/login', 'class' => 'form-horizontal', 'role' => 'form']) !!}
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
+                        {!! csrf_field() !!}
 
                         <div class="form-group">
-                            {!! Form::label('username', 'Username', ['class' => 'col-md-4 control-label']) !!}
+                            <label class="col-md-4 control-label">Username</label>
+
                             <div class="col-md-6">
-                                {!! Form::input('username', 'username', old('username'), ['class' => 'form-control']) !!}
+                                <input type="text" class="form-control" name="username" value="{{ old('username') }}">
+
+                                
                             </div>
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('password', trans('validation.attributes.password'), ['class' => 'col-md-4 control-label']) !!}
+                            <label class="col-md-4 control-label">Password</label>
+
                             <div class="col-md-6">
-                                {!! Form::input('password', 'password', null, ['class' => 'form-control']) !!}
+                                <input type="password" class="form-control" name="password">
+
                             </div>
                         </div>
 
@@ -31,7 +33,7 @@
                             <div class="col-md-6 col-md-offset-4">
                                 <div class="checkbox">
                                     <label>
-                                        {!! Form::checkbox('remember') !!} {{ trans('labels.remember_me') }}
+                                        <input type="checkbox" name="remember"> Remember Me
                                     </label>
                                 </div>
                             </div>
@@ -39,21 +41,17 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                {!! Form::submit(trans('labels.login_button'), ['class' => 'btn btn-primary', 'style' => 'margin-right:15px']) !!}
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-btn fa-sign-in"></i>Login
+                                </button>
 
-                                {!! link_to('password/email', trans('labels.forgot_password')) !!}
+                                <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
                             </div>
                         </div>
-
-                    {!! Form::close() !!}
-
-                
-                </div><!-- panel body -->
-
-            </div><!-- panel -->
-
-        </div><!-- col-md-8 -->
-
-    </div><!-- row -->
-
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

@@ -3,23 +3,22 @@
 @section('title') Tools | Browse @endsection
 
 @section('css')
-{!! HTML::style('global/plugins/jstree/dist/themes/default/style.css') !!}
-{!! HTML::style('global/plugins/datatables/datatables.min.css') !!}
-{!! HTML::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
+{!! Html::style('global/plugins/jstree/dist/themes/default/style.css') !!}
+{!! Html::style('global/plugins/datatables/datatables.min.css') !!}
+{!! Html::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
 @endsection
 
 @section('js')
-{!! HTML::script('global/scripts/datatable.js') !!}
-{!! HTML::script('global/plugins/datatables/datatables.js') !!}
-{!! HTML::script('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}
-{!! HTML::script('global/plugins/datatables/plugins/jquery.dataTables.columnFilter.js') !!}
+{!! Html::script('global/scripts/datatable.js') !!}
+{!! Html::script('global/plugins/datatables/datatables.js') !!}
+{!! Html::script('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}
+{!! Html::script('global/plugins/datatables/plugins/jquery.dataTables.columnFilter.js') !!}
 @endsection
 
 @section('script')
 <script>
 jQuery(document).ready(function() { 
 
-$.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 
 var toolUrl = "{!!url('tool')!!}";
 var table = $('#table1');
@@ -37,7 +36,7 @@ var table = $('#table1');
             ],
          "pageLength": 10,
          "ajax":{
-            url :"{!!url('admin/data/tools/db')!!}", // json datasource
+            url :"{!!url('data/tools/db')!!}", // json datasource
             type: "post",
             error: function(xhr, textStatus, error){  // error handling code
               console.log(textStatus + ": " + error);
@@ -74,7 +73,7 @@ var table = $('#table1');
         var cat = $(this).closest('li').attr('id').split('-')[1];
         console.log(cat);
 
-        $.get("{!!url('admin/data/categories/children')!!}", {id: cat})
+        $.get("{!!url('data/categories/children')!!}", {id: cat})
             .done(function( data ) {
                 console.log(data);
                 if (data == "0") 

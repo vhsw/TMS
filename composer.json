@@ -6,22 +6,18 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.1.*",
-        "illuminate/html": "5.*",
-        "hieu-le/active": "3.0.*",
-        "arcanedev/log-viewer": "~3.7",
+        "laravel/framework": "5.2.*",
+        "laravelcollective/html": "5.2.*",
+        "lavary/laravel-menu": "dev-master",
         "tom-lingham/searchy": "2.*",
-        "intervention/image": "2.3.*",
-        "barryvdh/laravel-debugbar": "~2.0",
-        "laravel/envoy": "~1.0",
-        "laracasts/generators": "1.1.*",
         "cucxabeng/simple-html-dom": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~4.0",
-        "phpspec/phpspec": "~2.1"
+        "symfony/css-selector": "2.8.*|3.0.*",
+        "symfony/dom-crawler": "2.8.*|3.0.*"
     },
     "autoload": {
         "classmap": [
@@ -29,7 +25,8 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "Cucxabeng\\SimpleHtmlDom\\": "vendor/cucxabeng/simple-html-dom/src"
+            "Cucxabeng\\HtmlDom\\": "vendor/cucxabeng/simple-html-dom/src/cucxabeng/simple-html-dom",
+            "Collective\\Html\\": "vendor/laravelcollective/html/src"
         }
     },
     "autoload-dev": {
@@ -38,6 +35,12 @@
         ]
     },
     "scripts": {
+        "post-root-package-install": [
+            "php -r \"copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "php artisan key:generate"
+        ],
         "post-install-cmd": [
             "php artisan clear-compiled",
             "php artisan optimize"
@@ -47,12 +50,6 @@
         ],
         "post-update-cmd": [
             "php artisan optimize"
-        ],
-        "post-root-package-install": [
-            "php -r \"copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "php artisan key:generate"
         ]
     },
     "config": {

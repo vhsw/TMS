@@ -1,29 +1,13 @@
 <?php
 
-get('tools/search/', 				'ToolController@search');
-get('tools/search/result', 			'ToolController@result');
-get('tools/browse/', 				'ToolController@browse');
-get('tool/{id}/view', 				'ToolController@view');
-post('admin/data/tools/db', 		'ToolController@db');	// AJAX
-get('tools/typeahead', 				'ToolController@typeahead'); // AJAX
-get('tools/barcode', 				'ToolController@barcode'); // AJAX
+Route::get('tools/search/', 				'ToolController@search');
+Route::get('tools/search/result', 			'ToolController@result');
+Route::get('tools/browse/', 				'ToolController@browse');
+Route::get('tool/{id}/view', 				'ToolController@view');
+Route::post('data/tools/db', 				'ToolController@db');	// AJAX
+Route::get('tools/typeahead', 				'ToolController@typeahead'); // AJAX
+Route::get('tools/barcode', 				'ToolController@barcode'); // AJAX
 
-get('tools/requests', 				'RequestController@index');
-get('tools/request', 				'RequestController@request');
-post('tools/requests/create', 		'RequestController@create');
-get('tools/request/{id}/edit', 		'RequestController@edit');
-post('tools/request/{id}/edit', 	'RequestController@save');
-get('tools/request/{id}/delete', 	'RequestController@delete');
-post('admin/data/requests/db', 		'RequestController@db'); // AJAX
-
-
-//post('plugins/download', 			'Plugins\CurlController@index');
-get('plugins/download', 			'Plugins\CurlController@index');
-get('plugins/download/save', 		'ToolController@savetoolinfo');
-
-Route::group(['middleware' => 'auth'], function () 
-{
-	get('tool/{id}/edit', 			'ToolController@edit');
-	get('tool/{id}/save', 			'ToolController@save');
-
-});
+//post('plugins/download', 					'Plugins\CurlController@index');
+Route::get('plugins/download', 				'Plugins\CurlController@index');
+Route::get('plugins/download/save', 		'ToolController@savetoolinfo');

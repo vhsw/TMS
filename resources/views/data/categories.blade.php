@@ -3,11 +3,11 @@
 @section('title') Data | Categories @endsection
 
 @section('css')
-{!! HTML::style('global/plugins/jquery-nestable/jquery.nestable.css') !!}
+{!! Html::style('global/plugins/jquery-nestable/jquery.nestable.css') !!}
 @endsection
 
 @section('js')
-{!! HTML::script('global/plugins/jquery-nestable/jquery.nestable.js') !!}
+{!! Html::script('global/plugins/jquery-nestable/jquery.nestable.js') !!}
 @endsection
 
 @section('script')

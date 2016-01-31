@@ -1,17 +1,24 @@
 <?php
 
-get('/', 'DashboardController@index');
-get('auth/login', 'Auth\AuthController@getLogin');
-post('auth/login', 'Auth\AuthController@postLogin');
+Route::group(['middleware' => ['web']], function () {
+	Route::auth();
 
-
-Route::group(['middleware' => 'auth'], function () {
-	get('auth/logout', 'Auth\AuthController@getLogout');
-	get('auth/returnAjax', 'Auth\AuthController@returnAjax'); // AJAX -> JSON
-	post('resource/change', 'ResourceController@change'); // AJAX
+	Route::get('/', 'DashboardController@index');
+	Route::post('resource/change', 'ResourceController@change');
 	require(__DIR__ . "/Routes/Tool.php");
 
-	Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function() {
+	Route::group(['middleware' => ['auth']], function () {
+		require(__DIR__ . "/Routes/Requests.php");
+	});
+
+
+	Route::group(['middleware' => 'role:admin'], function() {
 		require(__DIR__ . "/Routes/Data.php");
+		require(__DIR__ . "/Routes/System.php");
+
+		Route::get('tool/{id}/edit', 			'ToolController@edit');
+		Route::get('tool/{id}/save', 			'ToolController@save');
 	});
 });
+
+

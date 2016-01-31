@@ -3,7 +3,7 @@
 @section('title') Tools | View | {{ $tool->serialnr }} @endsection
 
 @section('css')
-{!! HTML::style('pages/css/profile-2.css') !!}
+{!! Html::style('pages/css/profile-2.css') !!}
 @endsection
 
 

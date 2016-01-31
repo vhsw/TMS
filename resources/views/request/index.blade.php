@@ -3,18 +3,18 @@
 @section('title') Requests @endsection
 
 @section('css')
-{!! HTML::style('global/plugins/datatables/datatables.min.css') !!}
-{!! HTML::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
-{!! HTML::style('global/plugins/typeahead/typeahead.css') !!}
+{!! Html::style('global/plugins/datatables/datatables.min.css') !!}
+{!! Html::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
+{!! Html::style('global/plugins/typeahead/typeahead.css') !!}
 @endsection
 
 @section('js')
-{!! HTML::script('js/moment.js') !!}
-{!! HTML::script('global/scripts/datatable.js') !!}
-{!! HTML::script('global/plugins/datatables/datatables.js') !!}
-{!! HTML::script('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}
-{!! HTML::script('global/plugins/typeahead/handlebars.min.js') !!}
-{!! HTML::script('global/plugins/typeahead/typeahead.bundle.min.js') !!}
+{!! Html::script('js/moment.js') !!}
+{!! Html::script('global/scripts/datatable.js') !!}
+{!! Html::script('global/plugins/datatables/datatables.js') !!}
+{!! Html::script('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}
+{!! Html::script('global/plugins/typeahead/handlebars.min.js') !!}
+{!! Html::script('global/plugins/typeahead/typeahead.bundle.min.js') !!}
 @endsection
 
 @section('script')
@@ -188,13 +188,13 @@ $("#btn-add").click(function(){
 @section('content')
 
 <div class="page-bar">        
-<div class="row padding-10">
-    <div class="col-sm-3">
+<div class="row p-t-10 p-b-10">
+    <div class="col-md-3">
 
-        <button id="btn-add" class="btn">Add Request</button> 
+        <button id="btn-add" class="btn blue">Add Request</button> 
 
     </div>
-    <div class="col-sm-5">
+    <div class="col-md-5">
 
         <div class="input-group input-medium" id="dataTables_filter">
         <span class="input-group-addon">
@@ -203,7 +203,7 @@ $("#btn-add").click(function(){
         </div>
 
     </div>
-    <div class="col-sm-4">
+    <div class="col-md-4">
 
         <div class="input-group input-small" id="dataTables_length">
         <span class="input-group-addon">
@@ -218,9 +218,7 @@ $("#btn-add").click(function(){
 
 
 <div class="row">
-    <div class="col-md-12">
-
-            <div class="table-container p-t-20">
+    <div class="col-lg-12 p-t-20">
 
                     <table class="table table-striped table-bordered table-hover table-checkable" id="table1">
                        <thead>

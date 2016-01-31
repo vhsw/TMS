@@ -1,11 +1,12 @@
-<?php namespace App\Providers;
+<?php
 
-use Illuminate\Support\ServiceProvider;
+namespace App\Providers;
+
 use App\Models\Resource;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    protected $resources;
     /**
      * Bootstrap any application services.
      *

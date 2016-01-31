@@ -3,14 +3,14 @@
 @section('title') Data | Locations @endsection
 
 @section('css')
-{!! HTML::style('global/plugins/datatables/datatables.min.css') !!}
-{!! HTML::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
+{!! Html::style('global/plugins/datatables/datatables.min.css') !!}
+{!! Html::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
 @endsection
 
 @section('js')
-{!! HTML::script('global/scripts/datatable.js') !!}
-{!! HTML::script('global/plugins/datatables/datatables.min.js') !!}
-{!! HTML::script('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}
+{!! Html::script('global/scripts/datatable.js') !!}
+{!! Html::script('global/plugins/datatables/datatables.min.js') !!}
+{!! Html::script('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}
 @endsection
 
 @section('script')
@@ -45,58 +45,46 @@ $('div.dataTables_filter > label').children('input').appendTo('#dataTables_filte
 $('div.dataTables_length > label').children('select').appendTo('#dataTables_length').removeClass('input-inline');
 $('div.dataTables_length').remove();
 $('div.dataTables_filter').remove();
-//$('#dataTables_filter').addClass('dataTables_filter');
 });
+
 </script>
 @endsection
 
 @section('content')
 
-<div class="row">
+<div class="page-bar">        
+<div class="row p-t-10 p-b-10">
     <div class="col-md-3">
-        <div class="panel-group accordion" id="accordion3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                    <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_1">
-                    Options </a>
-                    </h4>
-                </div>
-                <div id="collapse_3_1" class="panel-collapse collapse">
-                    <div class="panel-body" style="height:100%; overflow-y:auto;">
-                        <div class="form-body">
-                            <div class="form-group" id="dataTables_filter">
-                                <label class="control-label">Search</label>
-                            </div>
 
-                            <div class="form-group" id="dataTables_length">
-                                <label class="control-label">View per Page</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                    <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_2">
-                    Generate Locations </a>
-                    </h4>
-                </div>
-                <div id="collapse_3_2" class="panel-collapse">
-                    <div class="panel-body">
+        <button id="btn-add" class="btn blue">Add Locations</button> 
 
-                        
-                    ## TODO: Generate Locations Options
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        ## TODO: Show open/closed/empty/amount for every location
     </div>
-    <div class="col-md-9">
+    <div class="col-md-5">
 
+        <div class="input-group input-medium" id="dataTables_filter">
+        <span class="input-group-addon">
+        <i class="icon-magnifier"></i>
+        </span>
+        </div>
+
+    </div>
+    <div class="col-md-4">
+
+        <div class="input-group input-small" id="dataTables_length">
+        <span class="input-group-addon">
+        <i class="icon-list"></i>
+        </span>
+        </div>
+
+    </div>
+</div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-lg-12 p-t-20">
+        
         <table class="table table-striped table-bordered table-advance table-hover" id="table1" cellspacing="0" width="100%">
                <thead>
                   <tr>

@@ -20,7 +20,6 @@ class CreateCostTable extends Migration {
 				$table->integer('supplier_id')->unsigned();
 				$table->decimal('cost', 8, 2);
 				$table->timestamps();
-				$table->engine = 'InnoDB';
 			});
 		}
 	}

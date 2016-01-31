@@ -24,16 +24,16 @@
 
           <div id="barcodeError" class="alert alert-warning hidden"><strong>Could not Find!</strong> That barcode does not exist in the database </div>
 
-          <form action="{!!url('auth/login')!!}" method="post" data-form="user">
+          <form action="{!!url('login')!!}" method="post" data-form="user">
             <div class="form-group">
                 <label>Employee Number</label>
                 <div class="input-group input-group-lg input-large">
                   <span class="input-group-addon"><i class="fa fa-user"></i></span>
                   <input name="username" class="form-control input-large" type="text" value="{{ Auth::check() ? Auth::user()->username : '' }}">
                   <input name="password" class="hidden" type="password" value="{{ Auth::check() ? Auth::user()->username : '' }}">
-                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                  {{ csrf_field() }}
                   @if (Auth::check())
-                  <span class="input-group-btn"><a href="{!!url('auth/logout')!!}" class="btn red" type="button">Logout</a></span>
+                  <span class="input-group-btn"><a href="{!!url('logout')!!}" class="btn red" type="button">Logout</a></span>
                   @endif
                 </div>
             </div>

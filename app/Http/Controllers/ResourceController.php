@@ -22,25 +22,12 @@ class ResourceController extends Controller {
 
     public function index()
     {
-        return view('data.resources');
+        $locations = DB::table('resources')->orderBy('name', 'asc')->get();
+
+        return view('data.resources', compact('resources'));
     }
 
-    public function db(Request $request)
-    {
-        if ($request->ajax()) 
-        {  
-            $resources = new AjaxTable($request);
-            $resources->select('resources', array('name', 'short_name', 'controller'));
-
-            return $resources->get();
-        }
-        else
-        {
-           
-        }
-    }
-
-
+    
     public function change(Request $request)
     {
         if ($request->ajax()) 

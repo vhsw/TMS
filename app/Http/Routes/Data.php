@@ -2,23 +2,23 @@
 
 // CATEGORIES
 
-get('data/categories', 				'CategoryController@index');
-post('data/categories/save', 		'CategoryController@save');
-get('data/categories/tree', 		'CategoryController@tree'); // AJAX
-get('data/categories/children', 	'CategoryController@children'); // AJAX
+Route::get('data/categories', 				'CategoryController@index');
+Route::post('data/categories/save', 		'CategoryController@save');
+Route::get('data/categories/tree', 		'CategoryController@tree'); // AJAX
+Route::get('data/categories/children', 	'CategoryController@children'); // AJAX
 
 // LOCATIONS
 
-get('data/locations', 				'LocationController@index');
+Route::get('data/locations', 				'LocationController@index');
 
 // SUPPLIERS
 
-get('data/suppliers', 				'SupplierController@index');
-get('data/supplier/{id}/view', 		'SupplierController@view');
-get('data/supplier/{id}/edit', 		'SupplierController@edit');
-post('data/supplier/{id}/edit', 	'SupplierController@save');
-post('data/supplier/create', 		'SupplierController@create');
+Route::get('data/suppliers', 				'SupplierController@index');
+Route::get('data/supplier/{id}/view', 		'SupplierController@view');
+Route::get('data/supplier/{id}/edit', 		'SupplierController@edit');
+Route::post('data/supplier/{id}/edit', 	'SupplierController@save');
+Route::post('data/supplier/create', 		'SupplierController@create');
 
 // RESOURCES
-get('data/resources', 'ResourceController@index');
-post('data/resources/db', 'ResourceController@db'); // AJAX
+Route::get('data/resources', 'ResourceController@index');
+Route::post('data/resources/db', 'ResourceController@db'); // AJAX

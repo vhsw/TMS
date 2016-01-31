@@ -23,8 +23,6 @@ class CreateDetailsTable extends Migration {
 				$table->text('cuttingdata');
 				$table->text('description');
 				$table->timestamps();
-
-				$table->engine = 'InnoDB';
 			});
 		}
 	}

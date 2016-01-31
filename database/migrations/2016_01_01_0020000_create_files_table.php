@@ -17,12 +17,10 @@ class CreateFilesTable extends Migration {
 			Schema::create('files', function(Blueprint $table)
 			{
 				$table->increments('id');
-				$table->string('file_type');
-				$table->string('title');
-				$table->string('path');
+				$table->string('file_type')->index();
+				$table->string('title')->index();
+				$table->string('path')->index();
 				$table->timestamps();
-
-				$table->engine = 'InnoDB';
 			});
 		}
 	}

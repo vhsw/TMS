@@ -19,8 +19,6 @@ class CreateSystemTable extends Migration {
 				$table->string('variable');
 				$table->text('content');
 				$table->timestamps();
-
-				$table->engine = 'InnoDB';
 			});
 		}
 	}

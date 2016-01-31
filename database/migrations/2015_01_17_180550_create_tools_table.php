@@ -17,19 +17,13 @@ class CreateToolsTable extends Migration {
 			Schema::create('tools', function(Blueprint $table)
 			{
 				$table->increments('id');
-				$table->string('serialnr');
-				$table->string('name0');
-				$table->string('name1');
-				$table->string('barcode');
+				$table->string('serialnr')->unique()->index();
+				$table->string('name0')->index();
+				$table->string('name1')->index();
+				$table->string('barcode')->unique()->index();
 				$table->integer('category_id')->default(0);
 				$table->integer('supplier_id')->default(0);
 				$table->timestamps();
-
-				$table->engine = 'InnoDB';
-				$table->index('serialnr');
-				$table->index('name0');
-				$table->index('name1');
-				$table->index('barcode');
 			});
 		}
 	}

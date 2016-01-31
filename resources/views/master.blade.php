@@ -13,19 +13,19 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- FONTS -->
-    {!! HTML::style('http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all') !!}
-    {!! HTML::style('global/plugins/font-awesome/css/font-awesome.min.css') !!}
-    {!! HTML::style('global/plugins/simple-line-icons/simple-line-icons.min.css') !!}
+    {!! Html::style('http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all') !!}
+    {!! Html::style('global/plugins/font-awesome/css/font-awesome.min.css') !!}
+    {!! Html::style('global/plugins/simple-line-icons/simple-line-icons.min.css') !!}
     <!-- GLOBAL STYLE (Sass) -->
-    {!! HTML::style('css/global.css') !!}
+    {!! Html::style('css/global.css') !!}
     <!-- PAGE SPECIFIC STYLE -->
-    {!! HTML::style('global/plugins/select2/css/select2.css') !!}
-    {!! HTML::style('global/plugins/select2/css/select2-bootstrap.min.css') !!}
+    {!! Html::style('global/plugins/select2/css/select2.css') !!}
+    {!! Html::style('global/plugins/select2/css/select2-bootstrap.min.css') !!}
     @yield('css')
     <!-- LAYOUT STYLE (Sass) -->
-    {!! HTML::style('css/layout.css') !!}
+    {!! Html::style('css/layout.css') !!}
     <!-- EXTRA STYLE -->
     @yield('style')
 
@@ -58,6 +58,7 @@
                     <!-- END HEADER SEARCH BOX -->
                     <!-- BEGIN TOP NAVIGATION MENU -->
                     <div class="top-menu">
+
                         <ul class="nav navbar-nav pull-right">
                             @include('includes.topnav')
 
@@ -82,6 +83,7 @@
                     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                     <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
                     <div class="page-sidebar navbar-collapse collapse">
+
                         <ul class="menu-trigger page-sidebar-menu page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
                         <!-- BEGIN SIDEBAR MENU -->
                             @include('includes.nav')
@@ -102,8 +104,11 @@
                         {{-- @include('includes.themepanel') --}}
 
 
-                        @include('includes.partials.messages')
-                        @yield('content')
+                        {{-- @include('includes.partials.messages') --}}
+
+                  
+                                @yield('content')
+                   
 
 
 
@@ -134,16 +139,17 @@
 
 
 <!-- CORE PLUGINS -->
-{!! HTML::script('js/global.js') !!}
-{!! HTML::script('js/johnnyhuman.overlay.js') !!}
+{!! Html::script('js/global.js') !!}
+{!! Html::script('js/johnnyhuman.overlay.js') !!}
 <!-- PAGE SPECIFIC SCRIPTS -->
 @yield('js')
 <!-- MAIN APP SCRIPT -->
-{!! HTML::script('global/scripts/app.js') !!}
+{!! Html::script('global/scripts/app.js') !!}
 
 <script>
+
     var overlay = $('.burger-trigger').overlay({
-        'ajaxUserUrl' : '{!! url("auth/login") !!}',
+        'ajaxUserUrl' : '{!! url("login") !!}',
         'ajaxResourceUrl' : '{!! url("resource/change") !!}',
         'ajaxSearchUrl' : '{!! url("tools/barcode") !!}'
     });
@@ -164,7 +170,18 @@
         submitForm.submit();
     };
 
+    @if(!Auth::check())
+           // $('[data-toggle="user"]').trigger('click');
+    @endif
+
 $(document).ready(function(){
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    
      $( document ).on( 'focus', ':input', function(){
         $( this ).attr( 'autocomplete', 'off' );
     });
@@ -174,12 +191,12 @@ $(document).ready(function(){
 <!-- EXTRA SCRIPT -->
 @yield('script')
 <!-- LAYOUT SCRIPTS -->
-{!! HTML::script('pages/scripts/components-select2.js') !!}
-{!! HTML::script('layouts/layout/scripts/layout.js') !!}
-{!! HTML::script('layouts/layout/scripts/demo.js') !!}
-{!! HTML::script('layouts/global/scripts/quick-sidebar.min.js') !!}
-{!! HTML::script('global/plugins/modernizr.custom.js') !!}
-{!! HTML::script('global/plugins/jquery-scrollbar/jquery.scrollbar.min.js') !!}
+{!! Html::script('pages/scripts/components-select2.js') !!}
+{!! Html::script('layouts/layout/scripts/layout.js') !!}
+{!! Html::script('layouts/layout/scripts/demo.js') !!}
+{!! Html::script('layouts/global/scripts/quick-sidebar.min.js') !!}
+{!! Html::script('global/plugins/modernizr.custom.js') !!}
+{!! Html::script('global/plugins/jquery-scrollbar/jquery.scrollbar.min.js') !!}
 
 </body>
 

@@ -3,7 +3,7 @@
 @section('title') Tools | Search Tool @endsection
 
 @section('css')
-{!! HTML::style('pages/css/search.min.css') !!}
+{!! Html::style('pages/css/search.min.css') !!}
 @endsection
 
 @section('styles')

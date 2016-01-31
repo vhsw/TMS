@@ -3,16 +3,16 @@
 @section('title') Tools | View | {{ $tool->serialnr }} @endsection
 
 @section('css')
-{!! HTML::style('global/plugins/bootstrap-select/css/bootstrap-select.min.css') !!}
-{!! HTML::style('global/plugins/datatables/datatables.min.css') !!}
-{!! HTML::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
-{!! HTML::style('global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') !!}
+{!! Html::style('global/plugins/bootstrap-select/css/bootstrap-select.min.css') !!}
+{!! Html::style('global/plugins/datatables/datatables.min.css') !!}
+{!! Html::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
+{!! Html::style('global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') !!}
 @endsection
 
 @section('js')
-{!! HTML::script('global/plugins/bootstrap-select/js/bootstrap-select.min.js') !!}
-{!! HTML::script('global/plugins/bootstrap-markdown/lib/markdown.js') !!}
-{!! HTML::script('global/plugins/bootstrap-markdown/js/bootstrap-markdown.js') !!}
+{!! Html::script('global/plugins/bootstrap-select/js/bootstrap-select.min.js') !!}
+{!! Html::script('global/plugins/bootstrap-markdown/lib/markdown.js') !!}
+{!! Html::script('global/plugins/bootstrap-markdown/js/bootstrap-markdown.js') !!}
 @endsection
 
 @section('script')
@@ -31,7 +31,7 @@ jQuery(document).ready(function() {
 
 
     var updateCategories = function(v){
-        $.getJSON("{!!url('admin/data/categories/tree')!!}", {id: v})
+        $.getJSON("{!!url('data/categories/tree')!!}", {id: v})
         .done(function( data ) {
             $("#categories").empty();
             var c=0;

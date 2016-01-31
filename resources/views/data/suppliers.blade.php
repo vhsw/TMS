@@ -4,17 +4,17 @@
 
 
 @section('css')
-{!! HTML::style('global/plugins/datatables/datatables.min.css') !!}
-{!! HTML::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
-{!! HTML::style('global/plugins/icheck/skins/all.css') !!}
+{!! Html::style('global/plugins/datatables/datatables.min.css') !!}
+{!! Html::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
+{!! Html::style('global/plugins/icheck/skins/all.css') !!}
 @endsection
 
 
 @section('js')
-{!! HTML::script('global/scripts/datatable.js') !!}
-{!! HTML::script('global/plugins/datatables/datatables.min.js') !!}
-{!! HTML::script('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}
-{!! HTML::script('global/plugins/icheck/icheck.min.js') !!}
+{!! Html::script('global/scripts/datatable.js') !!}
+{!! Html::script('global/plugins/datatables/datatables.min.js') !!}
+{!! Html::script('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}
+{!! Html::script('global/plugins/icheck/icheck.min.js') !!}
 @endsection
 
 

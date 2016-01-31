@@ -16,17 +16,14 @@ class CreateContactsTable extends Migration {
 		{
 			Schema::create('suppliers', function(Blueprint $table)
 			{
-				$table->increments('id')->unsigned();
-				$table->string('name');
-				$table->string('shortname');
+				$table->increments('id');
+				$table->string('name')->index();
+				$table->string('shortname')->index();
 				$table->tinyInteger('producer')->default(0);
-				$table->string('website');
-				$table->integer('phone');
+				$table->string('website')->index();
+				$table->string('phone')->index();
 				$table->integer('supplied_by')->unsigned();
 				$table->timestamps();
-
-				$table->engine = 'InnoDB';
-				$table->index('name');
 			});
 		}	
 	}

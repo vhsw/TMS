@@ -19,10 +19,9 @@ class CreateCategoriesTable extends Migration {
 				$table->increments('id');
 				$table->integer('parent_id')->default(0);
 				$table->integer('sort');
-				$table->string('name');
+				$table->string('name')->index();
 				$table->text('data');
 				$table->string('icon');
-				$table->engine = 'InnoDB';
 			});
 		}
 	}

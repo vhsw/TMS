@@ -24,91 +24,115 @@
                             <!-- END RESPONSIVE QUICK SEARCH FORM -->
                         </li>
 
-                        
+                
             
-                        <li class="nav-item start ">
+                        <li class="nav-item start {{ \App\Services\Active::pattern('/', 'active open') }}">
+                            <a href="/" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Home</span>
+                                <span class="selected start "></span>
+                            </a>
+                        </li>
+
+                        <li class="heading">
+                            <h3 class="uppercase">Features</h3>
+                        </li>
+
+                        <li class="nav-item {{ \App\Services\Active::pattern('requests', 'active open') }}">
+                            <a href="{!!url('requests')!!}" class="nav-link ">
+                                <i class="icon-magic-wand"></i>
+                                <span class="title">Requests</span>
+                                <span class="selected start "></span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item {{ \App\Services\Active::pattern('tools/*', 'active open') }}">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-wrench"></i>
                                 <span class="title">Tools</span>
                                 <span class="selected start "></span>
-                                <span class="arrow "></span>
+                                <span class="arrow {{ \App\Services\Active::pattern('tools/*', 'open') }}"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item ">
+                                <li class="nav-item {{ \App\Services\Active::pattern('tools/search', 'active open') }}">
                                     <a href="{!!url('tools/search')!!}" class="nav-link ">
                                         <i class="icon-magnifier"></i>
                                         <span class="title">Search</span>
+                                        {!! \App\Services\Active::pattern('tools/search', '<span class="selected"></span>') !!}
                                     </a>
                                 </li>
-                                <li class="nav-item ">
+                                <li class="nav-item {{ \App\Services\Active::pattern('tools/browse', 'active open') }}">
                                     <a href="{!!url('tools/browse')!!}" class="nav-link ">
                                         <i class="icon-book-open"></i>
                                         <span class="title">Browse</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a href="{!!url('tools/requests')!!}" class="nav-link ">
-                                        <i class="icon-magic-wand"></i>
-                                        <span class="title">Requests</span>
-                                        <span class="badge badge-success">1</span>
+                                        {!! \App\Services\Active::pattern('tools/browse', '<span class="selected"></span>') !!}
                                     </a>
                                 </li>
                             </ul>
                         </li>
 
+@if(Auth::check() && Auth::user()->hasRole('admin'))
 
-                        <li class="nav-item start ">
+                        <li class="heading">
+                            <h3 class="uppercase">Admin Tools</h3>
+                        </li>
+
+                        <li class="nav-item {{ \App\Services\Active::pattern('data/*', 'active open') }}">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-layers"></i>
                                 <span class="title">Data</span>
                                 <span class="selected "></span>
-                                <span class="arrow "></span>
+                                <span class="arrow {{ \App\Services\Active::pattern('data/*', 'open') }}"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item ">
-                                    <a href="{!!url('admin/data/categories')!!}" class="nav-link ">
+                                <li class="nav-item {{ \App\Services\Active::pattern('data/categories', 'active open') }}">
+                                    <a href="{!!url('data/categories')!!}" class="nav-link ">
                                         <i class="icon-list"></i>
                                         <span class="title">Categories</span>
+                                        {!! \App\Services\Active::pattern('data/categories', '<span class="selected"></span>') !!}
                                     </a>
                                 </li>
-                                <li class="nav-item ">
-                                    <a href="{!!url('admin/data/locations')!!}" class="nav-link ">
+                                <li class="nav-item {{ \App\Services\Active::pattern('data/locations', 'active open') }}">
+                                    <a href="{!!url('data/locations')!!}" class="nav-link ">
                                         <i class="icon-drawer"></i>
                                         <span class="title">Locations</span>
-                                        <span class="badge badge-success">1</span>
+                                        {!! \App\Services\Active::pattern('data/locations', '<span class="selected"></span>') !!}
                                     </a>
                                 </li>
-                                <li class="nav-item ">
-                                    <a href="{!!url('admin/data/suppliers')!!}" class="nav-link ">
+                                <li class="nav-item {{ \App\Services\Active::pattern('data/suppliers', 'active open') }}">
+                                    <a href="{!!url('data/suppliers')!!}" class="nav-link ">
                                         <i class="icon-globe"></i>
                                         <span class="title">Suppliers</span>
+                                        {!! \App\Services\Active::pattern('data/suppliers', '<span class="selected"></span>') !!}
                                     </a>
                                 </li>
-                                <li class="nav-item ">
-                                    <a href="{!!url('admin/data/resources')!!}" class="nav-link ">
+                                <li class="nav-item {{ \App\Services\Active::pattern('data/resources', 'active open') }}">
+                                    <a href="{!!url('data/resources')!!}" class="nav-link ">
                                         <i class="icon-list"></i>
                                         <span class="title">Resources</span>
+                                        {!! \App\Services\Active::pattern('data/resources', '<span class="selected"></span>') !!}
                                     </a>
                                 </li>
                             </ul>
                         </li>
 
 
-                        <li class="nav-item start ">
+                        <li class="nav-item {{ \App\Services\Active::pattern('system/*', 'active open') }}">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="icon-settings"></i>
                                 <span class="title">System</span>
                                 <span class="selected "></span>
-                                <span class="arrow "></span>
+                                <span class="arrow {{ \App\Services\Active::pattern('system/*', 'open') }}"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item ">
-                                    <a href="{!!url('admin/system/variables')!!}" class="nav-link ">
+                                <li class="nav-item {{ \App\Services\Active::pattern('system/variables', 'active open') }}">
+                                    <a href="{!!url('system/variables')!!}" class="nav-link ">
                                         <i class="icon-list"></i>
                                         <span class="title">Variables</span>
+                                        {!! \App\Services\Active::pattern('system/variables', '<span class="selected"></span>') !!}
                                     </a>
                                 </li>
                             </ul>
                         </li>
-
+@endif
  

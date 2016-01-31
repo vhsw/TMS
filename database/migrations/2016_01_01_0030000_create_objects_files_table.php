@@ -18,11 +18,9 @@ class CreateObjectsFilesTable extends Migration {
 			{
 				$table->increments('id');
 				$table->integer('object_id')->default(0);
-				$table->string('object_type');
+				$table->string('object_type')->index();
 				$table->string('file_id');
 				$table->timestamps();
-
-				$table->engine = 'InnoDB';
 			});
 		}
 	}

@@ -29,7 +29,7 @@ class ToolController extends Controller {
      */
     public function __construct()
     {
-        //\View::share('generals', Generals::getAll());
+
     }
 
     /**
@@ -359,7 +359,6 @@ class ToolController extends Controller {
       $result = '<ul id="category-menu" data-height="505" style="width:100%" class="menu-trigger accordion-menu" data-keep-expanded="true" data-auto-scroll="true" data-slide-speed="200">
       <li id="category-0" class="nav-item">
         <a href="javascript:;" class="nav-link nav-toggle">
-            <img src="">
             <span class="title"> Alla Verktøy</span>
         </a></li>';
       foreach ($rows as $row)
