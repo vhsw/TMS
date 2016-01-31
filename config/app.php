@@ -162,7 +162,6 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Cucxabeng\HtmlDom\HtmlDomServiceProvider::class,
         TomLingham\Searchy\SearchyServiceProvider::class,
-        Lavary\Menu\ServiceProvider::class,
 
     ],
 
@@ -215,7 +214,6 @@ return [
         'HtmlDom'   => Cucxabeng\HtmlDom\HtmlDom::class,
         'HtmlDomNode'   => Cucxabeng\HtmlDom\HtmlDomNode::class,
         'Searchy'   => TomLingham\Searchy\Facades\Searchy::class,
-        'Menu'      => Lavary\Menu\Facade::class,
 
     ],
 

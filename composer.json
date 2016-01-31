@@ -8,7 +8,6 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "laravelcollective/html": "5.2.*",
-        "lavary/laravel-menu": "dev-master",
         "tom-lingham/searchy": "2.*",
         "cucxabeng/simple-html-dom": "dev-master"
     },
