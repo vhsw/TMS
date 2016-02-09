@@ -27,13 +27,12 @@
                                 
                             </li>
 
+                            @if(Auth::check())
                             <li class="dropdown dropdown-user"><span class="at username-hide-on-mobile">@</span></li>
 
-                            @if(Auth::check())
                             <li class="dropdown dropdown-user dropdown-dark " data-toggle="resource">
                                 <a href="javascript:;" class="dropdown-toggle">
-                                    <span class="username username-hide-on-mobile">
-                                    {{ Auth::check() ? \App\User::find(Auth::user()->id)->resource->short_name : '----' }}</span>
+                                    <span class="username username-hide-on-mobile">{{ $user->resource->short_name }}</span>
                                     <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
                                     <img alt="" class="img-circle" src="" /> </a>
                                 

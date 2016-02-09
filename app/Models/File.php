@@ -15,22 +15,15 @@ class File extends BaseModel
 	 */
 	protected $guarded = ['id'];
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	//protected $hidden = ['password', 'remember_token'];
-
-	/**
-	 * For soft deletes
-	 *
-	 * @var array
-	 */
-	//protected $dates = ['deleted_at'];
-
-	/**
-	 * @return mixed
-	 */
-
+	public static function getImagesByObject($object_type, $object_id)
+	{
+		$files = DB::table('objects_files')
+                    ->select('file_id')
+                    ->where('object_id', $object_id)
+                    ->where('object_type', $object_type)->get();
+        $collection = collect($files);
+        $file_ids = $collection->pluck('file_id');
+        $images = File::whereIn('id', $file_ids)->whereIn('file_type', ['jpg', 'png', 'gif']);
+        return $images;
+    }
 }

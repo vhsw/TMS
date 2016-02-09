@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCostTable extends Migration {
+class CreateCostsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,9 +12,9 @@ class CreateCostTable extends Migration {
 	 */
 	public function up()
 	{
-		if (! Schema::hasTable('cost'))
+		if (! Schema::hasTable('costs'))
 		{
-			Schema::create('cost', function(Blueprint $table)
+			Schema::create('costs', function(Blueprint $table)
 			{
 				$table->integer('tool_id')->unsigned();
 				$table->integer('supplier_id')->unsigned();
@@ -31,7 +31,7 @@ class CreateCostTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('cost');
+		Schema::drop('costs');
 	}
 
 }

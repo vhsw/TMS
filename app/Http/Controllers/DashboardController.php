@@ -40,7 +40,7 @@ class DashboardController extends Controller {
 
 		if (Auth::check())
 		{
-			$user = User::find(auth()->user()->id);
+			$user = User::find(Auth::user()->id);
 			$notifications = $user->notifications()->unread()->get();
 			return view('index', compact('requests', 'last_monday', 'sum', 'user', 'notifications'));
 		} else

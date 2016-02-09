@@ -166,7 +166,7 @@
     function submitRequest() {
         var submitForm = $('.burger-trigger').find('[data-form="barcode"]');
         submitForm.append( $('.burger-trigger').find('#search_str') );
-        submitForm.attr('action', '{!! url("tools/requests/create") !!}');
+        submitForm.attr('action', '{!! url("requests/create") !!}');
         submitForm.submit();
     };
 

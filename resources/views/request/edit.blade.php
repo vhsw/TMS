@@ -3,13 +3,13 @@
 @section('title') Requests | Edit Request ({{ $request->id }})  @endsection
 
 @section('css')
-{!! HTML::style('global/plugins/typeahead/typeahead.css') !!}
+{!! Html::style('global/plugins/typeahead/typeahead.css') !!}
 @endsection
 
 @section('js')
-{!! HTML::script('global/plugins/typeahead/handlebars.min.js') !!}
-{!! HTML::script('global/plugins/typeahead/typeahead.bundle.min.js') !!}
-{!! HTML::script('global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') !!}
+{!! Html::script('global/plugins/typeahead/handlebars.min.js') !!}
+{!! Html::script('global/plugins/typeahead/typeahead.bundle.min.js') !!}
+{!! Html::script('global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') !!}
 @endsection
 
 @section('script')
@@ -67,7 +67,7 @@ $(function() {
 <div class="col-md-8">              
 
                      <!-- BEGIN FORM-->
-                     <form action="{!!url('tools/request/' . $request->id . '/edit')!!}" method="post" class="form-horizontal form-bordered">
+                     <form action="{!!url('request/' . $request->id . '/edit')!!}" method="post" class="form-horizontal form-bordered">
                      @if($request->status == "RECIEVED")
                      <fieldset disabled="disabled">
                      @else 

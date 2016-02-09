@@ -135,27 +135,34 @@ class ToolController extends Controller {
 
             $total = count($query->get());
 
-            $result = $query->limit($max)->offset($from)->get();
+            $result = $query->whereExists(function ($query) {
+                $query->select(DB::raw(1))
+                      ->from('locations_tools')
+                      ->whereRaw('locations_tools.tool_id = tools.id')
+                      ->where('amount', '>', 0);
+            })->get(); //->limit($max)->offset($from)->get();
+
+            
+
+
+            foreach($result as $res)
+            {
+                $images[] = File::getImagesByObject('App\Models\Tool', $res->id)->first();
+            }
 
 
             $paginator = new LengthAwarePaginator($result, $total, $max, $currentPage);
             $paginator->setPath('result');
 
-            return view('tool.search', compact('result', 'term', 'currentPage', 'total', 'max', 'paginator'));
+            return view('tool.search', compact('result', 'term', 'currentPage', 'total', 'max', 'paginator', 'images'));
     }
 
     public function view($id)
     {
         $tool = Tool::where('id', $id)->first();
 
-        // Get files and images connected to tool
-        $files = DB::table('objects_files')
-                    ->select('file_id')
-                    ->where('object_id', $tool->id)
-                    ->where('object_type', 'App\Models\Tool')->get();
-        $collection = collect($files);
-        $file_ids = $collection->pluck('file_id');
-        $images = File::whereIn('id', $file_ids)->whereIn('file_type', ['jpg', 'png', 'gif'])->get();
+        // Get Images
+        $images = File::getImagesByObject('App\Models\Tool', $tool->id)->get();
 
         // Get additional information
         $detail = Detail::where('tool_id', $tool->id)->first();

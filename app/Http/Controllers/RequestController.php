@@ -71,11 +71,13 @@ class RequestController extends Controller {
             { 
                 $tool_id = $tool->id;
                 $barcode = $tool->barcode;
+                $cost = Cost::getLastCost($tool->id);
             }
             else 
             { 
                 $tool_id = ""; 
                 $barcode = "";
+                $cost = "0.00";
             }
             $serialnr = $request->serialnr;
             $description = $request->description;
@@ -98,6 +100,7 @@ class RequestController extends Controller {
                 'tool_id' => $tool_id,
                 'user_id' => auth()->user()->id,
                 'amount' => $request->amount,
+                'cost' => $cost,
                 'comments' => "",
                 'status' => "REQUESTED"
                 ));
@@ -107,7 +110,7 @@ class RequestController extends Controller {
         $user->newNotification()->withType('Request')->withBody('New Request has been added')
              ->regarding($newRequest)->deliver();
 
-        return redirect('tools/requests');
+        return redirect('requests');
     }
 
 
@@ -141,7 +144,7 @@ class RequestController extends Controller {
         }
         else {
 
-            return redirect('tools/requests');
+            return redirect('requests');
         }
     }
 
@@ -206,14 +209,14 @@ class RequestController extends Controller {
         }
 
         $item->save();
-        return redirect('tools/requests');
+        return redirect('requests');
     }
 
 
     public function delete($id)
     {
         Requests::destroy($id);
-        return redirect('tools/requests');
+        return redirect('requests');
     }
     
 

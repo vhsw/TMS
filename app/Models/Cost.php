@@ -5,7 +5,7 @@ use DB;
 
 class Cost extends BaseModel
 {
-   	protected $table = 'cost';
+   	protected $table = 'costs';
 
     public function supplier()
     {
@@ -14,9 +14,9 @@ class Cost extends BaseModel
 
    	public static function getLastCost($tool_id)
    	{
-   		$cost = DB::table('cost')
+   		$cost = DB::table('costs')
         	->where('tool_id', '=', $tool_id)
-        	->whereRaw('created_at = (SELECT MAX(created_at) FROM cost)')
+        	->whereRaw('created_at = (SELECT MAX(created_at) FROM costs)')
          	->first();
 
         if ($cost) {

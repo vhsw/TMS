@@ -19,100 +19,84 @@
 </style>
 @endsection
 
+@section('script')
+<script>
+OnlyStock = function(){
+    var input = $("<input>", { type: "hidden", name: "onlystock", value: "true" });
+    $('#form-search').append($(input));
+}
+</script>
+@endsection
 
 @section('content')
-
-              
-                    <!-- BEGIN PAGE BASE CONTENT -->
-                    <div class="search-page search-content-4">
-                        <div class="search-bar bordered">
-                            <div class="row">
-                                <div class="col-lg-8">
-                                <form action="{!!url('tools/search/result')!!}" method="get" >
+<div class="search-page search-content-3">
+                    <div class="search-bar bordered">
+                        <div class="row">
+                            <form id="form-search" action="{!!url('tools/search/result')!!}" method="get" >
+                            <div class="col-lg-8">
+                                
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <div class="input-group">
                                         <input name="term" class="form-control custombig" value="{{ $term or '' }}" placeholder="Search for..." type="text">
                                         <span class="input-group-btn">
-                                            <button class="btn green-soft uppercase bold" type="submit">Search</button>
+                                            <button class="btn green uppercase bold" type="submit">Search All</button>
                                         </span>
                                     </div>
-                                   </form>
-                                </div>
-
-                                <div class="col-lg-4 extra-buttons">
-                                    <button class="btn grey-steel uppercase bold" type="button">Reset Search</button>
-                                    <button class="btn grey-cararra font-blue" type="button">Advanced Search</button>
-                                </div>
-
                             </div>
+                            <div class="col-lg-4 extra-buttons">
+                                <button onclick="OnlyStock();" class="btn grey-steel uppercase" type="submit">Only Stock</button>
+                            </div>
+                            </form>
                         </div>
-                        
-@if (isset($result))
-
-						<div class="search-table table-responsive">
-                            <table class="table table-bordered table-striped table-condensed">
-                                <thead class="bg-blue">
-                                    <tr>
-                                        <th>
-                                            <a href="javascript:;">Hente</a>
-                                        </th>
-                                        <th>
-                                            <a href="javascript:;">Kategori</a>
-                                        </th>
-                                        <th>
-                                            <a href="javascript:;">Verktøy / Lagerstatus
-                                        </th>
-                                        <th>
-                                            <a href="javascript:;">Beskrivelse</a>
-                                        </th>
-                                        <th>
-                                            <a href="javascript:;">Download</a>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                @foreach ($result as $tool)
-                                    <tr>
-                                        <td class="table-status">
-                                            <a href="javascript:;">
-                                                <i class="icon-arrow-right font-blue"></i>
-                                            </a>
-                                        </td>
-                                        <td class="table-date font-blue">
-                                       		<a href="javascript:;">{{ $tool->barcode }}</a>
-                                        </td>
-                                        <td class="table-title">
-                                            <h3>
-                                                <a href="{!!url('tool/' . $tool->id . '/view')!!}">{{ $tool->serialnr }}</a>
-
-                                            </h3>
-                                            <p>Lagerplass:
-                                                <a href="javascript:;">V02-02-12</a> -
-                                                <span class="font-grey-cascade">25 stk</span>
-                                            </p>
-                                        </td>
-                                        <td class="table-desc">{{ $tool->name0 }}</td>
-                                        <td class="table-download">
-                                            <a href="javascript:;">
-                                                <i class="icon-doc font-green-soft"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                 @endforeach
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="search-pagination pagination">
-                            {!! $paginator->appends(['term' => $term])->render() !!}
-                        </div>
-
-
-@endif     
                     </div>
-                    <!-- END PAGE BASE CONTENT -->
-                
-                    
+
+    @if (isset($result))
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                    <?php 
+                        $i = 0;
+                        foreach ($result as $tool)
+                        {?>
+                                    <div class="col-md-3">
+                                        <div class="tile-container bordered" style="background-color: #fff">
+                                            <div class="tile-thumbnail" style="margin:10px">
+                                                <a href="{!!url('tool/' . $tool->id . '/view')!!}">
+                                                @if($images[$i])
+                                                    <img src="{!! url('/files'.$images[$i]->path) !!}" class="img-responsive" alt="{{ $images[$i]->title }}">
+                                                @endif
+                                                </a>
+                                            </div>
+                                            <div class="tile-title">
+                                                <h3>
+                                                    <a href="{!!url('tool/' . $tool->id . '/view')!!}">{{ $tool->serialnr }}</a>
+                                                </h3>
+                                                <a href="javascript:;">
+                                                    <i class="icon-question font-blue"></i>
+                                                </a>
+                                                <a href="javascript:;">
+                                                    <i class="icon-plus font-green-meadow"></i>
+                                                </a>
+                                                <div class="tile-desc">
+                                                    <p>{{ $tool->name0 }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                    <?php 
+                        $i = $i + 1;
+                        }?>
+
+                        </div>
+                    </div>
+                    <div class="search-pagination pagination">
+                        {!! $paginator->appends(['term' => $term])->render() !!}
+                    </div>
+</div>
+@endif
+
+
+ 
 
 @endsection

@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -13,4 +14,15 @@ class System extends BaseModel {
 	protected $casts = [
         'content' => 'array',
     ];
+
+
+    public static function updateBudget($budget)
+    {
+    	$yearColumn = '_'.date('Y');
+
+    	for($i = 0; $i < 12; $i++)
+    	{
+    		DB::table('budget')->where('id', $i + 1)->update([ $yearColumn => $budget[$i] ]);
+    	}
+    }
 }
