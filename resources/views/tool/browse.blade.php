@@ -36,7 +36,7 @@ var table = $('#table1');
             ],
          "pageLength": 10,
          "ajax":{
-            url :"{!!url('data/tools/db')!!}", // json datasource
+            url :"{!!url('tools/db')!!}", // json datasource
             type: "post",
             error: function(xhr, textStatus, error){  // error handling code
               console.log(textStatus + ": " + error);

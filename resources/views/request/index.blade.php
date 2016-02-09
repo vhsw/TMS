@@ -24,7 +24,7 @@ $( document ).ready(function() {
 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 
 var toolUrl = "{!!url('tool')!!}";
-var requestUrl = "{!!url('tools/request')!!}";
+var requestUrl = "{!!url('request')!!}";
 var table = $('#table1');
 
   table.dataTable({
@@ -38,7 +38,7 @@ var table = $('#table1');
         "pageLength": 10,
         "order": [[ 8, "desc" ]],
         "ajax":{
-            url :"{!!url('admin/data/requests/db')!!}", // json datasource
+            url :"{!!url('data/requests/db')!!}", // json datasource
             type: "post",
             error: function(xhr, textStatus, error){  // error handling code
               console.log(textStatus + ": " + error);
@@ -141,7 +141,7 @@ $("#btn-add").click(function(){
 
 
 @section('form')
-<form action="{!!url('tools/requests/create')!!}" method="post" id="form-request">
+<form action="{!!url('requests/create')!!}" method="post" id="form-request">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
     @if (count($errors) > 0)
