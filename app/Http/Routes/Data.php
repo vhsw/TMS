@@ -5,7 +5,6 @@
 Route::get('data/categories', 				'CategoryController@index');
 Route::post('data/categories/save', 		'CategoryController@save');
 Route::get('data/categories/tree', 		'CategoryController@tree'); // AJAX
-Route::get('data/categories/children', 	'CategoryController@children'); // AJAX
 
 // LOCATIONS
 
