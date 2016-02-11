@@ -132,6 +132,13 @@
                                         {!! \App\Services\Active::pattern('system/variables', '<span class="selected"></span>') !!}
                                     </a>
                                 </li>
+                                <li class="nav-item {{ \App\Services\Active::pattern('system/update', 'active open') }}">
+                                    <a href="{!!url('system/update')!!}" class="nav-link ">
+                                        <i class="icon-refresh"></i>
+                                        <span class="title">Update</span>
+                                        {!! \App\Services\Active::pattern('system/update', '<span class="selected"></span>') !!}
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 @endif

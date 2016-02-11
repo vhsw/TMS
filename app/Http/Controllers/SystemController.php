@@ -37,10 +37,18 @@ class SystemController extends Controller {
         return view('system.variables', compact('systemvariables', 'budget'));
     }
 
+
+    public function update()
+    {
+        return view('system.update');
+    }
+
+
     public function save(Request $request)
     {
         $this->handleBudget($request);
     }
+
 
     private static function handleBudget($request)
     {
