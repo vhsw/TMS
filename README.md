@@ -11,3 +11,4 @@ Built on top of Laravel 5.2 as back-end, and Metronic Admin Theme on the front. 
 * **Budget**
 * **Notification system**
 * **Searching**
+* **Update to latest commits**

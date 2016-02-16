@@ -1,27 +1,22 @@
-<?php namespace App\Http\Controllers;
+<?php 
 
-use App\Http\Controllers\Controller;
+namespace App\Http\Controllers;
+
 use DB;
-use Illuminate\Http\Request;
 use App\Models\Supplier;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Requests\CreateSupplierRequest;
 
 
 class SupplierController extends Controller {
 
-    /**
-     * Instantiate a new UserController
-     */
     public function __construct()
     {
-        //\View::share('generals', Generals::getAll());
+
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
+
     public function index()
     {
 
@@ -29,6 +24,7 @@ class SupplierController extends Controller {
 
         return view('data.suppliers', compact('suppliers'));
     }
+
 
     public function create(Request $request)
     {
@@ -51,5 +47,4 @@ class SupplierController extends Controller {
 
         return redirect('admin/data/suppliers');
     }
-
 }

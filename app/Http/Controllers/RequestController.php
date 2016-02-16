@@ -1,44 +1,34 @@
-<?php namespace App\Http\Controllers;
+<?php 
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+namespace App\Http\Controllers;
+
 use DB;
-use Illuminate\Pagination\LengthAwarePaginator;
-use App\Http\Requests\Frontend\CreateRequestsRequest;
-use TomLingham\Searchy\Facades\Searchy as Searchy;
-use App\Helpers\CustomDate;
-use App\Models\Tool;
 use App\User;
-use App\Models\Requests;
+use App\Models\Cost;
+use App\Models\Tool;
 use App\Models\System;
 use App\Models\Supplier;
+use App\Models\Requests;
+use App\Helpers\CustomDate;
 use App\Services\AjaxTable;
-use App\Models\Cost;
-
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Pagination\LengthAwarePaginator;
+use TomLingham\Searchy\Facades\Searchy as Searchy;
+use App\Http\Requests\Frontend\CreateRequestsRequest;
 
 class RequestController extends Controller {
 
-
-    /**
-     * Instantiate a new UserController
-     */
     public function __construct()
     {
-        //\View::share('generals', Generals::getAll());
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
+
     public function index()
     {
-        //$requests = Requests::all();
-
-
         return view('request.index');
     }
+
 
     public function db(Request $request)
     {
@@ -50,7 +40,9 @@ class RequestController extends Controller {
 
             return $requests->get();
         } else 
-        {}
+        {
+
+        }
         
     }
 
@@ -63,7 +55,6 @@ class RequestController extends Controller {
 
     public function create(Request $request)
     {
-
         if($request->serialnr) // If Requested from Request Page
         {
             $tool = Tool::where('serialnr', $request->serialnr)->first();
@@ -92,7 +83,6 @@ class RequestController extends Controller {
             $description = "";
         }
 
-        
        $newRequest = Requests::create(array(
                 'description' => $description,
                 'tool_serialnr' => $serialnr,
@@ -218,6 +208,4 @@ class RequestController extends Controller {
         Requests::destroy($id);
         return redirect('requests');
     }
-    
-
 }

@@ -1,28 +1,23 @@
-<?php namespace App\Http\Controllers;
+<?php 
 
-use App\Http\Controllers\Controller;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Http\Request;
-use App\Models\System;
+namespace App\Http\Controllers;
+
 use DB;
+use App\Models\System;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Requests\CreateSystemRequest;
+use Illuminate\Database\Schema\Blueprint;
 
 
 class SystemController extends Controller {
 
-    /**
-     * Instantiate a new UserController
-     */
     public function __construct()
     {
-        //\View::share('generals', Generals::getAll());
+
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
+
     public function systemvariables()
     {
 
@@ -61,5 +56,4 @@ class SystemController extends Controller {
 
         System::updateBudget($request->budget);
     }
-
 }
