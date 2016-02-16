@@ -16,6 +16,14 @@
 @section('content')
 
 
+<?php 
+
+echo exec("%cd%", $out);
+
+foreach($out as $line) {
+    echo $line."<br>";
+}
+?>
 
 @endsection
 
