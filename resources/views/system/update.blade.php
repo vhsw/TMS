@@ -18,7 +18,9 @@
 
 <?php 
 
-echo exec("%cd%", $out);
+chdir('../');
+
+exec("git checkout master", $out);
 
 foreach($out as $line) {
     echo $line."<br>";
