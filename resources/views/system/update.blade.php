@@ -15,7 +15,14 @@
 
 @section('content')
 
+<?php
+chdir('../');
+exec("git fetch", $out);
 
+foreach($out as $line) {
+	echo $line."<BR>";
+}
+?>
 
 @endsection
 
