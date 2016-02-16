@@ -1,25 +1,19 @@
-<?php namespace App\Http\Controllers;
+<?php 
 
-use App\Http\Controllers\Controller;
-use Illuminate\Routing\Controller as BaseController;
-use App\User;
-use App\Models\Requests;
-use App\Models\Tool;
+namespace App\Http\Controllers;
+
 use DB;
 use Auth;
+use App\User;
+use App\Models\Tool;
+use App\Models\Requests;
+use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller as BaseController;
 
-/**
- * Class DashboardController
- * @package App\Http\Controllers\Backend
- */
 class DashboardController extends Controller {
 
-	/**
-	 * @return \Illuminate\View\View
-	 */
 	public function index()
 	{
-
 		// Monday this week
 		$last_monday = date('Y-m-d H:i:s', strtotime("last monday"));
 

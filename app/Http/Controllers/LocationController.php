@@ -1,27 +1,20 @@
-<?php namespace App\Http\Controllers;
+<?php 
 
-use App\Http\Controllers\Controller;
+namespace App\Http\Controllers;
+
 use DB;
-use Illuminate\Http\Request;
-use App\Models\Location;
 use App\Models\Tool;
-
+use App\Models\Location;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class LocationController extends Controller {
 
-    /**
-     * Instantiate a new UserController
-     */
     public function __construct()
     {
-        //\View::share('generals', Generals::getAll());
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
+
     public function index()
     {
 
@@ -29,5 +22,4 @@ class LocationController extends Controller {
 
         return view('data.locations', compact('locations'));
     }
-
 }

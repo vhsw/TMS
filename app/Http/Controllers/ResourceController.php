@@ -1,22 +1,21 @@
-<?php namespace App\Http\Controllers;
+<?php 
 
-use App\Http\Controllers\Controller;
+namespace App\Http\Controllers;
+
 use DB;
 use Auth;
-use Illuminate\Http\Request;
-use App\Models\Resource;
 use App\User;
+use App\Models\Resource;
 use App\Services\AjaxTable;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 
 class ResourceController extends Controller {
 
-    /**
-     * Instantiate a new UserController
-     */
     public function __construct()
     {
-        //\View::share('generals', Generals::getAll());
+
     }
 
 
@@ -43,5 +42,4 @@ class ResourceController extends Controller {
             return response()->json(['error' => 'RequestController@select : No Ajax']);
         }
     }
-
 }

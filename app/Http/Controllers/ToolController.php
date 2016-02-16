@@ -1,42 +1,37 @@
-<?php namespace App\Http\Controllers;
+<?php 
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+namespace App\Http\Controllers;
+
 use DB;
-use Illuminate\Pagination\LengthAwarePaginator;
-use App\Repositories\Frontend\User\UserContract;
-use App\Http\Requests\Frontend\User\UpdateProfileRequest;
-use App\Http\Requests\Frontend\Tool\SearchToolRequest;
-use TomLingham\Searchy\Facades\Searchy as Searchy;
+use HtmlDom;
+use Storage;
 use App\Models\Tool;
 use App\Models\Cost;
-use App\Models\Detail;
 use App\Models\File;
+use App\Models\Detail;
 use App\Models\Supplier;
 use App\Models\Category;
 use App\Services\AjaxTable;
-use HtmlDom;
-use Storage;
-
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Repositories\Frontend\User\UserContract;
+use TomLingham\Searchy\Facades\Searchy as Searchy;
+use App\Http\Requests\Frontend\Tool\SearchToolRequest;
+use App\Http\Requests\Frontend\User\UpdateProfileRequest;
 
 
 class ToolController extends Controller {
 
     protected $orders;
 
-    /**
-     * Instantiate a new UserController
-     */
+
     public function __construct()
     {
 
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
+
     public function index()
     {
         return view('tool.index');
@@ -81,6 +76,7 @@ class ToolController extends Controller {
         }
     }
 
+
     public function barcode(Request $request)
     {
         if ($request->ajax()) 
@@ -107,6 +103,7 @@ class ToolController extends Controller {
     {
         return view('tool.search');
     }
+
 
     public function browse()
     {
@@ -156,6 +153,7 @@ class ToolController extends Controller {
 
             return view('tool.search', compact('result', 'term', 'currentPage', 'total', 'max', 'paginator', 'images'));
     }
+
 
     public function view($id)
     {
@@ -318,23 +316,13 @@ class ToolController extends Controller {
                         ]);
                     }
                 }
-
             }
-
         }
-
-
         return "Success";
     }
 
 
-
-
-
-
-
 //########### BUILD CATEGORY MENU ################//
-
     public function build_data($rows, $parent=0)
     {
         foreach ($rows as $row)
@@ -353,6 +341,7 @@ class ToolController extends Controller {
         }
     }
 
+
     public function has_children($rows,$id) {
       foreach ($rows as $row) {
         if ($row->parent_id == $id)
@@ -360,6 +349,7 @@ class ToolController extends Controller {
       }
       return false;
     }
+
 
     public function build_menu($rows,$parent=0)
     {  
@@ -400,6 +390,7 @@ class ToolController extends Controller {
 
       return $result;
     }
+
 
     public function build_submenu($rows,$parent=0)
     {  
