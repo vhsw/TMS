@@ -20,8 +20,8 @@
         <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption font-red">
-                    <span class="caption-subject bold uppercase">Finance</span>
-                    <span class="caption-helper">distance stats...</span>
+                    <span class="caption-subject bold uppercase">Tool Budget</span>
+                    <span class="caption-helper">expenses versus budget...</span>
                 </div>
             </div>
             <div class="portlet-body">
