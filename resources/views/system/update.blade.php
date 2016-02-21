@@ -21,14 +21,18 @@
 
 chdir('../');
 
-exec("git status", $out);
+exec("git status", $output, $result);
 
-if(count($out) == 0) {
-	echo "TRUE";
+if($result > 0) {
+	echo "ERROR ".$result.": Don't have a git repository in this or any parent directory";
+} else {
+	exec("git pull", $output, $result);
+
+	foreach($output as $out) {
+	    echo $out."<br>";
+	}
 }
-foreach($out as $line) {
-    echo $line."<br>";
-}
+
 ?>
 
 @endsection
