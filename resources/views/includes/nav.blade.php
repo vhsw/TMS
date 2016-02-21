@@ -54,11 +54,11 @@
                                 <span class="arrow {{ \App\Services\Active::pattern('tools/*', 'open') }}"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item {{ \App\Services\Active::pattern('tools/search', 'active open') }}">
+                                <li class="nav-item {{ \App\Services\Active::pattern('tools/search*', 'active open') }}">
                                     <a href="{!!url('tools/search')!!}" class="nav-link ">
                                         <i class="icon-magnifier"></i>
                                         <span class="title">Search</span>
-                                        {!! \App\Services\Active::pattern('tools/search', '<span class="selected"></span>') !!}
+                                        {!! \App\Services\Active::pattern('tools/search*', '<span class="selected"></span>') !!}
                                     </a>
                                 </li>
                                 <li class="nav-item {{ \App\Services\Active::pattern('tools/browse', 'active open') }}">

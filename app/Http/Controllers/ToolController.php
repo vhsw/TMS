@@ -117,41 +117,37 @@ class ToolController extends Controller {
 
     public function result(Request $request)
     {
-       $this->validate($request, [
-        'term' => 'required',
+        $this->validate($request, [
+            'term' => 'required',
         ]);
 
-            $term = $request->term;
-            $currentPage = $request->get('page', 1);
+        $term = $request->term;
+        $currentPage = $request->get('page', 1);
 
-            $max = 10;
-            $from = $currentPage * $max - $max;
-            $to = $max;
+        $max = 10;
+        $from = $currentPage * $max - $max;
+        $to = $max;
 
-            $query = Searchy::search('tools')->fields('serialnr')->query($request->term)->getQuery();
+        $query = Searchy::search('tools')->fields('serialnr')->query($request->term)->getQuery();
 
-            $total = count($query->get());
+        $total = count($query->get());
 
-            $result = $query->whereExists(function ($query) {
-                $query->select(DB::raw(1))
-                      ->from('locations_tools')
-                      ->whereRaw('locations_tools.tool_id = tools.id')
-                      ->where('amount', '>', 0);
-            })->get(); //->limit($max)->offset($from)->get();
+        $result = $query->whereExists(function ($query) {
+            $query->select(DB::raw(1))
+            ->from('locations_tools')
+            ->whereRaw('locations_tools.tool_id = tools.id')
+            ->where('amount', '>', 0);
+        })->limit($max)->offset($from)->get();
 
-            
+        foreach($result as $res)
+        {
+            $images[] = File::getImagesByObject('App\Models\Tool', $res->id)->first();
+        }
 
+        $paginator = new LengthAwarePaginator($result, $total, $max, $currentPage);
+        $paginator->setPath('result');
 
-            foreach($result as $res)
-            {
-                $images[] = File::getImagesByObject('App\Models\Tool', $res->id)->first();
-            }
-
-
-            $paginator = new LengthAwarePaginator($result, $total, $max, $currentPage);
-            $paginator->setPath('result');
-
-            return view('tool.search', compact('result', 'term', 'currentPage', 'total', 'max', 'paginator', 'images'));
+        return view('tool.search', compact('result', 'term', 'currentPage', 'total', 'max', 'paginator', 'images'));
     }
 
 

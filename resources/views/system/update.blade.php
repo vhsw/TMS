@@ -21,8 +21,11 @@
 
 chdir('../');
 
-exec("git checkout master", $out);
+exec("git status", $out);
 
+if(count($out) == 0) {
+	echo "TRUE";
+}
 foreach($out as $line) {
     echo $line."<br>";
 }
