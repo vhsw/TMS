@@ -40,9 +40,9 @@ foreach($costs as $cost)
         <div class="col-md-4">
             <ul class="list-unstyled profile-nav">
 
-                @foreach($images as $image)
+                @foreach($tool->pictures as $picture)
                 <li class="pic-bordered padding-10">
-                    <img src="{!! url('/files'.$image->path) !!}" class="img-responsive" alt="{{ $image->title }}">
+                    <img src="{!! url('/files'.$picture->path) !!}" class="img-responsive" alt="{{ $picture->title }}">
                 </li>
                 @endforeach
             
