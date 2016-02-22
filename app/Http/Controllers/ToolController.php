@@ -9,6 +9,7 @@ use App\Models\Tool;
 use App\Models\Cost;
 use App\Models\File;
 use App\Models\Detail;
+use App\Models\Picture;
 use App\Models\Supplier;
 use App\Models\Category;
 use App\Services\AjaxTable;
@@ -129,38 +130,36 @@ class ToolController extends Controller {
         $to = $max;
 
         $query = Searchy::search('tools')->fields('serialnr')->query($request->term)->getQuery();
-
+        $result = $query->limit($max)->offset($from)->get();
         $total = count($query->get());
 
-        $result = $query->whereExists(function ($query) {
+        $tools = array();
+        foreach($result as $tool)
+        {
+            $tools[] = Tool::find($tool->id);
+        }
+
+        /*$result = $query->whereExists(function ($query) {
             $query->select(DB::raw(1))
             ->from('locations_tools')
             ->whereRaw('locations_tools.tool_id = tools.id')
             ->where('amount', '>', 0);
-        })->limit($max)->offset($from)->get();
-
-        foreach($result as $res)
-        {
-            $images[] = File::getImagesByObject('App\Models\Tool', $res->id)->first();
-        }
+        })->limit($max)->offset($from)->get();*/
 
         $paginator = new LengthAwarePaginator($result, $total, $max, $currentPage);
         $paginator->setPath('result');
 
-        return view('tool.search', compact('result', 'term', 'currentPage', 'total', 'max', 'paginator', 'images'));
+        return view('tool.search', compact('tools', 'term', 'currentPage', 'total', 'max', 'paginator'));
     }
 
 
     public function view($id)
     {
-        $tool = Tool::where('id', $id)->first();
-
-        // Get Images
-        $images = File::getImagesByObject('App\Models\Tool', $tool->id)->get();
-
-        // Get additional information
-        $detail = Detail::where('tool_id', $tool->id)->first();
-        $costs = Cost::where("tool_id", "=", $tool->id)->orderBy('supplier_id', "asc")->orderBy('updated_at', "desc")->get();
+        // Get Tool Details
+        $tool =     Tool::where('id', $id)->first();
+        $detail =   Detail::where('tool_id', $tool->id)->first();
+        $costs =    Cost::getCosts($tool->id);
+        $amount =   Tool::getStockAmount($tool->id);
 
         // Get Category
         $category = $tool->category->name;
@@ -173,31 +172,35 @@ class ToolController extends Controller {
             $parent_id = $cat->parent_id;
         }
 
-        // Get Stock amount
-        $amount = DB::table('locations_tools')
-            ->select('amount', DB::raw('SUM(amount) as amount'))
-            ->where('tool_id', $tool->id)->first();
-
-        return view('tool.view', compact('tool', 'images', 'detail', 'costs', 'category', 'amount'));
+        return view('tool.view', compact('tool', 'detail', 'costs', 'category', 'amount'));
     }
 
 
     public function edit($id)
     {
-        $tool = Tool::where('id', $id)->first();
+        // Get Tool Details
+        $tool =         Tool::where('id', $id)->first();
+        $suppliers =    Supplier::all();
+        $categories =   Category::getParentCategories($tool->category_id);
+        $detail =       Detail::where('tool_id', '=', $tool->id)->first();
+        $costs =        Cost::getCosts($tool->id);
 
-        $prev = DB::select('SELECT id FROM tools WHERE id < '.$tool->id.' ORDER BY id DESC LIMIT 1');
-        $next = DB::select('SELECT id FROM tools WHERE id > '.$tool->id.' ORDER BY id ASC LIMIT 1');
-        if (!$prev) { $prev = false; } else { $prev = $prev[0]->id; }
-        if (!$next) { $next = false; } else { $next = $next[0]->id; }
-        $navigate = ['prev' => $prev, 'next' => $next];
-
-        $suppliers = Supplier::all();
-        $categories = Category::getParentCategories($tool->category_id);
-        $detail = Detail::where('tool_id', '=', $tool->id)->first();
-        $costs = Cost::where("tool_id", "=", $id)->orderBy('supplier_id', "asc")->orderBy('updated_at', "desc")->get();
+        // Create Navigation for Next and Previous Tool
+        $navigate = $this->makeNextPrev($tool->id);
 
         return view('tool.edit', compact('tool', 'categories', 'suppliers', 'costs', 'navigate', 'detail'));
+    }
+
+
+    private function makeNextPrev($tool_id)
+    {
+        $prev = Tool::previous($tool_id);
+        $next = Tool::next($tool_id);
+
+        if (!$prev) { $prev = false; } else { $prev = $prev[0]->id; }
+        if (!$next) { $next = false; } else { $next = $next[0]->id; }
+
+        return ['prev' => $prev, 'next' => $next];
     }
 
 
@@ -233,7 +236,7 @@ class ToolController extends Controller {
         $tool->category_id = $category_id;
         $tool->save();
 
-        $next = DB::select('SELECT id FROM tools WHERE id > '.$tool->id.' ORDER BY id ASC LIMIT 1');
+        $next = Tool::next($tool->id);
         if (!$next) 
         { 
             return redirect('tool/'.$id.'/edit'); 
@@ -252,15 +255,9 @@ class ToolController extends Controller {
         $fn = $data['fn']; // supplier shortname
 
         $detail = Detail::where('tool_id', '=', $id)->first();
-        // Create new Detail
+
         if ($detail === null){
-            $detail = Detail::create(array(
-                'tool_id' => $id,
-                'title1' => $data['title1'],
-                'title2' => $data['title2'],
-                'cuttingdata' => $data['cuttingdata'],
-                'description' => $data['description']
-                ));
+            $detail = Detail::saveDetails($id, $data);
         } else {
             // Update Detail
             $detail->tool_id = $id;
@@ -271,52 +268,50 @@ class ToolController extends Controller {
             $detail->save();
         }
 
-        if (count($data['images']) > 0)
-        {
+        if (count($data['images']) > 0) {
             foreach($data['images'] as $url)
             {
-                $filename = '/images/'.$fn.'/'.basename($url);
-                $ext = pathinfo($url, PATHINFO_EXTENSION);
-
-                //$exists = Storage::disk('files')->has($filename);
-
-                $file = File::where('path', '=', $filename)->first();
-                if($file === null)
-                {
-                    $content = file_get_contents($url);
-                    Storage::disk('files')->put($filename, $content);
-
-                    $file = File::create(array(
-                        'file_type' => $ext,
-                        'title' => basename($url),
-                        'path' => $filename
-                        ));
-
-                    DB::table('objects_files')->insert([   
-                            'object_id' => $id,  
-                            'object_type' => 'App\Models\Tool',
-                            'file_id' => $file->id
-                        ]);
-                } elseif ($file)
-                {
-                    $object_file = DB::table('objects_files')
-                        ->where('object_id', $id)
-                        ->where('object_type', 'App\Models\Tool')
-                        ->where('file_id', $file->id)->first();
-                    if(!$object_file)
-                    {
-                        DB::table('objects_files')->insert([   
-                            'object_id' => $id,  
-                            'object_type' => 'App\Models\Tool',
-                            'file_id' => $file->id
-                        ]);
-                    }
-                }
+                $this->savePicture($id, $data, $url);
             }
         }
         return "Success";
     }
 
+
+    private function savePicture($id, $data, $url)
+    {
+        $path = '/pictures/'.$data['fn'].'/'.basename($url);
+
+        $picture = Picture::where('path', '=', $path)->first();
+        if($picture === null)
+        {
+            $content = file_get_contents($url);
+            Storage::disk('files')->put($path, $content);
+
+            $picture = Picture::create(array(
+                'title' => basename($url),
+                'path' => $path
+            ));
+
+            DB::table('pictures_tools')->insert([   
+                'tool_id' => $id,  
+                'picture_id' => $picture->id
+            ]);
+        } elseif ($picture)
+        {
+            $pictures_tools = DB::table('pictures_tools')
+            ->where('tool_id', $id)
+            ->where('picture_id', $picture->id)->first();
+
+            if(!$pictures_tools)
+            {
+                DB::table('pictures_tools')->insert([   
+                    'tool_id' => $id,  
+                    'picture_id' => $picture->id
+                ]);
+            }
+        }
+    }
 
 //########### BUILD CATEGORY MENU ################//
     public function build_data($rows, $parent=0)
