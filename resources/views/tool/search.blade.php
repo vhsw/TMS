@@ -50,21 +50,28 @@ OnlyStock = function(){
                         </div>
                     </div>
 
-    @if (isset($result))
+    @if (isset($tools))
 
                     <div class="row">
                         <div class="col-lg-12">
-                    <?php 
-                        $i = 0;
-                        foreach ($result as $tool)
-                        {?>
+                        @foreach ($tools as $tool)
                                     <div class="col-md-3">
                                         <div class="tile-container bordered" style="background-color: #fff">
                                             <div class="tile-thumbnail" style="margin:10px">
                                                 <a href="{!!url('tool/' . $tool->id . '/view')!!}">
-                                                @if($images[$i])
-                                                    <img src="{!! url('/files'.$images[$i]->path) !!}" class="img-responsive" alt="{{ $images[$i]->title }}">
+
+                                                <?php $first_choice = 0; // Get the prefered or first choice picture or the first it finds ?>
+                                                @foreach($tool->pictures as $picture)
+                                                    @if($picture->pivot->first_choice == 1)
+                                                    <img src="{!! url('/files'.$picture->path) !!}" class="img-responsive" alt="{{ $picture->title }}">
+                                                    <?php $first_choice == 1; ?>
+                                                    @endif
+                                                @endforeach
+
+                                                @if($first_choice == 0 && isset($tool->pictures))
+                                                    <img src="{!! url('/files'.$tool->pictures->first()['path']) !!}" class="img-responsive" alt="{{ $tool->pictures->first()['title'] }}">
                                                 @endif
+
                                                 </a>
                                             </div>
                                             <div class="tile-title">
@@ -84,10 +91,7 @@ OnlyStock = function(){
                                             </div>
                                         </div>
                                     </div>
-                    <?php 
-                        $i = $i + 1;
-                        }?>
-
+                        @endforeach
                         </div>
                     </div>
                     <div class="search-pagination pagination">
