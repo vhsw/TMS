@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php 
+
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +12,7 @@ class Location extends BaseModel
 
    	public function tools()
     {
-        return $this->belongsToMany('App\Tool', 'locations_tools');
+        return $this->belongsToMany('App\Models\Tool', 'locations_tools');
     }
 
 }

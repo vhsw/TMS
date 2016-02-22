@@ -1,7 +1,9 @@
-<?php namespace App\Models;
+<?php 
 
-use Illuminate\Database\Eloquent\Model;
+namespace App\Models;
+
 use DB;
+use Illuminate\Database\Eloquent\Model;
 
 class Cost extends BaseModel
 {
@@ -26,4 +28,13 @@ class Cost extends BaseModel
         }
    	}
 
+    public static function getCosts($tool_id)
+    {
+        $costs = Cost::where("tool_id", "=", $tool_id)
+          ->orderBy('supplier_id', "asc")
+          ->orderBy('updated_at', "desc")
+          ->get();
+
+        return $costs;
+    }
 }
