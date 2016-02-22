@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers\Plugins;
+<?php 
+
+namespace App\Http\Controllers\Plugins;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -58,7 +60,7 @@ class CurlController extends Controller {
     	$output = curl_exec($this->ch);
         $info = curl_getinfo($this->ch);
 
-        $html = new \Cucxabeng\SimpleHtmlDom\HtmlDom();
+        $html = new HtmlDom();
         $html->load($output);
 
         $title = $html->find('title', 0);
