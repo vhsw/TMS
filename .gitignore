@@ -7,3 +7,4 @@ composer.lock
 /storage
 /public/global/plugins
 SyncToy*
+config/filesystems.1.php
