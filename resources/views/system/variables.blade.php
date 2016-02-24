@@ -72,9 +72,9 @@ $('#btn-copy').click(function(e){
                             <?php $col = '_'.date('Y'); ?>
                             @foreach($budget as $val)
                             <tr>
-                                <td width="1%"><?php echo date("F", mktime(0, 0, 0, $val->id)); ?></td>
-                                <td><input type="text" name="budget[]" value="{{ $val->$col }}"></td>
-                                <td>{!! $val->id == 1 ? '<button id="btn-copy" class="btn blue">Copy</button>' : '' !!}</td>
+                                <td width="1%"><?php echo date("F", mktime(0, 0, 0, $val->month)); ?></td>
+                                <td><input type="text" name="budget[]" value="{{ $val->budget }}"></td>
+                                <td>{!! $val->month == 1 ? '<button id="btn-copy" class="btn blue">Copy</button>' : '' !!}</td>
                             </tr>
                             @endforeach
                         @endif

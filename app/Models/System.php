@@ -18,11 +18,56 @@ class System extends BaseModel {
 
     public static function updateBudget($budget)
     {
-    	$yearColumn = '_'.date('Y');
+    	$year = date('Y');
 
     	for($i = 0; $i < 12; $i++)
     	{
-    		DB::table('budget')->where('id', $i + 1)->update([ $yearColumn => $budget[$i] ]);
+    		DB::table('statistic_expenses')
+                ->where('year', $year)
+                ->where('month', $i + 1)->update(['budget' => $budget[$i] ]);
     	}
+    }
+
+    public static function newBudget($budget)
+    {
+        $year = date('Y');
+
+        for($i = 0; $i < 12; $i++)
+        {
+            DB::table('statistic_expenses')->insert([
+                'year' => $year,
+                'month' => $i + 1,
+                'budget' => $budget[$i]
+            ]);
+        }
+    }
+
+    public static function hasBudget($year)
+    {
+        if (DB::table('statistic_expenses')->where('year', $year)->count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function addExpense($amount)
+    {
+        $thisMonthExpense = System::getThisMonthExpense();
+
+        DB::table('statistic_expenses')
+            ->where('year', date('Y'))
+            ->where('month', date('n'))
+            ->update(['cost' => $thisMonthExpense + $amount]);
+    }
+
+    public static function getThisMonthExpense()
+    {
+        $expense = DB::table('statistic_expenses')
+            ->where('year', date('Y'))
+            ->where('month', date('n'))
+            ->first();
+            
+        return $expense->cost;
     }
 }

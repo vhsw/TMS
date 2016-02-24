@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Models\System;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Requests\CreateSystemRequest;
@@ -23,12 +24,8 @@ class SystemController extends Controller {
 
         $systemvariables = System::all();
 
-        $budget = null;
-        if(\Schema::hasColumn('budget', '_'.date('Y'))) 
-        {
-            $budget = DB::table('budget')->get();
-        }
-
+        $budget = DB::table('statistic_expenses')->where('year', date('Y'))->get();
+        
         return view('system.variables', compact('systemvariables', 'budget'));
     }
 
@@ -47,13 +44,17 @@ class SystemController extends Controller {
 
     private static function handleBudget($request)
     {
-        if(!\Schema::hasColumn('budget', '_'.date('Y'))) 
-        {
-            \Schema::table('budget', function ($table) {
-                $table->decimal('_'.date('Y'), 8, 2);
-            });
-        }
+       if( !System::hasBudget(date('Y')) ) {
+            System::newBudget($request->budget);
+       } else {
+            System::updateBudget($request->budget);
+       }
+    }
 
-        System::updateBudget($request->budget);
+    public function setAsRead(Request $request)
+    {
+        Notification::where('id', $request['id'])->update(['is_read' => 1]);
+
+        return "Set notification nr ".$request['id']." as read.";
     }
 }

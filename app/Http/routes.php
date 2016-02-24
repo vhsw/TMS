@@ -3,9 +3,11 @@
 Route::group(['middleware' => ['web']], function () {
 	Route::auth();
 
-	Route::get('/', 'DashboardController@index');
-	Route::get('statistic/budget', 'StatisticController@chartBudget');		// return Json
-	Route::post('resource/change', 'ResourceController@change');
+	Route::get('/', 							'DashboardController@index');
+	Route::get('statistic/budget', 				'StatisticController@chartBudget');		// return Json
+	Route::post('resource/change', 				'ResourceController@change');
+	Route::get('system/setnotificationasread', 'SystemController@setAsRead');	// AJAX
+
 	require(__DIR__ . "/Routes/Tool.php");
 
 	Route::group(['middleware' => ['auth']], function () {

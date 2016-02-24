@@ -14,6 +14,35 @@
 {!! Html::script('global/scripts/dashboard.js') !!}
 @endsection
 
+@section('script')
+<script>
+jQuery(document).ready(function() {  
+
+    $('.mark-read').on('click', function(e) {
+        e.preventDefault();
+
+        li = $(this).closest('li');
+        id = li.attr('data-id');
+        //console.log(id);
+        $.ajax({
+            url: "{!! url('system/setnotificationasread') !!}",
+            cache: false,
+            data: {id: id},
+            success: function(result){
+                console.log(result)
+                li.remove();
+            },
+            error: function( XMLHttpRequest, jqXHR, textStatus ){
+                console.log(XMLHttpRequest);
+            }
+        });
+        return false;
+    });
+
+});
+</script>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-8 col-sm-8">
@@ -21,7 +50,7 @@
             <div class="portlet-title">
                 <div class="caption font-red">
                     <span class="caption-subject bold uppercase">Tool Budget</span>
-                    <span class="caption-helper">expenses versus budget...</span>
+                    <span class="caption-helper">expenses...</span>
                 </div>
             </div>
             <div class="portlet-body">
@@ -33,89 +62,66 @@
 </div>
 <div class="row">
 
-<div class="col-md-6 col-sm-6">                     
-    <div class="portlet box b-a b-grey">
-        <div class="portlet-body form">
-            <!-- BEGIN FORM-->
-            <form action="#" class="form-horizontal form-bordered form-row-stripped">
-                <div class="form-body">
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Total tool cost requested this week</label>
-                        <div class="col-md-5"><input class="form-control" type="text" value="NOK {{ $sum }}"></div>
-                        <label class="control-label col-md-5"></label>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Total tool spend this month</label>
-                        <div class="col-md-5"><input class="form-control" type="text" placeholder="Total tool spend this month"></div>
-                        <label class="control-label col-md-5"></label>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2">This month budget</label>
-                        <div class="col-md-5"><input class="form-control" type="text" placeholder="This month budget"></div>
-                        <label class="control-label col-md-5"></label>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2">User Spending</label>
-                        <div class="col-md-5"><input class="form-control" type="text" placeholder="User Spending"></div>
-                        <label class="control-label col-md-5"></label>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2">This weeks requests</label>
-                        <div class="col-md-5">@foreach($requests as $request) {{$request}} @endforeach</div>
-                        <label class="control-label col-md-5"></label>
-                    </div>
-
-
-                    <!-- END FORM-->
-                </div></form>
-            </div>
-        </div>
-</div>
-</div>
-
 @if(Auth::check())
-<div class="row">
-    <div class="col-md-6 col-sm-6">
-                            <div class="portlet light ">
+<div class="col-md-6 col-sm-6">
+                            <div class="portlet light tasks-widget bordered">
                                 <div class="portlet-title">
-                                    <div class="caption caption-md">
-                                        <i class="icon-bar-chart font-green"></i>
+                                    <div class="caption">
+                                        <i class="icon-share font-green-haze hide"></i>
                                         <span class="caption-subject font-green bold uppercase">Notifications</span>
                                         <span class="caption-helper">{{ $notifications->count() }} unread</span>
                                     </div>
                                 </div>
                                 <div class="portlet-body">
-                                    <div class="scroller" style="height: 338px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
-                                        <div class="general-item-list">
+                                    <div class="task-content">
+                                        <div class="scroller" style="height: 312px;" data-always-visible="1" data-rail-visible1="1">
+                                            <!-- START TASK LIST -->
+                                            <ul class="task-list">
 
-                                         @foreach($notifications as $notification) 
-                                            <div class="item">
-                                                <div class="item-head">
-                                                    <div class="item-details">{{ $notification->body }} @if($notification->hasValidObject() && $notification->status == "REQUESTED") by <b>{{ $notification->getObject()->user->name }} </b> @endif
 
-                                                        <span class="item-label">{{ \App\Services\CustomDate::formatHuman($notification->created_at) }}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="item-body"> 
-                                                Request @if($notification->hasValidObject())
-                                                    <a href="" class="item-name primary-link">"{{ $notification->getObject()->description }}" : {{ $notification->getObject()->tool_serialnr }}</a>
-                                                has been <span class="label {{ \App\Services\Metronic::classStatus($notification->status) }}">{{ $notification->status }}</span> 
-                                                </div>
-                                                @endif
-                                            </div>
-                                        @endforeach
 
+                            @foreach($notifications as $notification) 
+                            <li data-id="{{ $notification->id }}">
+                                <div class="task-title">
+                                    <span class="label label-warning"><i class="fa fa-bar-chart-o"></i></span>
+                                    <span class="task-title-sp">
+                                    <b>{{ $notification->getObject()->description }} </b>
+                                    {{ $notification->body }} 
+
+                                    @if($notification->hasValidObject() && $notification->status == "REQUESTED") 
+                                        by 
+                                        @if (Auth::user()->id == $notification->getObject()->user->id ) 
+                                            You
+                                        @else
+                                            {{ $notification->getObject()->user->name }} 
+                                        @endif
+                                    @endif 
+
+                                    <i>{{ \App\Services\CustomDate::formatHuman($notification->created_at) }}</i></span>
+                                </div>
+                                <div class="task-title task-config">
+                                    <span class="label">
+                                        <a href="" class="btn btn-sm default mark-read">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </li>
+                            {{--  <li class="last-line"> --}}
+                            @endforeach
+
+
+                                            </ul>
+                                            <!-- END START TASK LIST -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
-    </div>
-</div>
+                        </div>
+
 @endif
+
+</div>
 
 
 @endsection

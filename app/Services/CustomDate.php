@@ -12,7 +12,7 @@ class CustomDate {
 	public static function formatHuman($val)
 	{
 		$time = new Carbon($val);
-		return $time->diffForHumans();		
+		return Carbon::now()->diffForHumans($time->copy());		
 	}
 
 	public static function formatHistory($val)
