@@ -139,6 +139,9 @@
 
 
 <!-- CORE PLUGINS -->
+<script type="text/javascript">
+    var APP_URL = {!! json_encode(url('/')) !!};
+</script>
 {!! Html::script('js/global.js') !!}
 {!! Html::script('js/johnnyhuman.overlay.js') !!}
 <!-- PAGE SPECIFIC SCRIPTS -->
