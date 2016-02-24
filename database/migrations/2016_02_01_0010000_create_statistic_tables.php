@@ -18,8 +18,8 @@ class CreateStatisticTables extends Migration {
 			{
 				$table->integer('year', 4);
 				$table->integer('month', 2);
-				$table->decimal('budget' 8, 2);
-				$table->decimal('cost' 8, 2);
+				$table->decimal('budget', 8, 2);
+				$table->decimal('cost', 8, 2);
 				$table->timestamps();
 			});
 		}
