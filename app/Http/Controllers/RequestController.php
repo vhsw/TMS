@@ -97,7 +97,7 @@ class RequestController extends Controller {
         $id = $newRequest->id;
 
         $user = User::find(1);
-        $user->newNotification()->withType('Request')->withBody('New Request has been added')
+        $user->newNotification()->withType('Request')->withBody('was requested')
              ->regarding($newRequest)->deliver();
 
         return redirect('requests');
@@ -174,6 +174,7 @@ class RequestController extends Controller {
                 $costRow->cost = $cost;
                 $costRow->save();
             }
+            System::addExpense($cost); // Update the Expense Statistic
         }
 
         //return view('test', compact('cost'));
@@ -191,10 +192,10 @@ class RequestController extends Controller {
 
         $user = User::find($item->user_id);
         if($request->status == "ORDERED") {
-            $user->newNotification()->withType('Request')->withBody('Your Request has been ordered')
+            $user->newNotification()->withType('Request')->withBody('has been ordered')
                 ->regarding($item)->deliver();
         } elseif($request->status == "RECIEVED") {
-            $user->newNotification()->withType('Request')->withBody('Your Request has been recieved')
+            $user->newNotification()->withType('Request')->withBody('has been recieved')
                 ->regarding($item)->deliver();
         }
 
