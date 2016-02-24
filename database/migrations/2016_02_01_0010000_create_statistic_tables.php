@@ -16,11 +16,10 @@ class CreateStatisticTables extends Migration {
 		{
 			Schema::create('statistic_expenses', function(Blueprint $table)
 			{
-				$table->integer('year', 4);
-				$table->integer('month', 2);
+				$table->integer('year')->unsigned();
+				$table->integer('month')->unsigned();
 				$table->decimal('budget', 8, 2);
 				$table->decimal('cost', 8, 2);
-				$table->timestamps();
 			});
 		}
 	}
