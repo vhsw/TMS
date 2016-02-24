@@ -62,7 +62,7 @@ var Dashboard = function() {
                 },
 
                 "dataLoader": {
-                    "url": "http://tms.local/statistic/budget",
+                    "url": APP_URL + "/statistic/budget",
                     "format": "json"
                 },
 
