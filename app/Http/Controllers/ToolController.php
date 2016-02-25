@@ -125,13 +125,15 @@ class ToolController extends Controller {
         $term = $request->term;
         $currentPage = $request->get('page', 1);
 
-        $max = 10;
+        $max = 12;
         $from = $currentPage * $max - $max;
         $to = $max;
 
         $query = Searchy::search('tools')->fields('serialnr')->query($request->term)->getQuery();
-        $result = $query->limit($max)->offset($from)->get();
+
         $total = count($query->get());
+
+        $result = $query->limit($max)->offset($from)->get();
 
         $tools = array();
         foreach($result as $tool)
