@@ -40,8 +40,7 @@
         <div class="page-header-inner ">
                 <!-- BEGIN LOGO -->
                 <div class="page-logo">
-                    <a href="index.html">
-                        <img src="{!!url('layouts/layout/img/logo.png')!!}" alt="logo" class="logo-default" /> </a>
+                <span class="logo-default" style="color:#c6cfda;font-size:20px;font-weight:500;padding:1px 5px 6px 0px">TMS</span>
                     <div class="menu-toggler sidebar-toggler"> </div>
                 </div>
 
@@ -82,9 +81,10 @@
                     <!-- END SIDEBAR -->
                     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                     <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+
                     <div class="page-sidebar navbar-collapse collapse">
 
-                        <ul class="menu-trigger page-sidebar-menu page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
+                        <ul class="menu-trigger page-sidebar-menu page-header-fixed " data-keep-expanded="false" data-auto-scroll="false" data-slide-speed="200" style="padding-top: 20px">
                         <!-- BEGIN SIDEBAR MENU -->
                             @include('includes.nav')
                         <!-- END SIDEBAR MENU -->
@@ -196,7 +196,6 @@ $(document).ready(function(){
 <!-- LAYOUT SCRIPTS -->
 {!! Html::script('pages/scripts/components-select2.js') !!}
 {!! Html::script('layouts/layout/scripts/layout.js') !!}
-{!! Html::script('layouts/layout/scripts/demo.js') !!}
 {!! Html::script('layouts/global/scripts/quick-sidebar.min.js') !!}
 {!! Html::script('global/plugins/modernizr.custom.js') !!}
 {!! Html::script('global/plugins/jquery-scrollbar/jquery.scrollbar.min.js') !!}
