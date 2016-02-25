@@ -162,19 +162,22 @@ class RequestController extends Controller {
         }
 
         // If Status changed to ORDERED
-        if($request->status == "ORDERED" && $tool_id != "") {
+        if($request->status == "ORDERED") {
 
-            $lastCost = Cost::getLastCost($tool_id);
+            if ($tool_id != "") {
+                $lastCost = Cost::getLastCost($tool_id);
 
-            // If new price, add to cost table
-            if($lastCost != $cost) {
-                $costRow = new Cost;
-                $costRow->tool_id = $tool_id;
-                $costRow->supplier_id = $request->supplier_id;
-                $costRow->cost = $cost;
-                $costRow->save();
+                // If new price, add to cost table
+                if($lastCost != $cost) {
+                    $costRow = new Cost;
+                    $costRow->tool_id = $tool_id;
+                    $costRow->supplier_id = $request->supplier_id;
+                    $costRow->cost = $cost;
+                    $costRow->save();
+                }
             }
-            System::addExpense($cost); // Update the Expense Statistic
+
+            System::addExpense($cost * $request->amount); // Update the Expense Statistic
         }
 
         //return view('test', compact('cost'));
