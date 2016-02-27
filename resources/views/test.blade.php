@@ -8,7 +8,10 @@
 
 
 
-{{ print_r($tools) }}
+{!! $result !!}<br>
+
+
+
 
 
 

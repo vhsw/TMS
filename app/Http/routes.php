@@ -21,6 +21,9 @@ Route::group(['middleware' => ['web']], function () {
 
 		Route::get('tool/{id}/edit', 			'ToolController@edit');
 		Route::get('tool/{id}/save', 			'ToolController@save');
+
+		// For testing
+		Route::get('test', 'DashboardController@test');
 	});
 });
 
