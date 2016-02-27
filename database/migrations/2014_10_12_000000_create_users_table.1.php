@@ -15,17 +15,14 @@ class CreateUsersTable extends Migration
         if (! Schema::hasTable('users'))
         {
             Schema::create('users', function (Blueprint $table) {
-                $table->increments('id')->unsigned();
+                $table->increments('id');
                 $table->string('name');
                 $table->string('username');
                 $table->integer('resource_id')->default(0);
                 $table->string('email')->unique();
                 $table->string('password', 60);
                 $table->rememberToken();
-                
-                $table->timestamp('updated_at');
-                $table->timestamp('created_at');
-                $table->timestamp('deleted_at');
+                $table->timestamps();
             });
         }
     }

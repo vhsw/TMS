@@ -16,10 +16,13 @@ class CreatePicturesTable extends Migration {
 		{
 			Schema::create('pictures', function(Blueprint $table)
 			{
-				$table->increments('id');
+				$table->increments('id')->unsigned();
 				$table->string('title')->index();
 				$table->string('path')->index();
-				$table->timestamps();
+				
+				$table->timestamp('updated_at');
+                $table->timestamp('created_at');
+                $table->timestamp('deleted_at');
 			});
 		}
 	}

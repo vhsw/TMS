@@ -16,11 +16,14 @@ class CreateResourcesTable extends Migration {
 		{
 			Schema::create('resources', function(Blueprint $table)
 			{
-				$table->increments('id');
+				$table->increments('id')->unsigned();
 				$table->string('name')->index();
 				$table->string('short_name')->index();
 				$table->string('controller')->index();
-				$table->timestamps();
+				
+				$table->timestamp('updated_at');
+                $table->timestamp('created_at');
+                $table->timestamp('deleted_at');
 			});
 		}	
 	}

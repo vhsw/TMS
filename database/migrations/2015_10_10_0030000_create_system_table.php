@@ -18,7 +18,10 @@ class CreateSystemTable extends Migration {
 			{
 				$table->string('variable');
 				$table->text('content');
-				$table->timestamps();
+				
+				$table->timestamp('updated_at');
+                $table->timestamp('created_at');
+                $table->timestamp('deleted_at');
 			});
 		}
 	}

@@ -17,7 +17,10 @@ class EntrustSetupTables extends Migration
             $table->string('name')->unique();
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
-            $table->timestamps();
+            
+            $table->timestamp('updated_at');
+            $table->timestamp('created_at');
+            $table->timestamp('deleted_at');
         });
 
         // Create table for associating roles to users (Many-to-Many)
@@ -25,6 +28,9 @@ class EntrustSetupTables extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('role_id')->unsigned();
             $table->primary(['user_id', 'role_id']);
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('role_id')->references('id')->on('roles');
         });
 
         // Create table for storing permissions
@@ -33,7 +39,10 @@ class EntrustSetupTables extends Migration
             $table->string('name')->unique();
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
-            $table->timestamps();
+            
+            $table->timestamp('updated_at');
+            $table->timestamp('created_at');
+            $table->timestamp('deleted_at');
         });
 
         // Create table for associating permissions to roles (Many-to-Many)
@@ -41,6 +50,9 @@ class EntrustSetupTables extends Migration
             $table->integer('permission_id')->unsigned();
             $table->integer('role_id')->unsigned();
             $table->primary(['permission_id', 'role_id']);
+
+            $table->foreign('permission_id')->references('id')->on('permissions');
+            $table->foreign('role_id')->references('id')->on('roles');
         });
     }
 

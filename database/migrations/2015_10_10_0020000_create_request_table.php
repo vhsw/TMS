@@ -16,19 +16,23 @@ class CreateRequestTable extends Migration {
 		{
 			Schema::create('requests', function(Blueprint $table)
 			{
-				$table->increments('id');
+				$table->increments('id')->unsigned();
 				$table->string('description')->index();
 				$table->string('tool_serialnr')->index();
 				$table->integer('tool_id')->unsigned();
 				$table->integer('user_id')->unsigned();
-				$table->foreign('user_id')->references('id')->on('users');
 				$table->string('barcode')->index();
 				$table->integer('amount')->default(0);
 				$table->text('comments');
 				$table->string('status');
 				$table->decimal('cost', 8, 2);
-				$table->timestamps();
-				$table->softDeletes();
+				
+				$table->timestamp('updated_at');
+                $table->timestamp('created_at');
+                $table->timestamp('deleted_at');
+
+                $table->foreign('tool_id')->references('id')->on('tools');
+                $table->foreign('user_id')->references('id')->on('users');
 			});
 		}
 	}

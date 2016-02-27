@@ -16,7 +16,7 @@ class CreateNotificationsTable extends Migration {
 		{
 			Schema::create('notifications', function(Blueprint $table)
 			{
-				$table->increments('id');
+				$table->increments('id')->unsigned();
 				$table->integer('user_id')->unsigned();
 				$table->string('type', 128)->nullable();
 				$table->string('status', 120)->nullable();
@@ -24,7 +24,12 @@ class CreateNotificationsTable extends Migration {
 				$table->integer('object_id')->unsigned();
 				$table->string('object_type', 128);
 				$table->boolean('is_read')->default(0);
-				$table->timestamps();
+				
+				$table->timestamp('updated_at');
+                $table->timestamp('created_at');
+                $table->timestamp('deleted_at');
+
+                $table->foreign('user_id')->references('id')->on('users');
 			});
 		}	
 	}

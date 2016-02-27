@@ -16,10 +16,16 @@ class CreatePicturesToolsTable extends Migration {
 		{
 			Schema::create('pictures_tools', function(Blueprint $table)
 			{
-				$table->integer('tool_id')->default(null);
-				$table->integer('picture_id')->default(null);
+				$table->integer('tool_id')->unsigned();
+				$table->integer('picture_id')->unsigned();
 				$table->boolean('first_choice')->default(0);
-				$table->timestamps();
+				
+				$table->timestamp('updated_at');
+                $table->timestamp('created_at');
+                $table->timestamp('deleted_at');
+
+                $table->foreign('tool_id')->references('id')->on('tools');
+                $table->foreign('picture_id')->references('id')->on('pictures');
 			});
 		}
 	}

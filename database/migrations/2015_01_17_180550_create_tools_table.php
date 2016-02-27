@@ -16,14 +16,16 @@ class CreateToolsTable extends Migration {
 		{
 			Schema::create('tools', function(Blueprint $table)
 			{
-				$table->increments('id');
+				$table->increments('id')->unsigned();
 				$table->string('serialnr')->unique()->index();
 				$table->string('name0')->index();
 				$table->string('name1')->index();
-				$table->string('barcode')->unique()->index();
 				$table->integer('category_id')->default(0);
 				$table->integer('supplier_id')->default(0);
-				$table->timestamps();
+				
+				$table->timestamp('updated_at');
+                $table->timestamp('created_at');
+                $table->timestamp('deleted_at');
 			});
 		}
 	}

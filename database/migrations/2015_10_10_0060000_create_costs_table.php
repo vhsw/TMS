@@ -19,7 +19,13 @@ class CreateCostsTable extends Migration {
 				$table->integer('tool_id')->unsigned();
 				$table->integer('supplier_id')->unsigned();
 				$table->decimal('cost', 8, 2);
-				$table->timestamps();
+				
+				$table->timestamp('updated_at');
+                $table->timestamp('created_at');
+                $table->timestamp('deleted_at');
+
+                $table->foreign('tool_id')->references('id')->on('tools');
+                $table->foreign('supplier_id')->references('id')->on('suppliers');
 			});
 		}
 	}
