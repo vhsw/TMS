@@ -12,15 +12,26 @@ class Tool extends BaseModel
 	protected $guarded = ['id'];
 
 
-	public static function getStockAmount($tool_id)
+    /**
+     * Get the total quantity stored by one tool.
+     *
+     * @param int              $tool_id
+     *
+     * @return int
+     */
+	public static function getStockQuantity($tool_id)
 	{
-		$amount = DB::table('locations_tools')
-            ->select('amount', DB::raw('SUM(amount) as amount'))
-            ->where('tool_id', $tool_id)->first();
+		$result = DB::select( DB::raw('SELECT a.new_quantity
+                FROM locations_tools a WHERE EXISTS(
+                    SELECT 1 FROM
+                        (SELECT id, new_quantity, location_id, max(updated_at) AS updated_at FROM locations_tools GROUP BY location_id)b 
+                            WHERE b.location_id = a.location_id AND b.updated_at = a.updated_at
+                        ) AND tool_id ='.$tool_id));
 
-        return $amount;
+        $collection = collect($result);
+
+        return $collection->pluck('new_quantity')->sum();
 	}
-
 
 	public static function next($tool_id)
 	{
@@ -43,6 +54,11 @@ class Tool extends BaseModel
     public function costs()
     {
         return $this->hasMany('App\Models\Cost');
+    }
+
+    public function barcode()
+    {
+        return $this->hasOne('App\Models\Barcode');
     }
 
 

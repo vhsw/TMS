@@ -42,4 +42,10 @@ class DashboardController extends Controller {
 			return view('index', compact('requests', 'last_monday', 'sum'));
 		}
 	}
+
+	public function test()
+	{
+		$result = Tool::getStockQuantity(1);
+		return view('test', compact('result'));
+	}
 }

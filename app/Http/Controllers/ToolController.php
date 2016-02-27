@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use DB;
+use URL;
 use HtmlDom;
 use Storage;
+use Searchy;
 use App\Models\Tool;
 use App\Models\Cost;
 use App\Models\File;
@@ -17,7 +19,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Frontend\User\UserContract;
-use TomLingham\Searchy\Facades\Searchy as Searchy;
 use App\Http\Requests\Frontend\Tool\SearchToolRequest;
 use App\Http\Requests\Frontend\User\UpdateProfileRequest;
 
@@ -43,12 +44,11 @@ class ToolController extends Controller {
         if ($request->ajax()) 
         {  
             $tools = new AjaxTable($request);
-            $tools->select('tools', array('id', 'serialnr', 'barcode'));
+            $tools->select('tools', array('id', 'serialnr'));
             $tools->with('categories', array('id', 'name'), 'category', 'category_id');
             $tools->with('suppliers', array('name'), 'supplier', 'supplier_id');
 
             return $tools->get();
-
         } 
         else 
         {}
@@ -129,29 +129,23 @@ class ToolController extends Controller {
         $from = $currentPage * $max - $max;
         $to = $max;
 
-        $query = Searchy::search('tools')->fields('serialnr')->query($request->term)->getQuery();
+        $query = Tool::fuzzySearch('tools', 'serialnr', $term); //Searchy::driver('fuzzy')->tools('serialn')->query($term)->get();
 
-        $total = count($query->get());
+        $collection = collect($query);
+        $total = count($query);
 
-        $result = $query->limit($max)->offset($from)->get();
+        $result = $collection->splice($from, $to);
 
-        $tools = array();
+        $pictures = array();
         foreach($result as $tool)
         {
-            $tools[] = Tool::find($tool->id);
+            $pictures[] = Picture::wherePivot(['tool_id', '=', $tool->id],['first_choice', '=', '1']);
         }
-
-        /*$result = $query->whereExists(function ($query) {
-            $query->select(DB::raw(1))
-            ->from('locations_tools')
-            ->whereRaw('locations_tools.tool_id = tools.id')
-            ->where('amount', '>', 0);
-        })->limit($max)->offset($from)->get();*/
 
         $paginator = new LengthAwarePaginator($result, $total, $max, $currentPage);
         $paginator->setPath('result');
 
-        return view('tool.search', compact('tools', 'term', 'currentPage', 'total', 'max', 'paginator'));
+        return view('tool.search', compact('result', 'term', 'currentPage', 'total', 'max', 'paginator', 'pictures'));
     }
 
 
@@ -161,7 +155,7 @@ class ToolController extends Controller {
         $tool =     Tool::where('id', $id)->first();
         $detail =   Detail::where('tool_id', $tool->id)->first();
         $costs =    Cost::getCosts($tool->id);
-        $amount =   Tool::getStockAmount($tool->id);
+        $quantity =   Tool::getStockQuantity($tool->id);
 
         // Get Category
         $category = $tool->category->name;
@@ -174,7 +168,7 @@ class ToolController extends Controller {
             $parent_id = $cat->parent_id;
         }
 
-        return view('tool.view', compact('tool', 'detail', 'costs', 'category', 'amount'));
+        return view('tool.view', compact('tool', 'detail', 'costs', 'category', 'quantity'));
     }
 
 
@@ -363,7 +357,7 @@ class ToolController extends Controller {
 
         if ($row->icon != "") 
         {
-            $icon = '<img src="http://tms.local/img/ICO/'.$row->icon.'.png">';
+            $icon = '<img src="'.URL::to('img/ICO/').'/'.$row->icon.'.png">';
         } else
         {
             $icon = '<i class=" icon-plus"></i>';
@@ -400,7 +394,7 @@ class ToolController extends Controller {
 
         if ($row->icon != "") 
         {
-            $icon = '<img src="http://tms.local/img/ICO/'.$row->icon.'.png">';
+            $icon = '<img src="'.URL::to('img/ICO/').'/'.$row->icon.'.png">';
         } else
         {
             $icon = '<i class=" icon-plus"></i>';
