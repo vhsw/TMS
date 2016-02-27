@@ -1,7 +1,9 @@
-<?php namespace App\Models;
+<?php 
 
-use Illuminate\Database\Eloquent\Model;
+namespace App\Models;
+
 use DB;
+use Illuminate\Database\Eloquent\Model;
 
 class Detail extends BaseModel 
 {
@@ -10,10 +12,12 @@ class Detail extends BaseModel
 
 	protected $guarded = ['id'];
 
+
 	public function tool()
     {
         return $this->belongsTo('App\Models\Tool');
     }
+
 
     public static function saveDetails($id, $data)
     {

@@ -49,7 +49,6 @@ var table = $('#table1');
         "columns": [
                 { "visible" : false},
                 null,
-                null,
                 { "visible" : false},
                 null,
                 null,
@@ -61,7 +60,7 @@ var table = $('#table1');
             
             td.eq(0).html('<a href="'+toolUrl+'/'+data[0]+'/view">'+data[1]+'</a>');
             
-            td.eq(4).html('<div class="btn-group btn-group-xs btn-group-solid">'+
+            td.eq(3).html('<div class="btn-group btn-group-xs btn-group-solid">'+
                 '<a href="'+toolUrl+'/'+data[0]+'/edit" class="btn blue">Edit</a></div>');
         }
 
@@ -78,9 +77,9 @@ var table = $('#table1');
                 console.log(data);
                 if (data == "0") 
                 {
-                    table.fnFilter("",3);
+                    table.fnFilter("",2);
                 } else {
-                    table.fnFilter(data,3); // TODO: Add multiple filter 1|2|4, server side filtering
+                    table.fnFilter(data,2); // TODO: Add multiple filter 1|2|4, server side filtering
                 }
                 table.fnDraw(); 
             }); 
@@ -157,9 +156,6 @@ $('div.dataTables_filter').remove();
                     </th>
                     <th>
                         Tool Serialnr
-                    </th>
-                    <th>
-                        Barcode
                     </th>
                     <th>
                         Category Id
