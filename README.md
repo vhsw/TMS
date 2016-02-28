@@ -24,7 +24,7 @@ Built on top of Laravel 5.2 as back-end, and Metronic Admin Theme on the front. 
 1. Open Command Prompt in your htdocs folder and install Laravel 5.2 with composer:
 
 ```shell
-composer -q create-project laravel/laravel [name of your project] "5.1.*"
+composer -q create-project laravel/laravel [name of your project] "5.2.*"
 ```
 
 2. CD into the newly created laravel project folder.

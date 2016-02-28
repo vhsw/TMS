@@ -164,21 +164,11 @@
 
         $.getJSON( this.options.ajaxSearchUrl, {query: str})
             .done(function( data ) {
-                /*var ul = $('<ul/>');
-                var len = data.length;
-
-                for(var i=0; ( i<len && i<5 ); i++)
-                {
-                    console.log( data[i] );
-                    var li = $('<li/>').text(data[i]).appendTo(ul);
-                }
-
-                $(".in_database").html(ul);*/
                 if(data) {
                     _this.$element.find("#barcodeError").addClass('hidden');
-                    _this.$element.find("#title").html('<a href="http://tms.local/tool/'+data['tool']['id']+'/view" style="font-size: 19px; font-weight: 600;">'+data['tool']['serialnr']+'</a>');
-                    _this.$element.find("#location").html('Location: <a href="javascript:;"> '+ data['locations'][0]['location'] +'</a> - <span class="font-grey-cascade">'+ data['locations'][0]['amount'] +' stk</span>');
-                    _this.$element.find("#info").html('<h4>'+data['tool']['category']['name']+'</h4><h4>'+data['tool']['name0']+'</h4><h4>'+data['tool']['supplier']['name']+'</h4>');
+                    _this.$element.find("#title").html('<a href="http://tms.local/tool/'+data['id']+'/view" style="font-size: 19px; font-weight: 600;">'+data['serialnr']+'</a>');
+                    _this.$element.find("#location").html('Location: <a href="javascript:;"> '+ data['stocks'][0]['location'] +'</a> - <span class="font-grey-cascade">'+ data['stocks'][0]['amount'] +' stk</span>');
+                    _this.$element.find("#info").html('<h4>'+data['category']['name']+'</h4><h4>'+data['name0']+'</h4><h4>'+data['supplier']['name']+'</h4>');
                     _this.$barcodeForm.removeClass('hidden');
                 } else {
                     _this.$barcodeForm.addClass('hidden');
