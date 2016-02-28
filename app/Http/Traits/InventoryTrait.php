@@ -36,9 +36,9 @@ trait InventoryTrait
     }
 
     /**
-     * Returns an item record by the specified SKU code.
+     * Returns an item record by the specified Barcode.
      *
-     * @param string $sku
+     * @param string $barcode
      *
      * @return bool
      */
@@ -71,6 +71,28 @@ trait InventoryTrait
          * Return false on failure
          */
         return false;
+    }
+
+    /**
+     * Returns an instant search item by the specified Barcode.
+     *
+     * @param string $barcode
+     *
+     * @return array
+     */
+    public static function getItemByInstantSearch($barcode, $searchstr = "")
+    {
+        $tool = parent::findByBarcode($barcode);
+
+        if($tool) {
+            $result = parent::with(['pictures' => function($query) {
+                $query->where('first_choice', 1); }])
+            ->with('stocks', 'supplier', 'category')
+            ->where('id', $tool->id)
+            ->first();
+            return $result;
+        }
+        return;
     }
 
     /**
@@ -132,6 +154,20 @@ trait InventoryTrait
     }
 
     /**
+     * Returns true/false if it has Pictures
+     *
+     * @return bool
+     */
+    public function hasPicture()
+    {
+        if ($this->pictures) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Returns true/false if the inventory has stock.
      *
      * @return bool
@@ -139,5 +175,19 @@ trait InventoryTrait
     public function isInStock()
     {
         return ($this->getTotalStock() > 0 ? true : false);
+    }
+
+    /**
+     * Returns true/false if the inventory has stock.
+     *
+     * @return bool
+     */
+    public function getPreferredToolPicture()
+    {
+        if ($this->hasPicture()) {
+            return $this->pictures()->wherePivot('first_choice', '=', '1')->first();
+        }
+
+        return;
     }
 }

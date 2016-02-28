@@ -39,6 +39,13 @@ class ToolController extends Controller {
         return view('tool.index');
     }
 
+    /**
+     * Fetch all tools from database
+     *
+     * @param Request          $request (Ajax)
+     *
+     * @return array
+     */
     public function db(Request $request)
     {
         if ($request->ajax()) 
@@ -85,15 +92,7 @@ class ToolController extends Controller {
             $query = rtrim($request->input("query"), ")");
             $query = trim($query, "(");
 
-            $tool = Tool::with('supplier', 'category')->where('barcode', $query)->first();
-
-            $locations = DB::table('locations_tools')->where('tool_id', $tool->id)
-                ->join('locations', 'locations_tools.location_id', '=', 'locations.id')->get();
-
-            $result = array(
-                'locations' => $locations,
-                'tool' => $tool
-                );
+            $result = Tool::getItemByInstantSearch($query);
 
             return json_encode($result);
         }
@@ -139,7 +138,7 @@ class ToolController extends Controller {
         $pictures = array();
         foreach($result as $tool)
         {
-            $pictures[] = Picture::wherePivot(['tool_id', '=', $tool->id],['first_choice', '=', '1']);
+            $pictures[] = Tool::find($tool->id)->PreferredToolPicture();
         }
 
         $paginator = new LengthAwarePaginator($result, $total, $max, $currentPage);
@@ -174,7 +173,7 @@ class ToolController extends Controller {
     public function edit($id)
     {
         // Get Tool Details
-        $tool =         Tool::where('id', $id)->first();
+        $tool =         Tool::find($id);
         $suppliers =    Supplier::all();
         $categories =   Category::getParentCategories($tool->category_id);
         $detail =       Detail::where('tool_id', '=', $tool->id)->first();
@@ -226,7 +225,7 @@ class ToolController extends Controller {
         $tool->serialnr = $request->serialnr;
         $tool->name0 = $request->name0;
         $tool->name1 = $request->name1;
-        $tool->barcode = $request->barcode;
+        $tool->barcode()->barcode = $request->barcode;
         $tool->supplier_id = $request->supplier_id;
         $tool->category_id = $category_id;
         $tool->save();
