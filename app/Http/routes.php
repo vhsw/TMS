@@ -1,7 +1,9 @@
 <?php
 
 Route::group(['middleware' => ['web']], function () {
-	Route::auth();
+	//Route::auth();
+	Route::post('login',						'Auth\AuthController@postLogin');
+	Route::get('logout',						'Auth\AuthController@logout');
 
 	Route::get('/', 							'DashboardController@index');
 	Route::get('statistic/budget', 				'StatisticController@chartBudget');		// return Json
