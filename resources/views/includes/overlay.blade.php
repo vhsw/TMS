@@ -73,8 +73,8 @@
         <tr>
 
           <td class="padding-20" style="background-color: #2B3643; border-top:none" width="300px">
-            <div class="p-l-10 p-r-10" style="line-height:8em;background-color: #fff;height:100%; width:100%">
-              <img src="" alt="" width="280px" style="vertical-align:middle;">
+            <div id="picture" class="p-l-10 p-r-10" style="line-height:8em;background-color: #fff;height:100%; width:100%">
+              
             </div>
           </td>
 

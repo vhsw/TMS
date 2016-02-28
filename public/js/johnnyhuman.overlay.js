@@ -166,7 +166,8 @@
             .done(function( data ) {
                 if(data) {
                     _this.$element.find("#barcodeError").addClass('hidden');
-                    _this.$element.find("#title").html('<a href="http://tms.local/tool/'+data['id']+'/view" style="font-size: 19px; font-weight: 600;">'+data['serialnr']+'</a>');
+                    _this.$element.find("#picture").html('<img src="'+APP_URL+'/files'+data['pictures'][0]['path']+'" alt="" width="280px" style="vertical-align:middle;">');
+                    _this.$element.find("#title").html('<a href="'+APP_URL+'/tool/'+data['id']+'/view" style="font-size: 19px; font-weight: 600;">'+data['serialnr']+'</a>');
                     _this.$element.find("#location").html('Location: <a href="javascript:;"> '+ data['stocks'][0]['location'] +'</a> - <span class="font-grey-cascade">'+ data['stocks'][0]['amount'] +' stk</span>');
                     _this.$element.find("#info").html('<h4>'+data['category']['name']+'</h4><h4>'+data['name0']+'</h4><h4>'+data['supplier']['name']+'</h4>');
                     _this.$barcodeForm.removeClass('hidden');
@@ -174,7 +175,6 @@
                     _this.$barcodeForm.addClass('hidden');
                     _this.$element.find("#barcodeError").removeClass('hidden');
                 }
-
         });
     }
 
