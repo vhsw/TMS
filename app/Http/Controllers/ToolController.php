@@ -225,10 +225,11 @@ class ToolController extends Controller {
         $tool->serialnr = $request->serialnr;
         $tool->name0 = $request->name0;
         $tool->name1 = $request->name1;
-        $tool->barcode()->barcode = $request->barcode;
         $tool->supplier_id = $request->supplier_id;
         $tool->category_id = $category_id;
         $tool->save();
+
+        $tool->updateBarcode($request->barcode);
 
         $next = Tool::next($tool->id);
         if (!$next) 

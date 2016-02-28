@@ -190,4 +190,87 @@ trait InventoryTrait
 
         return;
     }
+
+    /**
+     * Creates a Barcode. 
+     *
+     * @param string $code
+     *
+     * @return bool
+     */
+    public function createBarcode($code)
+    {
+        // Get the current Barcode record
+        $barcode = $this->barcode()->first();
+
+        if ($barcode) {
+            // Barcode exists, update
+            return $this->updateBarcode($code, $barcode);
+        }
+
+        // No Barcode exists, create one
+        return $this->processBarcodeCreate($this->getKey(), $code);
+    }
+
+    /**
+     * Updates the items current Barcode or the Barcode
+     * supplied with the specified code.
+     *
+     * @param string $code
+     * @param null   $barcode
+     *
+     * @return mixed|bool
+     */
+    public function updateBarcode($code, $barcode = null)
+    {
+        // Get the current Barcode record if one isn't supplied
+        if (!$barcode) {
+            $barcode = $this->barcode()->first();
+        }
+
+        /*
+         * If a Barcode still doesn't exist after
+         * trying to find one, we'll create one
+         */
+        if (!$barcode) {
+            return $this->processBarcodeCreate($this->getKey(), $code);
+        }
+
+        return $this->processBarcodeUpdate($barcode, $code);
+    }
+
+    /**
+     * Processes a Barcode generation.
+     *
+     * @param int|string $inventoryId
+     * @param string     $code
+     *
+     * @return bool|mixed
+     */
+    private function processBarcodeCreate($inventoryId, $code)
+    {
+        $barcode = $this->barcode()->getRelated()->newInstance();
+
+        $barcode->setAttribute('tool_id', $inventoryId);
+        $barcode->setAttribute('barcode', $code);
+        $barcode->save();
+
+        return $barcode;
+    }
+
+    /**
+     * Processes updating the specified Barcode
+     * record with the specified code.
+     *
+     * @param Model  $barcode
+     * @param string $code
+     *
+     * @return mixed|bool
+     */
+    private function processBarcodeUpdate(Model $code, $barcode)
+    {
+        $code->update(compact('barcode'));
+
+        return $code;   
+    }
 }
