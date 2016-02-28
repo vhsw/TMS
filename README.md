@@ -15,13 +15,13 @@ Built on top of Laravel 5.2 as back-end, and Metronic Admin Theme on the front. 
 
 ### Pictures
 
-![Sc1](https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc1.jpg =250x)
+<img src="https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc1.jpg" width="250px">
 
-![Sc2](https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc2.jpg =250x)
+<img src="https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc2.jpg" width="250px">
 
-![Sc3](https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc3.jpg =250x)
+<img src="https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc3.jpg" width="250px">
 
-![Sc4](https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc4.jpg =250x)
+<img src="https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc4.jpg" width="250px">
 
 ### Requirement
 
