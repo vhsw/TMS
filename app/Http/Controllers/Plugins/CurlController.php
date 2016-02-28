@@ -94,4 +94,58 @@ class CurlController extends Controller {
 
         return $result;
     }
+
+
+    public function sandvik($str, $fn)
+    {
+        //prepare search string
+        $str = str_replace(' ', '', $str);
+
+        curl_setopt($this->ch, CURLOPT_URL, 
+            "http://www.sandvik.coromant.com/en-gb/products/pages/productdetails.aspx?c=".$str);
+
+        $output = curl_exec($this->ch);
+        $info = curl_getinfo($this->ch);
+
+        $html = new HtmlDom();
+        $html->load($output);
+
+        $header = $html->find('#ProductDetailHeader', 0);
+        if($header != null)
+        {
+            $title = $header->find('h2[class=metric]', 0)->plaintext;
+            $title = trim($title);
+
+            $description = $header->find('h3[class=metric]', 0)->plaintext;
+            $description = trim($description);
+        }
+
+        $imgs = $html->find('#productimage', 0)->find('img');
+        $images = array();
+        foreach($imgs as $img)
+        {
+            array_push($images, $img->src);
+        }
+
+        $data = $html->find('.startValuesOnProductDetails', 0)->find('tr[class=metric]');
+        if($data != null)
+        {
+            $cuttingdata = '';
+            foreach($data as $d)
+            {
+                $cuttingdata .= $d->innertext;
+            }
+        }
+
+        $result = array(
+            'images' => $images,
+            'title1' => $title,
+            'title2' => null,
+            'cuttingdata' => $cuttingdata,
+            'description' => $description,
+            'fn' => $fn
+        );
+
+        return $result;
+    }
 }
