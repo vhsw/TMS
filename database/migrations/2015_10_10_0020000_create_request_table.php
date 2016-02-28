@@ -21,7 +21,7 @@ class CreateRequestTable extends Migration {
 				$table->string('tool_serialnr')->index();
 				$table->integer('tool_id')->unsigned();
 				$table->integer('user_id')->unsigned();
-				$table->string('barcode')->index();
+				$table->string('barcode')->index()->default(NULL);
 				$table->integer('amount')->default(0);
 				$table->text('comments');
 				$table->string('status');
