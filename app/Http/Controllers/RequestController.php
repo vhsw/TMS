@@ -61,7 +61,7 @@ class RequestController extends Controller {
             if(isset($tool))
             { 
                 $tool_id = $tool->id;
-                $barcode = $tool->barcode;
+                $barcode = $tool->getBarcode();
                 $cost = Cost::getLastCost($tool->id);
             }
             else 
@@ -76,7 +76,7 @@ class RequestController extends Controller {
         elseif($request->search_str) // If Requested from Search Overlay
         {
             $search_str = trim($request->search_str, "(..)"); // Clean barcode
-            $tool = Tool::where('barcode', $search_str)->first();
+            $tool = Tool::findByBarcode($search_str);
             $tool_id = $tool->id;
             $barcode = $search_str;
             $serialnr = $tool->serialnr;

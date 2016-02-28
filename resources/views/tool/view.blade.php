@@ -104,7 +104,7 @@ foreach($costs as $cost)
                                 <span class="sale-info"> In Stock
                                     <i class="fa fa-img-up"></i>
                                 </span>
-                                <span class="sale-num"> {{ $quantity }}</span>
+                                <span class="sale-num"> {{ $tool->getTotalStock() }}</span>
                             </li>
                             <li>
                                 <span class="sale-info"> Cost

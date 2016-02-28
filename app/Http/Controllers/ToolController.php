@@ -56,7 +56,7 @@ class ToolController extends Controller {
     }
 
 
-    // TODO: Speed Up to less then 100ms, put it outside 
+    // TODO: Speed Up by putting this outside the app and use PDO::ATTR_PERSISTENT
     public function typeahead(Request $request)
     {
         if ($request->ajax()) 
@@ -152,10 +152,9 @@ class ToolController extends Controller {
     public function view($id)
     {
         // Get Tool Details
-        $tool =     Tool::where('id', $id)->first();
+        $tool =     Tool::find($id);
         $detail =   Detail::where('tool_id', $tool->id)->first();
         $costs =    Cost::getCosts($tool->id);
-        $quantity =   Tool::getStockQuantity($tool->id);
 
         // Get Category
         $category = $tool->category->name;
@@ -168,7 +167,7 @@ class ToolController extends Controller {
             $parent_id = $cat->parent_id;
         }
 
-        return view('tool.view', compact('tool', 'detail', 'costs', 'category', 'quantity'));
+        return view('tool.view', compact('tool', 'detail', 'costs', 'category'));
     }
 
 

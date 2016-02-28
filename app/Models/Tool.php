@@ -3,35 +3,17 @@
 namespace App\Models;
 
 use DB;
+use App\Http\Traits\InventoryTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Tool extends BaseModel 
 {
+    use InventoryTrait;
+
 	protected $table = 'tools';
 
 	protected $guarded = ['id'];
 
-
-    /**
-     * Get the total quantity stored by one tool.
-     *
-     * @param int              $tool_id
-     *
-     * @return int
-     */
-	public static function getStockQuantity($tool_id)
-	{
-		$result = DB::select( DB::raw('SELECT a.new_quantity
-                FROM locations_tools a WHERE EXISTS(
-                    SELECT 1 FROM
-                        (SELECT id, new_quantity, location_id, max(updated_at) AS updated_at FROM locations_tools GROUP BY location_id)b 
-                            WHERE b.location_id = a.location_id AND b.updated_at = a.updated_at
-                        ) AND tool_id ='.$tool_id));
-
-        $collection = collect($result);
-
-        return $collection->pluck('new_quantity')->sum();
-	}
 
 	public static function next($tool_id)
 	{
@@ -80,8 +62,8 @@ class Tool extends BaseModel
     }
 
 
-    public function locations()
+    public function stocks()
     {
-        return $this->belongsToMany('App\Models\Location', 'locations_tools');
+        return $this->belongsToMany('App\Models\Location', 'stock_connections', 'tool_id', 'id')->withPivot('quantity');;
     }
 }

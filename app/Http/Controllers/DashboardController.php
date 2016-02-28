@@ -45,7 +45,7 @@ class DashboardController extends Controller {
 
 	public function test()
 	{
-		$result = Tool::getStockQuantity(1);
+		$result = Tool::find(1)->getTotalStock();
 		return view('test', compact('result'));
 	}
 }

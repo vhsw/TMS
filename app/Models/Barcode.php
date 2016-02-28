@@ -15,6 +15,6 @@ class Barcode extends BaseModel
 
 	public function tool()
     {
-        return $this->belongsTo('App\Models\Tool');
+        return $this->belongsTo('App\Models\Tool', 'tool_id', 'id');
     }
 }
