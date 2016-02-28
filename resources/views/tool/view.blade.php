@@ -74,7 +74,7 @@ foreach($costs as $cost)
 
                         <tr>
                             <td><b>Barcode</b></td>
-                            <td> {{ $tool->barcode }}</td>
+                            <td> {{ $tool->getBarcode() }}</td>
                             <td></td>
                         </tr>
 
@@ -127,9 +127,11 @@ foreach($costs as $cost)
                     <li>
                         <a href="javascript:;"> Request </a>
                     </li>
+@if(Auth::check() && Auth::user()->hasRole('admin'))
                     <li>
-                        <a href="javascript:;"> Edit </a>
+                        <a href="{!! url('/tool/'.$tool->id.'/edit') !!}"> Edit </a>
                     </li>
+@endif
                 </ul>
             </div>
             <!--end col-md-4-->
