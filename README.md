@@ -15,8 +15,13 @@ Built on top of Laravel 5.2 as back-end, and Metronic Admin Theme on the front. 
 
 ### Pictures
 
-![Sc1](https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc1.jpg)
+![Sc1](https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc1.jpg =250x)
 
+![Sc2](https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc2.jpg =250x)
+
+![Sc3](https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc3.jpg =250x)
+
+![Sc4](https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc4.jpg =250x)
 
 ### Requirement
 
