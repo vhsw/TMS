@@ -11,9 +11,8 @@ class Picture extends BaseModel
 
 	protected $guarded = ['id'];
 
-
 	public function tools()
     {
-        return $this->belongsToMany('App\Models\Tool', 'pictures_tools');
+        return $this->belongsToMany('App\Models\Tool', 'pictures_tools')->withPivot('first_choice');
     }
 }

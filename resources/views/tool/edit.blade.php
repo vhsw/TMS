@@ -201,7 +201,7 @@ jQuery(document).ready(function() {
                                 <label class="col-md-2 control-label">Barcode
                                 </label>
                                 <div class="col-md-5">
-                                    <input value="{{ $tool->barcode }}" type="text" class="form-control" name="barcode"> 
+                                    <input value="{{ $tool->getBarcode() }}" type="text" class="form-control" name="barcode"> 
                                 </div>
                             </div>
 

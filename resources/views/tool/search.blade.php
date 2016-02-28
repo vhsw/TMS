@@ -65,7 +65,7 @@ OnlyStock = function(){
 
                                                 @if(json_encode($pictures[$i]) != '{}')
 
-                                                    <img src="{!! url('/files'.$pictures[$i]->path) !!}" class="img-responsive" alt="{{ $picture->title }}">
+                                                    <img src="{!! url('/files'.$pictures[$i]->path) !!}" class="img-responsive" alt="{{ $pictures[$i]->title }}">
                                                     
                                                 @endif
 

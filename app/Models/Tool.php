@@ -27,6 +27,12 @@ class Tool extends BaseModel
 	}
 
 
+    public function scopePreferredToolPicture()
+    {
+        return $this->getPreferredToolPicture();
+    }
+
+
 	public function supplier()
     {
         return $this->belongsTo('App\Models\Supplier');
