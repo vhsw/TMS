@@ -13,6 +13,11 @@ Built on top of Laravel 5.2 as back-end, and Metronic Admin Theme on the front. 
 * **Searching**
 * **Update to latest commits**
 
+### Pictures
+
+![Sc1](https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc1.jpg)
+
+
 ### Requirement
 
 * WAMP-stack
