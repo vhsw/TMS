@@ -21,12 +21,15 @@
     <!-- GLOBAL STYLE (Sass) -->
     {!! Html::style('css/global.css') !!}
     <!-- PAGE SPECIFIC STYLE -->
-    {!! Html::style('global/plugins/select2/dist/css/select2.min.css') !!}
     @yield('css')
     <!-- LAYOUT STYLE (Sass) -->
     {!! Html::style('css/layout.css') !!}
     <!-- EXTRA STYLE -->
     @yield('style')
+
+    <style>
+    .pagination > li.paginate_button {padding:0 !important;}
+    </style>
 
     <link rel="shortcut icon" href="favicon.ico" /> </head>
     <!-- END HEAD -->
@@ -141,7 +144,13 @@
 <script type="text/javascript">
     var APP_URL = {!! json_encode(url('/')) !!};
 </script>
+{!! Html::script('global/plugins/jquery/dist/jquery.min.js') !!}
+{!! Html::script('global/plugins/bootstrap/dist/js/bootstrap.min.js') !!}
 {!! Html::script('js/global.js') !!}
+{!! Html::script('global/plugins/js-cookie/src/js.cookie.js') !!}
+{!! Html::script('global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') !!}
+{!! Html::script('global/plugins/blockUI/jquery.blockUI.js') !!}
+{!! Html::script('global/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js') !!}
 {!! Html::script('js/johnnyhuman.overlay.js') !!}
 <!-- PAGE SPECIFIC SCRIPTS -->
 @yield('js')
@@ -193,7 +202,6 @@ $(document).ready(function(){
 <!-- EXTRA SCRIPT -->
 @yield('script')
 <!-- LAYOUT SCRIPTS -->
-{!! Html::script('pages/scripts/components-select2.js') !!}
 {!! Html::script('layouts/layout/scripts/layout.js') !!}
 {!! Html::script('layouts/global/scripts/quick-sidebar.min.js') !!}
 {!! Html::script('js/modernizr.custom.js') !!}

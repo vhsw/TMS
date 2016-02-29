@@ -26,7 +26,7 @@ var toolUrl = "{!!url('tool')!!}";
 var requestUrl = "{!!url('request')!!}";
 var table = $('#table1');
 
-  table.dataTable({
+table.dataTable({
         "bProcessing": true,
         "autoWidth": false,
         "serverSide": true,

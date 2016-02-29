@@ -34,11 +34,15 @@
     "typeahead.js": "^0.11.1",
     "jquery-datatables-columnfilter": "^0.0.7",
     "datatables-bootstrap3-plugin": "^0.4.0",
-    "typeahead.js-bootstrap3.less": "typeahead.js-bootstrap-css#^1.2.1"
+    "typeahead.js-bootstrap3.less": "typeahead.js-bootstrap-css#^1.2.1",
+    "js-cookie": "^2.1.0",
+    "bootstrap-hover-dropdown": "^2.2.1",
+    "blockUI": "*",
+    "bootstrap-switch": "^3.3.2"
   },
   "resolutions": {
     "datatables": "1.10.7",
-    "font-awesome": "4.3.x",
-    "select2": "4.0.0"
+    "font-awesome": "^4.5.0",
+    "select2": "^4.0.1"
   }
 }
