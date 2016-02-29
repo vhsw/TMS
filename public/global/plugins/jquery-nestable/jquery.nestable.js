@@ -4,7 +4,7 @@
  */
 ;(function($, window, document, undefined)
 {
-    var hasTouch = 'ontouchstart' in window;
+    var hasTouch = 'ontouchstart' in document;
 
     /**
      * Detect CSS pointer-events property
@@ -26,11 +26,6 @@
         return !!supports;
     })();
 
-    var eStart  = hasTouch ? 'touchstart'  : 'mousedown',
-        eMove   = hasTouch ? 'touchmove'   : 'mousemove',
-        eEnd    = hasTouch ? 'touchend'    : 'mouseup';
-        eCancel = hasTouch ? 'touchcancel' : 'mouseup';
-
     var defaults = {
             listNodeName    : 'ol',
             itemNodeName    : 'li',
@@ -47,17 +42,12 @@
             collapseBtnHTML : '<button data-action="collapse" type="button">Collapse</button>',
             group           : 0,
             maxDepth        : 5,
-            threshold       : 20,
-
-            //method for call when an item has been successfully dropped
-            //method has 1 argument in which sends an object containing all
-            //necessary details
-            dropCallback    : null
+            threshold       : 20
         };
 
     function Plugin(element, options)
     {
-        this.w  = $(window);
+        this.w  = $(document);
         this.el = $(element);
         this.options = $.extend({}, defaults, options);
         this.init();
@@ -80,7 +70,7 @@
             });
 
             list.el.on('click', 'button', function(e) {
-                if (list.dragEl || (!hasTouch && e.button !== 0)) {
+                if (list.dragEl) {
                     return;
                 }
                 var target = $(e.currentTarget),
@@ -103,18 +93,25 @@
                     }
                     handle = handle.closest('.' + list.options.handleClass);
                 }
-                if (!handle.length || list.dragEl || (!hasTouch && e.button !== 0) || (hasTouch && e.touches.length !== 1)) {
+
+                if (!handle.length || list.dragEl) {
                     return;
                 }
+
+                list.isTouch = /^touch/.test(e.type);
+                if (list.isTouch && e.touches.length !== 1) {
+                    return;
+                }
+
                 e.preventDefault();
-                list.dragStart(hasTouch ? e.touches[0] : e);
+                list.dragStart(e.touches ? e.touches[0] : e);
             };
 
             var onMoveEvent = function(e)
             {
                 if (list.dragEl) {
                     e.preventDefault();
-                    list.dragMove(hasTouch ? e.touches[0] : e);
+                    list.dragMove(e.touches ? e.touches[0] : e);
                 }
             };
 
@@ -122,20 +119,20 @@
             {
                 if (list.dragEl) {
                     e.preventDefault();
-                    list.dragStop(hasTouch ? e.touches[0] : e);
+                    list.dragStop(e.touches ? e.touches[0] : e);
                 }
             };
 
             if (hasTouch) {
-                list.el[0].addEventListener(eStart, onStartEvent, false);
-                window.addEventListener(eMove, onMoveEvent, false);
-                window.addEventListener(eEnd, onEndEvent, false);
-                window.addEventListener(eCancel, onEndEvent, false);
-            } else {
-                list.el.on(eStart, onStartEvent);
-                list.w.on(eMove, onMoveEvent);
-                list.w.on(eEnd, onEndEvent);
+                list.el[0].addEventListener('touchstart', onStartEvent, false);
+                window.addEventListener('touchmove', onMoveEvent, false);
+                window.addEventListener('touchend', onEndEvent, false);
+                window.addEventListener('touchcancel', onEndEvent, false);
             }
+
+            list.el.on('mousedown', onStartEvent);
+            list.w.on('mousemove', onMoveEvent);
+            list.w.on('mouseup', onEndEvent);
 
         },
 
@@ -190,13 +187,13 @@
                 distAxX   : 0,
                 distAxY   : 0
             };
+            this.isTouch    = false;
             this.moving     = false;
             this.dragEl     = null;
             this.dragRootEl = null;
             this.dragDepth  = 0;
             this.hasNewRoot = false;
             this.pointEl    = null;
-            this.sourceRoot = null;
         },
 
         expandItem: function(li)
@@ -256,7 +253,6 @@
                 target   = $(e.target),
                 dragItem = target.closest(this.options.itemNodeName);
 
-            this.sourceRoot = target.closest('.' + this.options.rootClass);
             this.placeEl.css('height', dragItem.height());
 
             mouse.offsetX = e.offsetX !== undefined ? e.offsetX : e.pageX - target.offset().left;
@@ -269,8 +265,6 @@
             this.dragEl = $(document.createElement(this.options.listNodeName)).addClass(this.options.listClass + ' ' + this.options.dragClass);
             this.dragEl.css('width', dragItem.width());
 
-            // fix for zepto.js
-            //dragItem.after(this.placeEl).detach().appendTo(this.dragEl);
             dragItem.after(this.placeEl);
             dragItem[0].parentNode.removeChild(dragItem[0]);
             dragItem.appendTo(this.dragEl);
@@ -293,33 +287,12 @@
 
         dragStop: function(e)
         {
-            // fix for zepto.js
-            //this.placeEl.replaceWith(this.dragEl.children(this.options.itemNodeName + ':first').detach());
             var el = this.dragEl.children(this.options.itemNodeName).first();
             el[0].parentNode.removeChild(el[0]);
             this.placeEl.replaceWith(el);
 
             this.dragEl.remove();
             this.el.trigger('change');
-
-            //Let's find out new parent id
-            var parentItem = el.parent().parent();
-            var parentId = null;
-            if(parentItem !== null && !parentItem.is('.' + this.options.rootClass))
-                parentId = parentItem.data('id');
-
-            if($.isFunction(this.options.dropCallback)) {
-              var details = {
-                sourceId   : el.data('id'),
-                destId     : parentId,
-                sourceEl   : el,
-                destParent : parentItem,
-                destRoot   : el.closest('.' + this.options.rootClass),
-                sourceRoot : this.sourceRoot
-              };
-              this.options.dropCallback.call(this, details);
-            }
-
             if (this.hasNewRoot) {
                 this.dragRootEl.trigger('change');
             }
