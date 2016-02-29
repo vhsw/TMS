@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "laravelcollective/html": "5.2.*",
         "tom-lingham/searchy": "2.*",
-        "cucxabeng/simple-html-dom": "dev-master"
+        "cucxabeng/simple-html-dom": "dev-master",
+        "spatie/laravel-backup": "^2.10"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

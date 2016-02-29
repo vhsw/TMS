@@ -28,6 +28,7 @@ Built on top of Laravel 5.2 as back-end, and Metronic Admin Theme on the front. 
 * WAMP-stack
 * Composer
 * Git
+* Node, NPM
 
 ### Installation
 
@@ -58,7 +59,15 @@ composer update --no-scripts
 
 5. Change Database Connection properties in the .env file.
 
-6. Run migration and seed:
+6. Install Bower and packages:
+
+```shell
+npm install -g bower
+bower install
+```
+The installed packages end up in /public/global/plugins
+
+7. Run migration and seed:
 
 ```shell
 php artisan migrate
