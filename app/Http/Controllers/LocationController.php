@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
@@ -17,7 +17,6 @@ class LocationController extends Controller {
 
     public function index()
     {
-
         $locations = DB::table('locations')->orderBy('location', 'asc')->get();
 
         return view('data.locations', compact('locations'));
