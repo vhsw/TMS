@@ -6,3 +6,4 @@ composer.lock
 /storage
 /node_modules
 /bower_components
+composer.lock

@@ -229,7 +229,9 @@ class ToolController extends Controller {
         $tool->category_id = $category_id;
         $tool->save();
 
-        $tool->updateBarcode($request->barcode);
+        if ($request->barcode != '') {
+            $tool->updateBarcode($request->barcode);
+        }
 
         $next = Tool::next($tool->id);
         if (!$next) 

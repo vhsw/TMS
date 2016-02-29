@@ -6,6 +6,7 @@ use DB;
 use Auth;
 use App\User;
 use App\Models\Tool;
+use App\Models\Picture;
 use App\Models\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Controller as BaseController;
@@ -45,7 +46,7 @@ class DashboardController extends Controller {
 
 	public function test()
 	{
-		$result = Tool::find(1)->getTotalStock();
+		$result = Tool::find(1)->PreferredToolPicture();
 		return view('test', compact('result'));
 	}
 }
