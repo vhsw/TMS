@@ -3,16 +3,16 @@
 @section('title') Tools | Browse @endsection
 
 @section('css')
-{!! Html::style('global/plugins/jstree/dist/themes/default/style.css') !!}
-{!! Html::style('global/plugins/datatables/datatables.min.css') !!}
-{!! Html::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
+{!! Html::style('global/plugins/jstree/dist/themes/default/style.min.css') !!}
+{!! Html::style('global/plugins/datatables/media/css/jquery.dataTables.min.css') !!}
+{!! Html::style('global/plugins/datatables-bootstrap3-plugin/media/css/datatables-bootstrap3.css') !!}
 @endsection
 
 @section('js')
 {!! Html::script('global/scripts/datatable.js') !!}
-{!! Html::script('global/plugins/datatables/datatables.js') !!}
-{!! Html::script('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}
-{!! Html::script('global/plugins/datatables/plugins/jquery.dataTables.columnFilter.js') !!}
+{!! Html::script('global/plugins/datatables/media/js/jquery.dataTables.js') !!}
+{!! Html::script('global/plugins/jquery-datatables-columnfilter/jquery.dataTables.columnFilter.js') !!}
+{!! Html::script('global/plugins/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.min.js') !!}
 @endsection
 
 @section('script')

@@ -3,15 +3,14 @@
 @section('title') Tools | View | {{ $tool->serialnr }} @endsection
 
 @section('css')
-{!! Html::style('global/plugins/bootstrap-select/css/bootstrap-select.min.css') !!}
-{!! Html::style('global/plugins/datatables/datatables.min.css') !!}
-{!! Html::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
+{!! Html::style('global/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') !!}
+{!! Html::style('global/plugins/datatables/media/css/jquery.dataTables.min.css') !!}
+{!! Html::style('global/plugins/datatables-bootstrap3-plugin/media/css/datatables-bootstrap3.css') !!}
 {!! Html::style('global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') !!}
 @endsection
 
 @section('js')
-{!! Html::script('global/plugins/bootstrap-select/js/bootstrap-select.min.js') !!}
-{!! Html::script('global/plugins/bootstrap-markdown/lib/markdown.js') !!}
+{!! Html::script('global/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') !!}
 {!! Html::script('global/plugins/bootstrap-markdown/js/bootstrap-markdown.js') !!}
 @endsection
 

@@ -3,18 +3,17 @@
 @section('title') Requests @endsection
 
 @section('css')
-{!! Html::style('global/plugins/datatables/datatables.min.css') !!}
-{!! Html::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
-{!! Html::style('global/plugins/typeahead/typeahead.css') !!}
+{!! Html::style('global/plugins/datatables/media/css/jquery.dataTables.min.css') !!}
+{!! Html::style('global/plugins/datatables-bootstrap3-plugin/media/css/datatables-bootstrap3.css') !!}
+{!! Html::style('global/plugins/typeahead.js-bootstrap3.less/typeaheadjs.css') !!}
 @endsection
 
 @section('js')
 {!! Html::script('js/moment.js') !!}
 {!! Html::script('global/scripts/datatable.js') !!}
-{!! Html::script('global/plugins/datatables/datatables.js') !!}
-{!! Html::script('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}
-{!! Html::script('global/plugins/typeahead/handlebars.min.js') !!}
-{!! Html::script('global/plugins/typeahead/typeahead.bundle.min.js') !!}
+{!! Html::script('global/plugins/datatables/media/js/jquery.dataTables.js') !!}
+{!! Html::script('global/plugins/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.min.js') !!}
+{!! Html::script('global/plugins/typeahead.js/dist/typeahead.bundle.min.js') !!}
 @endsection
 
 @section('script')

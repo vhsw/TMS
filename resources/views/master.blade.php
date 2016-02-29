@@ -17,12 +17,11 @@
     <!-- FONTS -->
     {!! Html::style('http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all') !!}
     {!! Html::style('global/plugins/font-awesome/css/font-awesome.min.css') !!}
-    {!! Html::style('global/plugins/simple-line-icons/simple-line-icons.min.css') !!}
+    {!! Html::style('global/plugins/simple-line-icons/css/simple-line-icons.css') !!}
     <!-- GLOBAL STYLE (Sass) -->
     {!! Html::style('css/global.css') !!}
     <!-- PAGE SPECIFIC STYLE -->
-    {!! Html::style('global/plugins/select2/css/select2.css') !!}
-    {!! Html::style('global/plugins/select2/css/select2-bootstrap.min.css') !!}
+    {!! Html::style('global/plugins/select2/dist/css/select2.min.css') !!}
     @yield('css')
     <!-- LAYOUT STYLE (Sass) -->
     {!! Html::style('css/layout.css') !!}
@@ -197,8 +196,8 @@ $(document).ready(function(){
 {!! Html::script('pages/scripts/components-select2.js') !!}
 {!! Html::script('layouts/layout/scripts/layout.js') !!}
 {!! Html::script('layouts/global/scripts/quick-sidebar.min.js') !!}
-{!! Html::script('global/plugins/modernizr.custom.js') !!}
-{!! Html::script('global/plugins/jquery-scrollbar/jquery.scrollbar.min.js') !!}
+{!! Html::script('js/modernizr.custom.js') !!}
+{!! Html::script('global/plugins/jquery.scrollbar/jquery.scrollbar.min.js') !!}
 
 </body>
 

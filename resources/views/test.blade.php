@@ -8,7 +8,7 @@
 
 
 
-{!! $result !!}<br>
+{!! json_encode($result) !!}<br>
 
 
 

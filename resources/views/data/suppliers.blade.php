@@ -4,16 +4,16 @@
 
 
 @section('css')
-{!! Html::style('global/plugins/datatables/datatables.min.css') !!}
-{!! Html::style('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css') !!}
+{!! Html::style('global/plugins/datatables/media/css/jquery.dataTables.min.css') !!}
+{!! Html::style('global/plugins/datatables-bootstrap3-plugin/media/css/datatables-bootstrap3.css') !!}
 {!! Html::style('global/plugins/icheck/skins/all.css') !!}
 @endsection
 
 
 @section('js')
 {!! Html::script('global/scripts/datatable.js') !!}
-{!! Html::script('global/plugins/datatables/datatables.min.js') !!}
-{!! Html::script('global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js') !!}
+{!! Html::script('global/plugins/datatables/media/js/jquery.dataTables.js') !!}
+{!! Html::script('global/plugins/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.min.js') !!}
 {!! Html::script('global/plugins/icheck/icheck.min.js') !!}
 @endsection
 
@@ -24,24 +24,13 @@
 $( document ).ready(function() {
 var table = $('#table1');
         // begin first table
-        table.dataTable({
-            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
-            "columnDefs": [ {
-                "targets": 0,
-                "orderable": false,
-                "searchable": false
-            }],
-            "lengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
+table.dataTable({
+        "autoWidth": false,
+        "lengthMenu": [
+                [10, 20, 50, -1],
+                [10, 20, 50, "All"] // change per page values here
             ],
-            // set the initial value
-            "pageLength": 20,
-            "pagingType": "bootstrap_full_number",
-            "columnDefs": [],
-            "order": [
-                [1, "asc"]
-            ] // set first column as a default sort by asc
+        "pageLength": 10
         });
 });
 

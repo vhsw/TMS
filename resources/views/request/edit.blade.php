@@ -3,13 +3,12 @@
 @section('title') Requests | Edit Request ({{ $request->id }})  @endsection
 
 @section('css')
-{!! Html::style('global/plugins/typeahead/typeahead.css') !!}
+{!! Html::style('global/plugins/typeahead.js-bootstrap3.less/typeaheadjs.css') !!}
 @endsection
 
 @section('js')
-{!! Html::script('global/plugins/typeahead/handlebars.min.js') !!}
-{!! Html::script('global/plugins/typeahead/typeahead.bundle.min.js') !!}
-{!! Html::script('global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') !!}
+{!! Html::script('global/plugins/typeahead.js/dist/typeahead.bundle.min.js') !!}
+{!! Html::script('global/plugins/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js') !!}
 @endsection
 
 @section('script')

@@ -1,0 +1,44 @@
+{
+  "name": "TMS",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Johnny Human <john.wennstrom@protonmail.com>"
+  ],
+  "license": "MIT",
+  "moduleType": [
+    "globals"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "amcharts3": "^3.19.3",
+    "bootstrap-markdown": "^2.10.0",
+    "bootstrap-select": "^1.10.0",
+    "datatables": "^1.10.11",
+    "font-awesome": "fontawesome#^4.5.0",
+    "iCheck": "icheck#^1.0.2",
+    "jquery.inputmask": "^3.2.7",
+    "jquery-nestable": "*",
+    "jquery.scrollbar": "^0.2.10",
+    "jstree": "^3.2.1",
+    "select2": "^4.0.1",
+    "simple-line-icons": "^2.2.3",
+    "typeahead.js": "^0.11.1",
+    "jquery-datatables-columnfilter": "^0.0.7",
+    "datatables-bootstrap3-plugin": "^0.4.0",
+    "typeahead.js-bootstrap3.less": "typeahead.js-bootstrap-css#^1.2.1"
+  },
+  "resolutions": {
+    "datatables": "1.10.7",
+    "font-awesome": "4.3.x",
+    "select2": "4.0.0"
+  }
+}

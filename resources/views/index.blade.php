@@ -3,14 +3,14 @@
 @section('title')   @endsection
 
 @section('css')
-{!! Html::style('global/plugins/typeahead/typeahead.css') !!}
+{!! Html::style('global/plugins/typeahead.js-bootstrap3.less/typeaheadjs.css') !!}
 @endsection
 
 @section('js')
-{!! Html::script('global/plugins/amcharts/amcharts/amcharts.js') !!}
-{!! Html::script('global/plugins/amcharts/amcharts/serial.js') !!}
-{!! Html::script('global/plugins/amcharts/amcharts/themes/light.js') !!}
-{!! Html::script('global/plugins/amcharts/amcharts/plugins/dataloader/dataloader.min.js') !!}
+{!! Html::script('global/plugins/amcharts3/amcharts/amcharts.js') !!}
+{!! Html::script('global/plugins/amcharts3/amcharts/serial.js') !!}
+{!! Html::script('global/plugins/amcharts3/amcharts/themes/light.js') !!}
+{!! Html::script('global/plugins/amcharts3/amcharts/plugins/dataloader/dataloader.min.js') !!}
 {!! Html::script('global/scripts/dashboard.js') !!}
 @endsection
 
