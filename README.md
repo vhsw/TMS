@@ -2,7 +2,7 @@
 
 Built on top of Laravel 5.2 as back-end, and Metronic Admin Theme on the front. It's a custom internal website for managing tools in a mechanical workshop. It has:
 
-* **Easy access to online tool data from suppliers** 
+* **Easy access to online tool data from suppliers**
 * **User Management**
 * **Easy login / logout of users and changing of workplace**
 * **Ability for users to request tools**
@@ -32,34 +32,34 @@ Built on top of Laravel 5.2 as back-end, and Metronic Admin Theme on the front. 
 
 ### Installation
 
-1. Open Command Prompt in your htdocs folder and install Laravel 5.2 with composer:
+### 1 Laravel
+Open Command Prompt in your htdocs folder and install Laravel 5.2 with composer:
 
 ```shell
-composer -q create-project laravel/laravel [name of your project] "5.2.*"
+composer create-project laravel/laravel [name of your project] "5.2.*"
 ```
 
-2. CD into the newly created laravel project folder.
+CD into the newly created laravel project folder.
 
-3. Initialize Git and fetch from master:
+### 2 Git:
+Pull the remote repository and merge it with Laravel:
 
 ```shell
 git init
 git remote add origin git@github.com:matapuna/uhlelo.git
-git fetch --all
-git branch master origin/master
-git checkout master
+git pull origin master
 git reset --hard origin/master
 ```
 
-4. Update:
+### 3 Update:
+Update and Install Requirements:
 
 ```shell
-composer update --no-scripts
+composer update
 ```
 
-5. Change Database Connection properties in the .env file.
-
-6. Install Bower and packages:
+### 4 Bower:
+Install Bower and javascript packages:
 
 ```shell
 npm install -g bower
@@ -67,11 +67,28 @@ bower install
 ```
 The installed packages end up in /public/global/plugins
 
-7. Run migration and seed:
+### 5. Config:
+Add this to your Config/App.php:
+
+```php
+Collective\Html\HtmlServiceProvider::class,
+Cucxabeng\HtmlDom\HtmlDomServiceProvider::class,
+TomLingham\Searchy\SearchyServiceProvider::class,
+Spatie\Backup\BackupServiceProvider::class,
+
+'Form'      => Collective\Html\FormFacade::class,
+'Html'      => Collective\Html\HtmlFacade::class,
+'HtmlDom'   => Cucxabeng\HtmlDom\HtmlDom::class,
+'HtmlDomNode'   => Cucxabeng\HtmlDom\HtmlDomNode::class,
+'Searchy'   => TomLingham\Searchy\Facades\Searchy::class,
+```
+
+Edit your .env files database configuration.
+
+### 6. Database:
+Migrate and seed the database is not working right now:
 
 ```shell
 php artisan migrate
 php artisan db:seed
 ```
-
-Warning! Seeding the database is not working right now.

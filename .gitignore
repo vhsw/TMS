@@ -1,9 +1,11 @@
 .env
-SyncToy*
+.env.example
 composer.lock
 
 /vendor
+/tests
 /storage
 /node_modules
 /bower_components
-composer.lock
+/public/global/plugins
+/resources/views/welcome.blade.php
