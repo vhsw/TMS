@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
@@ -19,34 +19,34 @@ class DashboardController extends Controller {
 		$last_monday = date('Y-m-d H:i:s', strtotime("last monday"));
 
 		// Requests this week
-		$requests = Requests::where( 'created_at', '>', $last_monday )->get();
+		//$requests = Requests::where( 'created_at', '>', $last_monday )->get();
 
-		// Total Cost this Week
+		/* Total Cost this Week
 		$totals = DB::table('requests')
 			->select(DB::raw('FORMAT(SUM(amount * cost), 2) total'))
 			->where('created_at', '>', $last_monday)
-			->get();
+			->get();*/
 
 		$sum = 0;
-		foreach($totals[0] as $total)
+		/*foreach($totals[0] as $total)
 		{
 			$sum = $sum + str_replace(',', '', $total);
-		}
+		}*/
 
 		if (Auth::check())
 		{
 			$user = User::find(Auth::user()->id);
-			$notifications = $user->notifications()->unread()->get();
-			return view('index', compact('requests', 'last_monday', 'sum', 'user', 'notifications'));
+			//$notifications = $user->notifications()->unread()->get();
+			return view('index', compact('user'));
 		} else
 		{
-			return view('index', compact('requests', 'last_monday', 'sum'));
+			return view('index', compact('last_monday'));
 		}
 	}
 
 	public function test()
 	{
-		$result = Tool::find(1)->PreferredToolPicture();
+		$result = Tool::findBySerialnr('4505354484 KC725M');
 		return view('test', compact('result'));
 	}
 }

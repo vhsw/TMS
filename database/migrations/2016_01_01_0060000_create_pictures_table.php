@@ -12,19 +12,19 @@ class CreatePicturesTable extends Migration {
 	 */
 	public function up()
 	{
-		if (! Schema::hasTable('pictures'))
+		/*if (! Schema::hasTable('pictures'))
 		{
 			Schema::create('pictures', function(Blueprint $table)
 			{
 				$table->increments('id')->unsigned();
 				$table->string('title')->index();
 				$table->string('path')->index();
-				
+
 				$table->timestamp('updated_at');
                 $table->timestamp('created_at');
                 $table->timestamp('deleted_at');
 			});
-		}
+		}*/
 	}
 
 	/**

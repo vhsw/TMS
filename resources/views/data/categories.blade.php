@@ -12,7 +12,7 @@
 
 @section('script')
 <script>
-var obj = { "node": {!! $json !!} };
+var obj = { "node":  };
 
 
 var updateOutput = function (e) {
@@ -27,14 +27,14 @@ var updateOutput = function (e) {
 
 
 function getList(item, $list) {
-    
+
     if($.isArray(item)){
         $.each(item, function (key, value) {
             getList(value, $list);
         });
         return;
     }
-    
+
     if (item) {
         var $li = $('<li />').attr({'class':'dd-item', 'data-id':item.id, 'data-name':item.name});
         if (item.name) {
@@ -68,7 +68,7 @@ $('#nestable_list_menu').on('click', function (e) {
                     $('.dd').nestable('collapseAll');
                 }
             });
-            
+
 
 updateOutput($('#nestable_list_1').data('output', $('#nestable_list_1_output')));
 
@@ -77,11 +77,11 @@ updateOutput($('#nestable_list_1').data('output', $('#nestable_list_1_output')))
 
 @section('content')
 
-<!-- TODO: Rename, Add, Delete Categories =) 
+<!-- TODO: Rename, Add, Delete Categories =)
 -->
 <form action="{!!url('admin/data/categories/save')!!}" method="post" >
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                
+
 <div class="portlet light bordered">
 
 
@@ -109,6 +109,13 @@ updateOutput($('#nestable_list_1').data('output', $('#nestable_list_1_output')))
          </div>
          <div class="portlet-body ">
             <div id="nestable_list_1" class="dd"></div>
+
+            <ul>
+                @foreach($categories as $node)
+                    {!! \App\Services\Metronic::renderNode($node) !!}
+                @endforeach
+            </ul>
+
          </div>
       </div>
    </div>

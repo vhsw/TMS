@@ -12,7 +12,7 @@ class CreateDetailsTable extends Migration {
 	 */
 	public function up()
 	{
-		if (! Schema::hasTable('details'))
+		/*if (! Schema::hasTable('details'))
 		{
 			Schema::create('details', function(Blueprint $table)
 			{
@@ -22,7 +22,7 @@ class CreateDetailsTable extends Migration {
 				$table->text('title2');
 				$table->text('cuttingdata');
 				$table->text('description');
-				
+
 				$table->timestamp('updated_at');
                 $table->timestamp('created_at');
                 $table->timestamp('deleted_at');
@@ -30,7 +30,7 @@ class CreateDetailsTable extends Migration {
                 $table->foreign('tool_id')->references('id')->on('tools');
 
 			});
-		}
+		}*/
 	}
 
 	/**

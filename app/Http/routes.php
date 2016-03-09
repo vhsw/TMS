@@ -10,10 +10,10 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('resource/change', 				'ResourceController@change');
 	Route::get('system/setnotificationasread', 'SystemController@setAsRead');	// AJAX
 
-	require(__DIR__ . "/Routes/Tool.php");
+	require(__DIR__ . "/Routes/Inventory.php");
 
 	Route::group(['middleware' => ['auth']], function () {
-		require(__DIR__ . "/Routes/Requests.php");
+		require(__DIR__ . "/Routes/Transaction.php");
 	});
 
 
@@ -28,5 +28,3 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('test', 'DashboardController@test');
 	});
 });
-
-

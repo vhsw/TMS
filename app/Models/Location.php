@@ -1,18 +1,10 @@
-<?php 
+<?php
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Baum\Node;
 
-class Location extends BaseModel
+class Location extends Node
 {
-	public $timestamps = false;
-   	protected $table = 'locations';
-
-
-   	public function tools()
-    {
-        return $this->belongsToMany('App\Models\Tool', 'locations_tools', 'location_id', 'id');
-    }
-
+    protected $table = 'locations';
 }

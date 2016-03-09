@@ -2,9 +2,10 @@
 
 // CATEGORIES
 
-Route::get('data/categories', 				'CategoryController@index');
-Route::post('data/categories/save', 		'CategoryController@save');
-Route::get('data/categories/tree', 		'CategoryController@tree'); // AJAX
+Route::get('data/categories', 				              'CategoryController@index');
+Route::post('data/categories/save', 		              'CategoryController@save');
+Route::get('categories/get-immediate-descendants', 		  'CategoryController@getImmediateDescendants'); // AJAX
+Route::get('categories/generate-select-boxes', 		      'CategoryController@generateSelectBoxes'); // AJAX
 
 // LOCATIONS
 

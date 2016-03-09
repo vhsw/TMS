@@ -16,7 +16,7 @@
 
 @section('script')
 <script>
-jQuery(document).ready(function() {  
+jQuery(document).ready(function() {
 
     $('.mark-read').on('click', function(e) {
         e.preventDefault();
@@ -63,61 +63,7 @@ jQuery(document).ready(function() {
 <div class="row">
 
 @if(Auth::check())
-<div class="col-md-6 col-sm-6">
-                            <div class="portlet light tasks-widget bordered">
-                                <div class="portlet-title">
-                                    <div class="caption">
-                                        <i class="icon-share font-green-haze hide"></i>
-                                        <span class="caption-subject font-green bold uppercase">Notifications</span>
-                                        <span class="caption-helper">{{ $notifications->count() }} unread</span>
-                                    </div>
-                                </div>
-                                <div class="portlet-body">
-                                    <div class="task-content">
-                                        <div class="scroller" style="height: 312px;" data-always-visible="1" data-rail-visible1="1">
-                                            <!-- START TASK LIST -->
-                                            <ul class="task-list">
 
-
-
-                            @foreach($notifications as $notification) 
-                            <li data-id="{{ $notification->id }}">
-                                <div class="task-title">
-                                    <span class="label label-warning"><i class="fa fa-bar-chart-o"></i></span>
-                                    <span class="task-title-sp">
-                                    <b>{{ $notification->getObject()->description }} </b>
-                                    {{ $notification->body }} 
-
-                                    @if($notification->hasValidObject() && $notification->status == "REQUESTED") 
-                                        by 
-                                        @if (Auth::user()->id == $notification->getObject()->user->id ) 
-                                            You
-                                        @else
-                                            {{ $notification->getObject()->user->name }} 
-                                        @endif
-                                    @endif 
-
-                                    <i>{{ \App\Services\CustomDate::formatHuman($notification->created_at) }}</i></span>
-                                </div>
-                                <div class="task-title task-config">
-                                    <span class="label">
-                                        <a href="" class="btn btn-sm default mark-read">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    </span>
-                                </div>
-                            </li>
-                            {{--  <li class="last-line"> --}}
-                            @endforeach
-
-
-                                            </ul>
-                                            <!-- END START TASK LIST -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
 @endif
 

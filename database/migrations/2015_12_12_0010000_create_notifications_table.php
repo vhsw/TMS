@@ -12,7 +12,7 @@ class CreateNotificationsTable extends Migration {
 	 */
 	public function up()
 	{
-		if (! Schema::hasTable('notifications'))
+		/*if (! Schema::hasTable('notifications'))
 		{
 			Schema::create('notifications', function(Blueprint $table)
 			{
@@ -24,14 +24,14 @@ class CreateNotificationsTable extends Migration {
 				$table->integer('object_id')->unsigned();
 				$table->string('object_type', 128);
 				$table->boolean('is_read')->default(0);
-				
+
 				$table->timestamp('updated_at');
                 $table->timestamp('created_at');
                 $table->timestamp('deleted_at');
 
                 $table->foreign('user_id')->references('id')->on('users');
 			});
-		}	
+		}*/	
 	}
 
 	/**

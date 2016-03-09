@@ -1,43 +1,17 @@
-<?php namespace App\Models;
+<?php
 
-use Illuminate\Database\Eloquent\Model;
+namespace App\Models;
 
-/**
- * Class User
- * @package App\Models\Access\User
- */
-class Supplier extends BaseModel {
+use App\Traits\SupplierTrait;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'suppliers';
+class Supplier extends BaseModel
+{
+    use SupplierTrait;
 
-	/**
-	 * The attributes that are not mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $guarded = ['id'];
+    protected $table = 'suppliers';
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	//protected $hidden = ['password', 'remember_token'];
-
-	/**
-	 * For soft deletes
-	 *
-	 * @var array
-	 */
-	//protected $dates = ['deleted_at'];
-
-	/**
-	 * @return mixed
-	 */
-
+     public function items()
+    {
+        return $this->belongsToMany('Inventory', 'inventory_suppliers', 'supplier_id')->withTimestamps();
+    }
 }

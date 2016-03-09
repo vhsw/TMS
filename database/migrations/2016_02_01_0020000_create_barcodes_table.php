@@ -12,7 +12,7 @@ class CreateBarcodesTable extends Migration {
 	 */
 	public function up()
 	{
-		if (! Schema::hasTable('barcodes'))
+		/*if (! Schema::hasTable('barcodes'))
 		{
 			Schema::create('barcodes', function(Blueprint $table)
 			{
@@ -26,7 +26,7 @@ class CreateBarcodesTable extends Migration {
 
                 $table->foreign('tool_id')->references('id')->on('tools');
 			});
-		}
+		}*/
 	}
 
 	/**

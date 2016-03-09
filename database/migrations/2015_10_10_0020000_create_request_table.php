@@ -12,7 +12,7 @@ class CreateRequestTable extends Migration {
 	 */
 	public function up()
 	{
-		if (! Schema::hasTable('requests'))
+		/*if (! Schema::hasTable('requests'))
 		{
 			Schema::create('requests', function(Blueprint $table)
 			{
@@ -26,7 +26,7 @@ class CreateRequestTable extends Migration {
 				$table->text('comments');
 				$table->string('status');
 				$table->decimal('cost', 8, 2);
-				
+
 				$table->timestamp('updated_at');
                 $table->timestamp('created_at');
                 $table->timestamp('deleted_at');
@@ -34,7 +34,7 @@ class CreateRequestTable extends Migration {
                 $table->foreign('tool_id')->references('id')->on('tools');
                 $table->foreign('user_id')->references('id')->on('users');
 			});
-		}
+		}*/
 	}
 
 	/**

@@ -10,11 +10,14 @@ class LocationTableSeeder extends Seeder {
 
         DB::table('locations')->delete();
 
-        Location::create(['name'=>'Bor','location'=>'01-01-01']);
-        Location::create(['name'=>'Bor','location'=>'01-01-02']);
-        Location::create(['name'=>'Bor','location'=>'01-01-03']);
-        Location::create(['name'=>'Bor','location'=>'01-01-04']);
-        Location::create(['name'=>'Bor','location'=>'01-01-05']);
-	        
+		//Create Location
+        $location = new Location;
+        $location->name = 'Nonlocated';
+        $location->save();
+
+		$location = new Location;
+        $location->name = 'Tools';
+        $location->save();
+
 	}
 }
