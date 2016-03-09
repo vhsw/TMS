@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Baum\Node;
-use Stevebauman\Inventory\Traits\CategoryTrait;
+use App\Traits\CategoryTrait;
 
 class Category extends Node
 {

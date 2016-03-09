@@ -12,21 +12,24 @@ class CreateBarcodesTable extends Migration {
 	 */
 	public function up()
 	{
-		/*if (! Schema::hasTable('barcodes'))
-		{
-			Schema::create('barcodes', function(Blueprint $table)
-			{
-				$table->increments('id')->unsigned();
-				$table->integer('tool_id')->unsigned();
-				$table->string('barcode')->unique()->index();
-				
-				$table->timestamp('updated_at');
-                $table->timestamp('created_at');
-                $table->timestamp('deleted_at');
+		if (! Schema::hasTable('barcodes'))
+        {
+            Schema::create('barcodes', function (Blueprint $table) {
+                $table->increments('id');
+                $table->timestamps();
+                $table->integer('inventory_id')->unsigned();
+                $table->string('barcode');
 
-                $table->foreign('tool_id')->references('id')->on('tools');
-			});
-		}*/
+                $table->foreign('inventory_id')->references('id')->on('inventories')
+                    ->onUpdate('restrict')
+                    ->onDelete('cascade');
+
+                /*
+                 * Make sure each SKU is unique
+                 */
+                $table->unique(['barcode']);
+            });
+        }
 	}
 
 	/**

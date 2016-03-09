@@ -19,13 +19,19 @@
 var iconUrl = "{!!url('img/ICO')!!}";
 
 var selected = [<?php
-    $roots = $inventory->category->getAncestorsAndSelf();
+
     $result = '';
-    foreach ($roots as $root)
-    {
-        $result .= $root->id.',';
+    if($inventory->category_id != null) {
+        $roots = $inventory->category->getAncestorsAndSelf();
+        foreach ($roots as $root)
+        {
+            $result .= $root->id.',';
+        }
+    } else {
+        $result = 1;
     }
     echo substr($result, 0, -1);
+
 ?>];
 
 
@@ -93,7 +99,7 @@ jQuery(document).ready(function() {
         updateCategories( $(this).val(), null );
     });
 
-    generateSelectBoxes( {{ $inventory->category->id }} );
+    generateSelectBoxes( {{ $inventory->category_id }} );
 
 });
 </script>
@@ -102,7 +108,7 @@ jQuery(document).ready(function() {
 
 @section('content')
 
-<form class="form-horizontal form-row-seperated" method="get" action="{!!url('tool/'.$inventory->id.'/save')!!}">
+<form class="form-horizontal form-row-seperated" method="get" action="{!!url('inventory/'.$inventory->id.'/save')!!}">
     <div class="page-bar">
         <div class="row p-t-10 p-b-10">
             <div class="col-sm-2">
@@ -155,7 +161,7 @@ jQuery(document).ready(function() {
                                 <label class="col-md-2 control-label">Name
                                 </label>
                                 <div class="col-md-5">
-                                    <input value="{{ $inventory->name }}" type="text" class="form-control" name="name0">
+                                    <input value="{{ $inventory->name }}" type="text" class="form-control" name="name">
                                 </div>
                             </div>
 
@@ -163,7 +169,15 @@ jQuery(document).ready(function() {
                                 <label class="col-md-2 control-label">Name 0
                                 </label>
                                 <div class="col-md-5">
-                                    <input value="{{ $inventory->name0 }}" type="text" class="form-control" name="name1">
+                                    <input value="{{ $inventory->name0 }}" type="text" class="form-control" name="name0">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">barcode
+                                </label>
+                                <div class="col-md-5">
+                                    <input value="{{ $inventory->getBarcode() }}" type="text" class="form-control" name="barcode">
                                 </div>
                             </div>
 
@@ -171,7 +185,7 @@ jQuery(document).ready(function() {
                                 <label class="col-md-2 control-label">Sku
                                 </label>
                                 <div class="col-md-5">
-                                    <input value="{{ $inventory->getSku() }}" type="text" class="form-control" name="barcode">
+                                    <input value="{{ $inventory->getSku() }}" type="text" class="form-control" name="sku">
                                 </div>
                             </div>
 

@@ -3,14 +3,13 @@
 namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-use Stevebauman\Inventory\Exceptions\InvalidSupplierException;
-use Stevebauman\Inventory\Exceptions\SkuAlreadyExistsException;
-use Stevebauman\Inventory\Exceptions\StockNotFoundException;
-use Stevebauman\Inventory\Exceptions\StockAlreadyExistsException;
-use Stevebauman\Inventory\InventoryServiceProvider;
+use App\Exceptions\InvalidSupplierException;
+use App\Exceptions\SkuAlreadyExistsException;
+use App\Exceptions\StockNotFoundException;
+use App\Exceptions\StockAlreadyExistsException;
+use App\Providers\InventoryServiceProvider;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
-
 /**
  * Trait InventoryTrait.
  */
@@ -20,58 +19,49 @@ trait InventoryTrait
      * Location helper functions
      */
     use LocationTrait;
-
     /*
      * Verification helper functions
      */
     use VerifyTrait;
-
     /*
      * Set's the models constructor method to automatically assign the
      * user_id's attribute to the current logged in user
      */
     use UserIdentificationTrait;
-
     /*
      * Helpers for starting database transactions
      */
     use DatabaseTransactionTrait;
-
     /**
      * The hasOne category relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     abstract public function category();
-
     /**
      * The hasOne metric relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     abstract public function metric();
-
     /**
      * The hasOne SKU relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     abstract public function sku();
-
     /**
      * The hasMany stocks relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     abstract public function stocks();
-
     /**
      * The belongsToMany suppliers relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     abstract public function suppliers();
-
     /**
      * Overrides the models boot function to set the user
      * ID automatically to every new record.
@@ -85,14 +75,12 @@ trait InventoryTrait
         static::creating(function (Model $record) {
             $record->user_id = static::getCurrentUserId();
         });
-
         /*
          * Generate the items SKU once it's created
          */
         static::created(function (Model $record) {
             $record->generateSku();
         });
-
         /*
          * Generate an SKU if the item has been assigned a category,
          * this will not overwrite any SKU the item had previously
@@ -103,7 +91,6 @@ trait InventoryTrait
             }
         });
     }
-
     /**
      * Returns an item record by the specified SKU code.
      *
@@ -117,7 +104,6 @@ trait InventoryTrait
          * Create a new static instance
          */
         $instance = new static();
-
         /*
          * Try and find the SKU record
          */
@@ -127,7 +113,6 @@ trait InventoryTrait
             ->with('item')
             ->where('code', $sku)
             ->first();
-
         /*
          * Check if the SKU was found, and if an item is
          * attached to the SKU we'll return it
@@ -135,15 +120,13 @@ trait InventoryTrait
         if ($sku && $sku->item) {
             return $sku->item;
         }
-
         /*
          * Return false on failure
          */
         return false;
     }
-
     /**
-     * Returns the total sum of the current stock.
+     * Returns the total sum of the current item stock.
      *
      * @return int|float
      */
@@ -151,7 +134,6 @@ trait InventoryTrait
     {
         return $this->stocks->sum('quantity');
     }
-
     /**
      * Returns true/false if the inventory has a metric present.
      *
@@ -162,10 +144,8 @@ trait InventoryTrait
         if ($this->metric) {
             return true;
         }
-
         return false;
     }
-
     /**
      * Returns true/false if the current item has an SKU.
      *
@@ -176,10 +156,8 @@ trait InventoryTrait
         if ($this->sku) {
             return true;
         }
-
         return false;
     }
-
     /**
      * Returns true/false if the current item has a category.
      *
@@ -190,10 +168,8 @@ trait InventoryTrait
         if ($this->category) {
             return true;
         }
-
         return false;
     }
-
     /**
      * Returns the inventory's metric symbol.
      *
@@ -204,10 +180,8 @@ trait InventoryTrait
         if ($this->hasMetric()) {
             return $this->metric->symbol;
         }
-
         return;
     }
-
     /**
      * Returns true/false if the inventory has stock.
      *
@@ -217,7 +191,6 @@ trait InventoryTrait
     {
         return ($this->getTotalStock() > 0 ? true : false);
     }
-
     /**
      * Creates a stock record to the current inventory item.
      *
@@ -234,12 +207,11 @@ trait InventoryTrait
      * @throws \Stevebauman\Inventory\Exceptions\InvalidLocationException
      * @throws \Stevebauman\Inventory\Exceptions\NoUserLoggedInException
      *
-     * @return mixed
+     * @return Model
      */
     public function createStockOnLocation($quantity, $location, $reason = '', $cost = 0, $aisle = null, $row = null, $bin = null)
     {
         $location = $this->getLocation($location);
-
         try {
             /*
              * We want to make sure stock doesn't exist on the specified location already
@@ -248,7 +220,6 @@ trait InventoryTrait
                 $message = Lang::get('inventory::exceptions.StockAlreadyExistsException', [
                     'location' => $location->name,
                 ]);
-
                 throw new StockAlreadyExistsException($message);
             }
         } catch (StockNotFoundException $e) {
@@ -256,27 +227,25 @@ trait InventoryTrait
              * A stock record wasn't found on this location, we'll create one
              */
             $insert = [
-                'inventory_id' => $this->id,
-                'location_id' => $location->id,
+                'inventory_id' => $this->getKey(),
+                'location_id' => $location->getKey(),
                 'quantity' => 0,
                 'aisle' => $aisle,
                 'row' => $row,
                 'bin' => $bin,
             ];
-
             /*
              * We'll perform a create so a 'first' movement is generated
              */
             $stock = $this->stocks()->create($insert);
-
             /*
              * Now we'll 'put' the inserted quantity onto the generated stock
              * and return the results
              */
             return $stock->put($quantity, $reason, $cost);
         }
+        return false;
     }
-
     /**
      * Instantiates a new stock on the specified
      * location on the current item.
@@ -291,7 +260,6 @@ trait InventoryTrait
     public function newStockOnLocation($location)
     {
         $location = $this->getLocation($location);
-
         try {
             /*
              * We want to make sure stock doesn't exist on the specified location already
@@ -300,7 +268,6 @@ trait InventoryTrait
                 $message = Lang::get('inventory::exceptions.StockAlreadyExistsException', [
                     'location' => $location->name,
                 ]);
-
                 throw new StockAlreadyExistsException($message);
             }
         } catch (StockNotFoundException $e) {
@@ -308,18 +275,15 @@ trait InventoryTrait
              * Create a new stock model instance
              */
             $stock = $this->stocks()->getRelated();
-
             /*
              * Assign the known attributes
              * so devs don't have to
              */
-            $stock->inventory_id = $this->id;
-            $stock->location_id = $location->id;
-
+            $stock->inventory_id = $this->getKey();
+            $stock->location_id = $location->getKey();
             return $stock;
         }
     }
-
     /**
      * Takes the specified amount ($quantity) of stock from specified stock location.
      *
@@ -341,15 +305,12 @@ trait InventoryTrait
             return $this->takeFromManyLocations($quantity, $location, $reason);
         } else {
             $stock = $this->getStockFromLocation($location);
-
             if ($stock->take($quantity, $reason)) {
                 return $this;
             }
         }
-
         return false;
     }
-
     /**
      * Takes the specified amount ($quantity) of stock from the specified stock locations.
      *
@@ -364,16 +325,12 @@ trait InventoryTrait
     public function takeFromManyLocations($quantity, $locations = [], $reason = '')
     {
         $stocks = [];
-
         foreach ($locations as $location) {
             $stock = $this->getStockFromLocation($location);
-
             $stocks[] = $stock->take($quantity, $reason);
         }
-
         return $stocks;
     }
-
     /**
      * Alias for the `take` function.
      *
@@ -387,7 +344,6 @@ trait InventoryTrait
     {
         return $this->takeFromLocation($quantity, $location, $reason);
     }
-
     /**
      * Alias for the `takeFromMany` function.
      *
@@ -401,7 +357,6 @@ trait InventoryTrait
     {
         return $this->takeFromManyLocations($quantity, $locations, $reason);
     }
-
     /**
      * Puts the specified amount ($quantity) of stock into the specified stock location(s).
      *
@@ -420,15 +375,12 @@ trait InventoryTrait
             return $this->putToManyLocations($quantity, $location);
         } else {
             $stock = $this->getStockFromLocation($location);
-
             if ($stock->put($quantity, $reason, $cost)) {
                 return $this;
             }
         }
-
         return false;
     }
-
     /**
      * Puts the specified amount ($quantity) of stock into the specified stock locations.
      *
@@ -444,16 +396,12 @@ trait InventoryTrait
     public function putToManyLocations($quantity, $locations = [], $reason = '', $cost = 0)
     {
         $stocks = [];
-
         foreach ($locations as $location) {
             $stock = $this->getStockFromLocation($location);
-
             $stocks[] = $stock->put($quantity, $reason, $cost);
         }
-
         return $stocks;
     }
-
     /**
      * Alias for the `put` function.
      *
@@ -468,7 +416,6 @@ trait InventoryTrait
     {
         return $this->putToLocation($quantity, $location, $reason, $cost);
     }
-
     /**
      * Alias for the `putToMany` function.
      *
@@ -483,7 +430,6 @@ trait InventoryTrait
     {
         return $this->putToManyLocations($quantity, $locations, $reason, $cost);
     }
-
     /**
      * Moves a stock from one location to another.
      *
@@ -497,12 +443,9 @@ trait InventoryTrait
     public function moveStock($fromLocation, $toLocation)
     {
         $stock = $this->getStockFromLocation($fromLocation);
-
         $toLocation = $this->getLocation($toLocation);
-
         return $stock->moveTo($toLocation);
     }
-
     /**
      * Retrieves an inventory stock from a given location.
      *
@@ -516,23 +459,19 @@ trait InventoryTrait
     public function getStockFromLocation($location)
     {
         $location = $this->getLocation($location);
-
         $stock = $this->stocks()
-            ->where('inventory_id', $this->id)
-            ->where('location_id', $location->id)
+            ->where('inventory_id', $this->getKey())
+            ->where('location_id', $location->getKey())
             ->first();
-
         if ($stock) {
             return $stock;
         } else {
             $message = Lang::get('inventory::exceptions.StockNotFoundException', [
                 'location' => $location->name,
             ]);
-
             throw new StockNotFoundException($message);
         }
     }
-
     /**
      * Returns the item's SKU.
      *
@@ -543,10 +482,8 @@ trait InventoryTrait
         if ($this->hasSku()) {
             return $this->sku->code;
         }
-
         return;
     }
-
     /**
      * Laravel accessor for the current items SKU.
      *
@@ -556,7 +493,6 @@ trait InventoryTrait
     {
         return $this->getSku();
     }
-
     /**
      * Generates an item SKU record.
      *
@@ -574,41 +510,34 @@ trait InventoryTrait
         if (!$this->skusEnabled() || !$this->hasCategory()) {
             return false;
         }
-
         /*
          * If the item already has an SKU, we'll return it
          */
         if ($this->hasSku()) {
             return $this->sku;
         }
-
         /*
          * Get the set SKU code length from the configuration file
          */
         $codeLength = Config::get('inventory'.InventoryServiceProvider::$packageConfigSeparator.'sku_code_length');
-
         /*
          * Get the set SKU prefix length from the configuration file
          */
         $prefixLength = Config::get('inventory'.InventoryServiceProvider::$packageConfigSeparator.'sku_prefix_length');
-
         /*
          * Get the set SKU separator
          */
         $skuSeparator = Config::get('inventory'.InventoryServiceProvider::$packageConfigSeparator.'sku_separator');
-
         /*
          * Make sure we trim empty spaces in the separator if it's a string, otherwise we'll
          * set it to NULL
          */
         $skuSeparator = (is_string($skuSeparator) ? trim($skuSeparator) : null);
-
         /*
          * Trim the category name to remove blank spaces, then
          * grab the first 3 letters of the string, and uppercase them
          */
         $prefix = strtoupper(substr(trim($this->category->name), 0, intval($prefixLength)));
-
         /*
          * We'll make sure the prefix length is greater than zero before we try and
          * generate an SKU
@@ -618,20 +547,17 @@ trait InventoryTrait
              * Create the numerical code by the items ID
              * to accompany the prefix and pad left zeros
              */
-            $code = str_pad($this->id, $codeLength, '0', STR_PAD_LEFT);
-
+            $code = str_pad($this->getKey(), $codeLength, '0', STR_PAD_LEFT);
             /*
              * Process the generation
              */
-            return $this->processSkuGeneration($this->id, $prefix.$skuSeparator.$code);
+            return $this->processSkuGeneration($this->getKey(), $prefix.$skuSeparator.$code);
         }
-
         /*
          * Always return false on generation failure
          */
         return false;
     }
-
     /**
      * Regenerates the current items SKU by
      * deleting its current SKU and creating
@@ -643,42 +569,35 @@ trait InventoryTrait
     public function regenerateSku()
     {
         $sku = $this->sku()->first();
-
         if ($sku) {
             /*
              * Capture current SKU
              */
             $previousSku = $sku;
-
             /*
              * Delete current SKU
              */
             $sku->delete();
-
             /*
              * Try to generate a new SKU
              */
             $newSku = $this->generateSku();
-
             /*
              * New sku generation successful, return it
              */
             if ($newSku) {
                 return $newSku;
             }
-
             /*
              * Failed generating a new sku, we'll restore the old one
              */
-            return $this->processSkuGeneration($this->id, $previousSku->code);
+            return $this->processSkuGeneration($this->getKey(), $previousSku->code);
         }
-
         /*
          * Always generate an SKU if one doesn't exist
          */
         return $this->generateSku();
     }
-
     /**
      * Creates an SKU with the specified code. If overwrite is true,
      * the current items SKU will be deleted if it exists before creating
@@ -698,7 +617,6 @@ trait InventoryTrait
          * Get the current SKU record
          */
         $sku = $this->sku()->first();
-
         if ($sku) {
             /*
              * The dev doesn't want the SKU overridden,
@@ -706,22 +624,18 @@ trait InventoryTrait
              */
             if (!$overwrite) {
                 $message = Lang::get('inventory::exceptions.SkuAlreadyExistsException');
-
                 throw new SkuAlreadyExistsException($message);
             }
-
             /*
              * Overwrite is true, lets update the current SKU
              */
             return $this->updateSku($code, $sku);
         }
-
         /*
          * No SKU exists, lets create one
          */
-        return $this->processSkuGeneration($this->id, $code);
+        return $this->processSkuGeneration($this->getKey(), $code);
     }
-
     /**
      * Updates the items current SKU or the SKU
      * supplied with the specified code.
@@ -739,18 +653,15 @@ trait InventoryTrait
         if (!$sku) {
             $sku = $this->sku()->first();
         }
-
         /*
          * If an SKU still doesn't exist after
          * trying to find one, we'll create one
          */
         if (!$sku) {
-            return $this->processSkuGeneration($this->id, $code);
+            return $this->processSkuGeneration($this->getKey(), $code);
         }
-
         return $this->processSkuUpdate($sku, $code);
     }
-
     /**
      * Adds all of the specified suppliers inside
      * the array to the current inventory item.
@@ -764,10 +675,8 @@ trait InventoryTrait
         foreach ($suppliers as $supplier) {
             $this->addSupplier($supplier);
         }
-
         return true;
     }
-
     /**
      * Removes all suppliers from the current item.
      *
@@ -776,14 +685,11 @@ trait InventoryTrait
     public function removeAllSuppliers()
     {
         $suppliers = $this->suppliers()->get();
-
         foreach ($suppliers as $supplier) {
             $this->removeSupplier($supplier);
         }
-
         return true;
     }
-
     /**
      * Removes all of the specified suppliers inside
      * the array from the current inventory item.
@@ -797,10 +703,8 @@ trait InventoryTrait
         foreach ($suppliers as $supplier) {
             $this->removeSupplier($supplier);
         }
-
         return true;
     }
-
     /**
      * Adds the specified supplier to the current inventory item.
      *
@@ -813,10 +717,8 @@ trait InventoryTrait
     public function addSupplier($supplier)
     {
         $supplier = $this->getSupplier($supplier);
-
         return $this->processSupplierAttach($supplier);
     }
-
     /**
      * Removes the specified supplier from the current inventory item.
      *
@@ -829,10 +731,8 @@ trait InventoryTrait
     public function removeSupplier($supplier)
     {
         $supplier = $this->getSupplier($supplier);
-
         return $this->processSupplierDetach($supplier);
     }
-
     /**
      * Retrieves a supplier from the specified variable.
      *
@@ -852,11 +752,9 @@ trait InventoryTrait
             $message = Lang::get('inventory::exceptions.InvalidSupplierException', [
                 'supplier' => $supplier,
             ]);
-
             throw new InvalidSupplierException($message);
         }
     }
-
     /**
      * Processes an SKU generation covered by database transactions.
      *
@@ -868,31 +766,24 @@ trait InventoryTrait
     private function processSkuGeneration($inventoryId, $code)
     {
         $this->dbStartTransaction();
-
         try {
             $insert = [
                 'inventory_id' => $inventoryId,
                 'code' => $code,
             ];
-
             $record = $this->sku()->create($insert);
-
             if ($record) {
                 $this->dbCommitTransaction();
-
                 $this->fireEvent('inventory.sku.generated', [
                     'item' => $this,
                 ]);
-
                 return $record;
             }
         } catch (\Exception $e) {
             $this->dbRollbackTransaction();
         }
-
         return false;
     }
-
     /**
      * Processes updating the specified SKU
      * record with the specified code.
@@ -905,20 +796,16 @@ trait InventoryTrait
     private function processSkuUpdate(Model $sku, $code)
     {
         $this->dbStartTransaction();
-
         try {
             if ($sku->update(compact('code'))) {
                 $this->dbCommitTransaction();
-
                 return $sku;
             }
         } catch (\Exception $e) {
             $this->dbRollbackTransaction();
         }
-
         return false;
     }
-
     /**
      * Processes attaching a supplier to an inventory item.
      *
@@ -929,25 +816,19 @@ trait InventoryTrait
     private function processSupplierAttach(Model $supplier)
     {
         $this->dbStartTransaction();
-
         try {
             $this->suppliers()->attach($supplier);
-
             $this->dbCommitTransaction();
-
             $this->fireEvent('inventory.supplier.attached', [
                 'item' => $this,
                 'supplier' => $supplier,
             ]);
-
             return true;
         } catch (\Exception $e) {
             $this->dbRollbackTransaction();
         }
-
         return false;
     }
-
     /**
      * Processes detaching a supplier.
      *
@@ -958,25 +839,19 @@ trait InventoryTrait
     private function processSupplierDetach(Model $supplier)
     {
         $this->dbStartTransaction();
-
         try {
             $this->suppliers()->detach($supplier);
-
             $this->dbCommitTransaction();
-
             $this->fireEvent('inventory.supplier.detached', [
                 'item' => $this,
                 'supplier' => $supplier,
             ]);
-
             return true;
         } catch (\Exception $e) {
             $this->dbRollbackTransaction();
         }
-
         return false;
     }
-
     /**
      * Returns a supplier by the specified ID.
      *
@@ -988,7 +863,6 @@ trait InventoryTrait
     {
         return $this->suppliers()->find($id);
     }
-
     /**
      * Returns the configuration option for the
      * enablement of automatic SKU generation.

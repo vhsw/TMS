@@ -261,6 +261,40 @@ class InventoryController extends Controller {
         return view('inventory.edit', compact('inventory', 'suppliers'));
     }
 
+    /**
+     * Update inventory item
+     * GET /inventory/(item)/save
+     *
+     * @param Request          $request
+     * @param Inventory        $item
+     *
+     * @return
+     */
+    public function save(Request $request, Inventory $item)
+    {
+        $offset = count($request->category) - 1;
+
+        /*
+         * Set Category to NULL if requested category is 0
+         */
+        $category = $request->category[$offset];
+        if ($category == 0 && $offset < 1) {
+            $category = NULL;
+        }
+
+        $item->serialnr = $request->serialnr;
+        $item->name = $request->name;
+        $item->name0 = $request->name0;
+        //$item->supplier_id = $request->supplier_id;
+        $item->category_id = $category;
+        $item->save();
+
+        $item->updateBarcode($request->barcode);
+
+        echo $item;
+
+    }
+
 
     private function makeNextPrev($tool_id)
     {
@@ -271,48 +305,6 @@ class InventoryController extends Controller {
         if (!$next) { $next = false; } else { $next = $next[0]->id; }
 
         return ['prev' => $prev, 'next' => $next];
-    }
-
-
-
-    public function save(Request $request, $id)
-    {
-        // Get Category Id
-        $i=0;
-        while($request->has("cat-".$i))
-        {
-            $i++;
-        }
-        $i--;
-
-        if($request->input("cat-".$i) == 0) {
-            $category_id = $request->input("cat-".($i-1));
-        } else {
-            $category_id = $request->input("cat-".($i));
-        }
-
-
-        $tool = Tool::find($id);
-        $tool->serialnr = $request->serialnr;
-        $tool->name0 = $request->name0;
-        $tool->name1 = $request->name1;
-        $tool->supplier_id = $request->supplier_id;
-        $tool->category_id = $category_id;
-        $tool->save();
-
-        if ($request->barcode != '') {
-            $tool->updateBarcode($request->barcode);
-        }
-
-        $next = Tool::next($tool->id);
-        if (!$next)
-        {
-            return redirect('tool/'.$id.'/edit');
-        }
-        else
-        {
-            return redirect('tool/'.$next[0]->id.'/edit');
-        }
     }
 
 

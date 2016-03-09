@@ -8,6 +8,7 @@ Route::get('inventory/{item}/view', 			'InventoryController@view');
 Route::get('inventory/new', 				    'InventoryController@new');
 Route::post('inventory/create', 				'InventoryController@create');
 Route::get('inventory/{id}/edit', 				'InventoryController@edit');
+Route::get('inventory/{item}/save', 			'InventoryController@save');
 Route::get('inventory/{item}/request', 			'InventoryController@request');
 
 Route::post('inventory/db', 					'InventoryController@db');	// AJAX

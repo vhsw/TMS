@@ -41,17 +41,20 @@ class CategoryController extends Controller {
 
     public function generateSelectBoxes(Request $request)
     {
-        $roots = Category::find($request->id)->getAncestorsAndSelf();
+        $result = array();
 
-        if($roots) {
-            $result = array();
+        if($request->id != null) {
+            $roots = Category::find($request->id)->getAncestorsAndSelf();
 
             foreach($roots as $root)
             {
                 $result[] = $root->getImmediateDescendants();
             }
-            return $result;
+        } else {
+            $result[] = Category::find(1)->getImmediateDescendants();
         }
+        
+        return $result;
     }
 
 
