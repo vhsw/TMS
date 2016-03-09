@@ -21,8 +21,8 @@ var iconUrl = "{!!url('img/ICO')!!}";
 var selected = [<?php
 
     $result = '';
-    if($inventory->category_id != null) {
-        $roots = $inventory->category->getAncestorsAndSelf();
+    if($item->category_id != null) {
+        $roots = $item->category->getAncestorsAndSelf();
         foreach ($roots as $root)
         {
             $result .= $root->id.',';
@@ -99,7 +99,7 @@ jQuery(document).ready(function() {
         updateCategories( $(this).val(), null );
     });
 
-    generateSelectBoxes( {{ $inventory->category_id }} );
+    generateSelectBoxes( {{ $item->category_id }} );
 
 });
 </script>
@@ -108,7 +108,7 @@ jQuery(document).ready(function() {
 
 @section('content')
 
-<form class="form-horizontal form-row-seperated" method="get" action="{!!url('inventory/'.$inventory->id.'/save')!!}">
+<form class="form-horizontal form-row-seperated" method="get" action="{!!url('inventory/'.$item->id.'/save')!!}">
     <div class="page-bar">
         <div class="row p-t-10 p-b-10">
             <div class="col-sm-2">
@@ -153,7 +153,7 @@ jQuery(document).ready(function() {
                                 <label class="col-md-2 control-label">Serialnr
                                 </label>
                                 <div class="col-md-5">
-                                    <input value="{{ $inventory->serialnr }}" type="text" class="form-control" name="serialnr">
+                                    <input value="{{ $item->serialnr }}" type="text" class="form-control" name="serialnr">
                                 </div>
                             </div>
 
@@ -161,7 +161,7 @@ jQuery(document).ready(function() {
                                 <label class="col-md-2 control-label">Name
                                 </label>
                                 <div class="col-md-5">
-                                    <input value="{{ $inventory->name }}" type="text" class="form-control" name="name">
+                                    <input value="{{ $item->name }}" type="text" class="form-control" name="name">
                                 </div>
                             </div>
 
@@ -169,7 +169,7 @@ jQuery(document).ready(function() {
                                 <label class="col-md-2 control-label">Name 0
                                 </label>
                                 <div class="col-md-5">
-                                    <input value="{{ $inventory->name0 }}" type="text" class="form-control" name="name0">
+                                    <input value="{{ $item->name0 }}" type="text" class="form-control" name="name0">
                                 </div>
                             </div>
 
@@ -177,7 +177,7 @@ jQuery(document).ready(function() {
                                 <label class="col-md-2 control-label">barcode
                                 </label>
                                 <div class="col-md-5">
-                                    <input value="{{ $inventory->getBarcode() }}" type="text" class="form-control" name="barcode">
+                                    <input value="{{ $item->getBarcode() }}" type="text" class="form-control" name="barcode">
                                 </div>
                             </div>
 
@@ -185,7 +185,7 @@ jQuery(document).ready(function() {
                                 <label class="col-md-2 control-label">Sku
                                 </label>
                                 <div class="col-md-5">
-                                    <input value="{{ $inventory->getSku() }}" type="text" class="form-control" name="sku">
+                                    <input value="{{ $item->getSku() }}" type="text" class="form-control" name="sku">
                                 </div>
                             </div>
 
@@ -196,7 +196,7 @@ jQuery(document).ready(function() {
                                     <select name="supplier_id" class="form-control">
                                         @foreach($suppliers as $supplier)
                                         @if($supplier->producer)
-                                        <option value="{{ $supplier->id }}" {{ ($supplier->id == $inventory->supplier_id) ? 'SELECTED' : '' }}>{{ $supplier->name }}</option>
+                                        <option value="{{ $supplier->id }}" {{ ($supplier->id == $item->supplier_id) ? 'SELECTED' : '' }}>{{ $supplier->name }}</option>
                                         @endif
                                         @endforeach
                                     </select>

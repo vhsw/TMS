@@ -50,7 +50,7 @@ foreach($costs as $cost)
     <div class="col-md-8">
       <div class="row">
         <div class="col-md-8 profile-info">
-          <h1 class="font-green sbold uppercase">{{ $inventory->serialnr }}</h1>
+          <h1 class="font-green sbold uppercase">{{ $item->serialnr }}</h1>
           <h5 class="font-green sbold uppercase">if($detail) endif</h5>
           <br>
 
@@ -58,13 +58,13 @@ foreach($costs as $cost)
             <tbody>
               <tr>
                 <td><b>Category</b></td>
-                <td> {{ $inventory->category->name }}</td>
+                <td> {{ $item->category->name }}</td>
                 <td></td>
               </tr>
 
               <tr>
                 <td><b>Supplier SN</b></td>
-                <td> {{ $inventory->name }}</td>
+                <td> {{ $item->name }}</td>
                 <td></td>
               </tr>
 
@@ -120,11 +120,11 @@ foreach($costs as $cost)
               <a href="javascript:;"> Take out </a>
             </li>
             <li>
-              <a href="{!! url('/inventory/'.$inventory->id.'/request') !!}"> Request </a>
+              <a href="{!! url('/inventory/'.$item->id.'/request') !!}"> Request </a>
             </li>
             @if(Auth::check() && Auth::user()->hasRole('admin'))
             <li>
-              <a href="{!! url('/inventory/'.$inventory->id.'/edit') !!}"> Edit </a>
+              <a href="{!! url('/inventory/'.$item->id.'/edit') !!}"> Edit </a>
             </li>
             @endif
           </ul>

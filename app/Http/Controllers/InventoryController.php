@@ -48,7 +48,7 @@ class InventoryController extends Controller {
      */
     public function view(Inventory $item)
     {
-        return view('inventory.view', compact('inventory'));
+        return view('inventory.view', compact('item'));
     }
 
     /**
@@ -248,17 +248,15 @@ class InventoryController extends Controller {
      *
      * @return View
      */
-    public function edit($id)
+    public function edit(Inventory $item)
     {
-        // Get Tool Details
-        $inventory =    Inventory::find($id);
         $suppliers =    Supplier::all();
         //$detail =       Detail::where('tool_id', '=', $tool->id)->first();
 
         // Create Navigation for Next and Previous Tool
         //$navigate = $this->makeNextPrev($tool->id);
 
-        return view('inventory.edit', compact('inventory', 'suppliers'));
+        return view('inventory.edit', compact('item', 'suppliers'));
     }
 
     /**
@@ -280,6 +278,8 @@ class InventoryController extends Controller {
         $category = $request->category[$offset];
         if ($category == 0 && $offset < 1) {
             $category = NULL;
+        } elseif ($category == 0) {
+            $category = $request->category[$offset - 1];
         }
 
         $item->serialnr = $request->serialnr;
