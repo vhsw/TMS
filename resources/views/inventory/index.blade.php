@@ -1,197 +1,185 @@
 @extends('master')
 
-@section('content')
-	<div class="row">
+@section('title') Tools | Browse @endsection
 
-		<div class="col-md-10 col-md-offset-1">
-
-			<div class="panel panel-default">
-				<div class="panel-heading"><i class="fa fa-home"></i> {{ trans('navs.home') }}</div>
-
-				<div class="panel-body">
-					{{ trans('strings.welcome_to', ['place' => app_name()]) }}
-				</div>
-			</div><!-- panel -->
-
-		</div><!-- col-md-10 -->
-
-		@role('Administrator')
-            {{-- You can also send through the Role ID --}}
-
-		    <div class="col-md-10 col-md-offset-1">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-home"></i> {{ trans('strings.based_on.role') . trans('strings.using_blade_extensions') }}</div>
-
-                    <div class="panel-body">
-                        {{ trans('strings.test') . ' 1: ' . trans('strings.you_can_see_because', ['role' => trans('roles.administrator')]) }}
-                    </div>
-                </div><!-- panel -->
-
-            </div><!-- col-md-10 -->
-		@endauth
-
-		@if (access()->hasRole('Administrator'))
-		    <div class="col-md-10 col-md-offset-1">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-home"></i> {{ trans('strings.based_on.role') . trans('strings.using_access_helper.role_name') }}</div>
-
-                    <div class="panel-body">
-                        {{ trans('strings.test') . ' 2: ' . trans('strings.you_can_see_because', ['role' => trans('roles.administrator')]) }}
-                    </div>
-                </div><!-- panel -->
-
-            </div><!-- col-md-10 -->
-		@endif
-
-		@if (access()->hasRole(1))
-            <div class="col-md-10 col-md-offset-1">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-home"></i> {{ trans('strings.based_on.role') . trans('strings.using_access_helper.role_id') }}</div>
-
-                    <div class="panel-body">
-                        {{ trans('strings.test') . ' 3: ' . trans('strings.you_can_see_because', ['role' => trans('roles.administrator')]) }}
-                    </div>
-                </div><!-- panel -->
-
-            </div><!-- col-md-10 -->
-        @endif
-
-        @if (access()->hasRoles(['Administrator', 1]))
-            <div class="col-md-10 col-md-offset-1">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-home"></i> {{ trans('strings.based_on.role') . trans('strings.using_access_helper.array_roles_not') }}</div>
-
-                    <div class="panel-body">
-                        {{ trans('strings.test') . ' 4: ' . trans('strings.you_can_see_because', ['role' => trans('roles.administrator')]) }}
-                    </div>
-                </div><!-- panel -->
-
-            </div><!-- col-md-10 -->
-        @endif
-
-        {{-- The second parameter says the user must have all the roles specified. Administrator does not have the role with an id of 2, so this will not show. --}}
-        @if (access()->hasRoles(['Administrator', 2], true))
-            <div class="col-md-10 col-md-offset-1">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-home"></i> {{ trans('strings.based_on.role') . trans('strings.using_access_helper.array_roles') }}</div>
-
-                    <div class="panel-body">
-                        {{ trans('strings.you_can_see_because', ['role' => trans('roles.administrator')]) }}
-                    </div>
-                </div><!-- panel -->
-
-            </div><!-- col-md-10 -->
-        @endif
-
-        @permission('view-backend')
-            <div class="col-md-10 col-md-offset-1">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-home"></i> {{ trans('strings.based_on.permission') . trans('strings.using_access_helper.permission_name') }}</div>
-
-                    <div class="panel-body">
-                        {{ trans('strings.test') . ' 5: ' . trans('strings.you_can_see_because_permission', ['permission' => 'view-backend']) }}
-                    </div>
-                </div><!-- panel -->
-
-            </div><!-- col-md-10 -->
-        @endauth
-
-        @if (access()->hasPermission(1))
-            <div class="col-md-10 col-md-offset-1">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-home"></i> {{ trans('strings.based_on.permission') . trans('strings.using_access_helper.permission_id') }}</div>
-
-                    <div class="panel-body">
-                        {{ trans('strings.test') . ' 6: ' . trans('strings.you_can_see_because_permission', ['permission' => 'view_backend']) }}
-                    </div>
-                </div><!-- panel -->
-
-            </div><!-- col-md-10 -->
-        @endif
-
-        @if (access()->hasPermissions(['view-backend', 1]))
-            <div class="col-md-10 col-md-offset-1">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-home"></i> {{ trans('strings.based_on.permission') . trans('strings.using_access_helper.array_permissions_not') }}</div>
-
-                    <div class="panel-body">
-                        {{ trans('strings.test') . ' 7: ' . trans('strings.you_can_see_because_permission', ['permission' => 'view_backend']) }}
-                    </div>
-                </div><!-- panel -->
-
-            </div><!-- col-md-10 -->
-        @endif
-
-        @if (access()->hasPermissions(['view-backend', 2], true))
-            <div class="col-md-10 col-md-offset-1">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-home"></i> {{ trans('strings.based_on.permission') . trans('strings.using_access_helper.array_permissions') }}</div>
-
-                    <div class="panel-body">
-                        {{ trans('strings.you_can_see_because_permission', ['permission' => 'view_backend']) }}
-                    </div>
-                </div><!-- panel -->
-
-            </div><!-- col-md-10 -->
-        @endif
-
-        <div class="col-md-10 col-md-offset-1">
-
-            <div class="panel panel-default">
-                <div class="panel-heading"><i class="fa fa-home"></i> {{ trans('strings.js_injected_from_controller') }}</div>
-
-                <div class="panel-body">
-                    {{ trans('strings.test') . ' 8: ' . trans('strings.view_console_it_works') }}
-                </div>
-            </div><!-- panel -->
-
-        </div><!-- col-md-10 -->
-
-        <div class="col-md-10 col-md-offset-1">
-
-            <div class="panel panel-default">
-                <div class="panel-heading"><i class="fa fa-home"></i> Bootstrap Glyphicon {{ trans('strings.test') }}</div>
-
-                <div class="panel-body">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    <span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span>
-                    <span class="glyphicon glyphicon glyphicon-cloud" aria-hidden="true"></span>
-                    <span class="glyphicon glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                </div>
-            </div><!-- panel -->
-
-        </div><!-- col-md-10 -->
-
-        <div class="col-md-10 col-md-offset-1">
-
-            <div class="panel panel-default">
-                <div class="panel-heading"><i class="fa fa-home"></i> Font Awesome {{ trans('strings.test') }}</div>
-
-                <div class="panel-body">
-                    <i class="fa fa-home"></i>
-                    <i class="fa fa-facebook"></i>
-                    <i class="fa fa-twitter"></i>
-                    <i class="fa fa-pinterest"></i>
-                </div>
-            </div><!-- panel -->
-
-        </div><!-- col-md-10 -->
-
-	</div><!-- row -->
+@section('css')
+{!! Html::style('global/plugins/jstree/dist/themes/default/style.min.css') !!}
+{!! Html::style('global/plugins/datatables/media/css/jquery.dataTables.min.css') !!}
+{!! Html::style('global/plugins/datatables-bootstrap3-plugin/media/css/datatables-bootstrap3.css') !!}
 @endsection
 
-@section('after-scripts-end')
-	<script>
-		//Being injected from FrontendController
-		console.log(test);
-	</script>
-@stop
+@section('js')
+{!! Html::script('global/scripts/datatable.js') !!}
+{!! Html::script('global/plugins/datatables/media/js/jquery.dataTables.js') !!}
+{!! Html::script('global/plugins/jquery-datatables-columnfilter/jquery.dataTables.columnFilter.js') !!}
+{!! Html::script('global/plugins/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.min.js') !!}
+@endsection
+
+@section('script')
+<script>
+jQuery(document).ready(function() {
+
+
+var toolUrl = "{!!url('tool')!!}";
+var table = $('#table1');
+  table.dataTable({
+         "bProcessing": true,
+         "serverSide": true,
+         "bFilter": true,
+         "search": {
+            "regex": true
+            },
+
+         "lengthMenu": [
+                [10, 15, 20, -1],
+                [10, 15, 20, "All"] // change per page values here
+            ],
+         "pageLength": 20,
+         "ajax":{
+            url :"{!!url('inventory/db')!!}", // json datasource
+            type: "post",
+            error: function(xhr, textStatus, error){  // error handling code
+              console.log(textStatus + ": " + error);
+             // $(".employee-grid-error").html("");
+              //$("#employee_grid").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+              //$("#employee_grid_processing").css("display","none");
+            }
+        },
+
+        "columns": [
+                { "visible" : false},
+                null,
+                { "visible" : false},
+                null,
+                { "visible" : false},
+                null,
+                {"data": null, "defaultContent": "", "width" : "1%"}
+            ],
+
+        "createdRow": function ( row, data, index ){
+            var td = $('td', row);
+
+            td.eq(0).html('<a href="'+toolUrl+'/'+data[0]+'/view">'+data[1]+'</a>');
+
+            td.eq(3).html('<div class="btn-group btn-group-xs btn-group-solid">'+
+                '<a href="'+toolUrl+'/'+data[0]+'/edit" class="btn blue">Edit</a></div>');
+        }
+
+        });
+
+
+    $('#category-menu a').click( function() {
+
+        var cat = $(this).closest('li').attr('id').split('-')[1];
+        console.log(cat);
+
+        $.get("{!!url('data/categories/children')!!}", {id: cat})
+            .done(function( data ) {
+                console.log(data);
+                if (data == "0")
+                {
+                    table.fnFilter("",2);
+                } else {
+                    table.fnFilter(data,2); // TODO: Add multiple filter 1|2|4, server side filtering
+                }
+                table.fnDraw();
+            });
+    });
+
+
+});
+
+$(window).load(function() {
+
+$('div.dataTables_filter > label').children('input').appendTo('#dataTables_filter').removeClass('input-inline input-sm input-small').addClass("form-control");
+$('div.dataTables_length > label').children('select').appendTo('#dataTables_length').removeClass('input-inline input-sm input-xsmall').addClass("form-control");
+$('div.dataTables_length').remove();
+$('div.dataTables_filter').remove();
+});
+
+</script>
+@endsection
+
+@section('content')
+
+
+<div class="page-bar">
+<div class="row padding-10">
+    <div class="col-md-3">
+
+
+
+    </div>
+    <div class="col-md-5">
+
+        <div class="input-group input-medium" id="dataTables_filter">
+        <span class="input-group-addon">
+        <i class="icon-magnifier"></i>
+        </span>
+        </div>
+
+    </div>
+    <div class="col-md-4">
+
+        <div class="input-group input-small" id="dataTables_length">
+        <span class="input-group-addon">
+        <i class="icon-list"></i>
+        </span>
+        </div>
+
+    </div>
+</div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-lg-2 p-t-20">
+<div class="accordion navbar-collapse collapse" style="width:100%">
+
+
+{!! $accordion !!}
+
+</div>
+</div>
+
+
+
+    <div class="col-md-10">
+
+<div class="table-container p-t-20">
+
+        <table class="table table-striped table-bordered table-advance table-hover" id="table1" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>
+                       Id
+                    </th>
+                    <th>
+                        Tool Serialnr
+                    </th>
+                    <th>
+                        Category Id
+                    </th>
+                    <th>
+                        Category Name
+                    </th>
+                    <th>
+                        Supplier Id
+                    </th>
+                    <th>
+                        Supplier
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+</div>
+
+
+</div>
+    @endsection

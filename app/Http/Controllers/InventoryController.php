@@ -36,7 +36,10 @@ class InventoryController extends Controller {
 
     public function index()
     {
-        return view('inventory.index');
+        $categories = Category::all()->toHierarchy();
+        $accordion = $this->build_menu($categories);
+
+        return view('inventory.index', compact('accordion'));
     }
 
     /**
@@ -93,9 +96,10 @@ class InventoryController extends Controller {
         if ($request->ajax())
         {
             $tools = new AjaxTable($request);
-            $tools->select('tools', array('id', 'serialnr'));
-            $tools->with('categories', array('id', 'name'), 'category', 'category_id');
-            $tools->with('suppliers', array('name'), 'supplier', 'supplier_id');
+            $tools->select('inventories', array('id', 'serialnr'));
+            $tools->with('categories', array('id', 'name'), 'id', 'inventories', 'category_id');
+            $tools->with('inventory_suppliers', array('supplier_id'), 'inventory_id', 'inventories', 'id');
+            $tools->with('suppliers', array('name'), 'id', 'inventory_suppliers', 'supplier_id');
 
             return $tools->get();
         }
@@ -144,16 +148,6 @@ class InventoryController extends Controller {
     public function search()
     {
         return view('tool.search');
-    }
-
-
-    public function browse()
-    {
-
-        $categories = DB::table('categories')->orderBy('sort', 'asc')->get();
-        $accordion = $this->build_menu($categories);
-
-        return view('tool.browse', compact('accordion'));
     }
 
 
