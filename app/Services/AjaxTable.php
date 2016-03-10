@@ -5,9 +5,9 @@
  * Copyright: 2010 - Allan Jardine
  * License:   GPL v2 or BSD (3-point)
  */
-  
+
 class AjaxTable {
- 
+
  	private $_db;
  	private $_request;
  	private $_table;
@@ -22,12 +22,12 @@ class AjaxTable {
 			$database	= \Config::get('database.connections.mysql.database');
 			$user		= \Config::get('database.connections.mysql.username');
 			$passwd		= \Config::get('database.connections.mysql.password');
-		
+
 		    $this->_db = \DB::connection()->getPdo();
 		} catch (PDOException $e) {
 		    error_log("Failed to connect to database: ".$e->getMessage());
-		}		
-		
+		}
+
 	}
 
 
@@ -41,13 +41,13 @@ class AjaxTable {
 	}
 
 
-	public function with($table, $columns, $alias, $foreign_key) {
+	public function with($table, $columns, $alias, $join_table, $foreign_key) {
 		foreach($columns as $column)
 		{
 			array_push($this->_columns, $table.".".$column);
 			array_push($this->_search, "`".$table."`.`".$column."`");
 		}
-		$this->_with .= "LEFT JOIN `".$table."` ON `".$this->_table."`.`".$foreign_key."` = `".$table."`.`id` ";
+		$this->_with .= "LEFT JOIN `".$table."` ON `".$join_table."`.`".$foreign_key."` = `".$table."`.`id` ";
 	}
 
 
@@ -60,7 +60,7 @@ class AjaxTable {
 		if ( $this->_request->has('start') && $this->_request->input('length') != '-1' ) {
 			$sLimit = "LIMIT ".intval( $this->_request->input('start') ).", ".intval( $this->_request->input('length') );
 		}
-		
+
 		//
 		// Ordering
 		//-------------------------------------
@@ -73,15 +73,15 @@ class AjaxTable {
 				$sortDir = (strcasecmp($this->_request->input('order')[0]['dir'], 'ASC') == 0) ? 'ASC' : 'DESC';
 				$sOrder .= "`".$this->_columns[ $o ]."` ". $sortDir .", ";
 			}
-			
-			
+
+
 			$sOrder = substr_replace( $sOrder, "", -2 );
 			if ( $sOrder == "ORDER BY" ) {
 				$sOrder = "";
 			}
 		}
-		
-		/* 
+
+		/*
 		 * Filtering
 		 * NOTE this does not match the built-in DataTables filtering which does it
 		 * word by word on any field. It's possible to do here, but concerned about efficiency
@@ -98,7 +98,7 @@ class AjaxTable {
 			$sWhere = substr_replace( $sWhere, "", -3 );
 			$sWhere .= ')';
 		}
-		
+
 		// Individual column filtering
 		for ( $i=0 ; $i<count($this->_search) ; $i++ ) {
 			if ( $this->_request->input('columns')[$i]['searchable'] == "true" && $this->_request->input('columns')[$i]['search']['value'] != '' ) {
@@ -121,27 +121,27 @@ class AjaxTable {
 		}
 		$sql = substr_replace($sql, "", -2 );
 
-		
 
 
-		$sQuery = "	SELECT SQL_CALC_FOUND_ROWS ".$sql." 
-					FROM `".$this->_table."` 
-					".$this->_with." 
-					".$sWhere." 
-					".$sOrder." 
+
+		$sQuery = "	SELECT SQL_CALC_FOUND_ROWS ".$sql."
+					FROM `".$this->_table."`
+					".$this->_with."
+					".$sWhere."
+					".$sOrder."
 					".$sLimit;
 
 		$statement = $this->_db->prepare($sQuery);
 		$statement->execute();
 		$rResult = $statement->fetchAll();
-		
+
 	    $iFilteredTotal = current($this->_db->query('SELECT FOUND_ROWS()')->fetch());
-		
+
 		// Get total number of rows in table
 		$sQuery = "SELECT COUNT(`id`) FROM `".$this->_table."`";
 		$iTotal = current($this->_db->query($sQuery)->fetch());
-		
-		
+
+
 
 		// Output
 		$output = array(
@@ -150,21 +150,21 @@ class AjaxTable {
 			"iTotalDisplayRecords" => $iFilteredTotal,
 			"aaData" => array()
 		);
-		
 
-		// Return array of values 
+
+		// Return array of values
 		foreach($rResult as $aRow) {
-			$row = array();			
+			$row = array();
 			for ( $i = 0; $i < count($this->_columns); $i++ ) {
 				if ( $this->_columns[$i] != ' ' ) {
 					$row[] = $aRow[ $this->_columns[$i] ];
 				}
 			}
 			$output['aaData'][] = $row;
-		} 
+		}
 
 		return $output;
-	} 
+	}
 }
 
 ?>

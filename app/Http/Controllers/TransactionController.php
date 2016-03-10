@@ -42,8 +42,11 @@ class TransactionController extends Controller {
         if ($request->ajax())
         {
             $requests = new AjaxTable($request);
-            $requests->select('requests', array('id', 'description', 'tool_serialnr', 'tool_id', 'amount', 'comments', 'status', 'cost', 'updated_at'));
-            $requests->with('users', array('name'), 'user', 'user_id');
+            $requests->select('inventory_transactions', array('id', 'state', 'quantity', 'updated_at'));
+            $requests->with('inventory_stocks', array('inventory_id', 'user_id'), 'id', 'inventory_transactions', 'stock_id');
+            $requests->with('users', array('name'), 'id', 'inventory_stocks', 'user_id');
+            $requests->with('inventories', array('name', 'serialnr'), 'id', 'inventory_stocks', 'inventory_id');
+            //$requests->with('users', array('name'), 'user', 'user_id');
 
             return $requests->get();
         } else

@@ -16,12 +16,18 @@
 {!! Html::script('global/plugins/typeahead.js/dist/typeahead.bundle.min.js') !!}
 @endsection
 
+@section('style')
+<style>
+td {font-size:13px !important;}
+</style>
+@endsection
+
 @section('script')
 <script>
 $( document ).ready(function() {
 
-var toolUrl = "{!!url('tool')!!}";
-var requestUrl = "{!!url('request')!!}";
+var toolUrl = "{!!url('inventory')!!}";
+var requestUrl = "{!!url('transaction')!!}";
 var table = $('#table1');
 
 table.dataTable({
@@ -33,10 +39,10 @@ table.dataTable({
                 [10, 20, 50, "All"] // change per page values here
             ],
         "pageLength": 10,
-        "order": [[ 8, "desc" ]],
+        "order": [[ 1, "desc" ]],
         "ajax":{
-            url :"{!!url('data/requests/db')!!}", // json datasource
-            type: "post",
+            url :"{!!url('transaction/db')!!}", // json datasource
+            type: "get",
             error: function(xhr, textStatus, error){  // error handling code
               console.log(textStatus + ": " + error);
              // $(".employee-grid-error").html("");
@@ -49,17 +55,16 @@ table.dataTable({
                 { "visible" : false},
                 null,
                 null,
-                { "visible" : false},
-                { "width" : "1%", "orderable" : false},
-                null,
-                { "width" : "1%"},
-                { "width" : "1%", "orderable" : false},
-                null,
-                {"orderable" : false},
+                null,               //{ "visible" : false},
+                { "visible" : false},               //{ "visible" : false},
+                { "visible" : false},               //{ "width" : "1%", "orderable" : false},
+                null,               //{ "width" : "1%"},
+                null,               //{ "width" : "1%", "orderable" : false},
+                null,               //{"orderable" : false},
                 {"data": null, "defaultContent": "", "width" : "1%"}
-            ],
+            ]
 
-        "createdRow": function ( row, data, index ){
+        /*"createdRow": function ( row, data, index ){
             var td = $('td', row);
             switch(data[6]){
                 case 'REST': btnclass = "warning"; break;
@@ -77,7 +82,7 @@ table.dataTable({
 
             td.eq(8).html('<div class="btn-group btn-group-xs btn-group-solid">'+
                 '<a href="'+requestUrl+'/'+data[0]+'/edit" class="btn blue">Edit</a></div>');
-        }
+        }*/
 
         });
     });
@@ -221,15 +226,14 @@ $("#btn-add").click(function(){
                        <thead>
                        <tr role="row" class="heading">
                             <th>Id</th>
-                            <th>Description</th>
-                            <th>Tool Serialnr</th>
-                            <th>Tool Id</th>
-                            <th>Amount</th>
-                            <th>Comments</th>
-                            <th>Status</th>
-                            <th>Cost</th>
+                            <th>State</th>
+                            <th>Quantity</th>
                             <th>Updated</th>
+                            <th>Quantity</th>
+                            <th>User Id</th>
                             <th>Username</th>
+                            <th>Name</th>
+                            <th>Serialnr</th>
                             <th>Action</th>
                         </tr>
                     </thead>
