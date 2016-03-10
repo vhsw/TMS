@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
         //$this->call(LocationTableSeeder::class);
         //$this->call(ResourceTableSeeder::class);
         //$this->call(SuppliersTableSeeder::class);
-        $this->call(InventoryTableSeeder::class);
+        //$this->call(InventoryTableSeeder::class);
+        $this->call(SuppInvSeeder::class);
 
         Model::reguard();
     }
