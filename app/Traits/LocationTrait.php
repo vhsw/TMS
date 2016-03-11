@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use Stevebauman\Inventory\Exceptions\InvalidLocationException;
+use App\Exceptions\InvalidLocationException;
 use Illuminate\Support\Facades\Lang;
 
 /**

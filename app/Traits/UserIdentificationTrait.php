@@ -2,8 +2,8 @@
 
 namespace App\Traits;
 
-use Stevebauman\Inventory\InventoryServiceProvider;
-use Stevebauman\Inventory\Exceptions\NoUserLoggedInException;
+use App\Providers\InventoryServiceProvider;
+use App\Exceptions\NoUserLoggedInException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
 

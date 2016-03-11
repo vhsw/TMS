@@ -2,11 +2,11 @@
 
 namespace App\Traits;
 
-use Stevebauman\Inventory\Exceptions\InvalidQuantityException;
-use Stevebauman\Inventory\Exceptions\NotEnoughStockException;
-use Stevebauman\Inventory\Exceptions\StockNotFoundException;
-use Stevebauman\Inventory\Exceptions\InvalidTransactionStateException;
-use Stevebauman\Inventory\InventoryServiceProvider;
+use App\Exceptions\InvalidQuantityException;
+use App\Exceptions\NotEnoughStockException;
+use App\Exceptions\StockNotFoundException;
+use App\Exceptions\InvalidTransactionStateException;
+use App\Providers\InventoryServiceProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Lang;
 
