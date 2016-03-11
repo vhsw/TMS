@@ -2,7 +2,7 @@
 
 Route::get('inventory/search/', 				'InventoryController@search');
 Route::get('inventory/search/result', 			'InventoryController@result');
-Route::get('inventory', 				        'InventoryController@index');
+Route::get('inventory/browse', 				       'InventoryController@index');
 
 Route::get('inventory/{item}/view', 			'InventoryController@view');
 Route::get('inventory/new', 				    'InventoryController@new');
