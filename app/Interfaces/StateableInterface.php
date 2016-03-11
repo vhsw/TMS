@@ -19,10 +19,10 @@ interface StateableInterface
     const STATE_COMMERCE_BACK_ORDER_FILLED = 'commerce-back-order-filled';
 
     //Inventory Order states
-    const STATE_REQUESTED_PENDING = 'order-requested';
-    const STATE_ORDERED_PENDING = 'order-on-order';
-    const STATE_ORDERED_RECEIVED = 'order-received';
-    const STATE_ORDERED_RECEIVED_PARTIAL = 'order-received-partial';
+    const STATE_REQUESTED_PENDING = 'requested';
+    const STATE_ORDERED_PENDING = 'ordered';
+    const STATE_ORDERED_RECEIVED = 'received';
+    const STATE_ORDERED_RECEIVED_PARTIAL = 'partial';
 
     //Inventory Management states
     const STATE_INVENTORY_ON_HOLD = 'inventory-on-hold';
