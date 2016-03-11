@@ -38,4 +38,16 @@ class InventoryStock extends BaseModel
     {
         return $this->hasOne('App\Models\Location', 'id', 'location_id');
     }
+
+    public static function createEmptyStock($item)
+    {
+        $stock = $item->newStockOnLocation(Location::find(1));
+
+        $stock->quantity = 0;
+        $stock->cost = '0.00';
+        $stock->reason = 'Requested';
+        $stock->save();
+
+        return $stock;
+    }
 }

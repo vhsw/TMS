@@ -137,4 +137,16 @@ class Inventory extends BaseModel
         }
         return false;
     }
+
+    public static function createNewItem($request)
+    {
+        $item = new Inventory;
+
+        $item->metric_id = 1;
+        $item->name = $request->name;
+        $item->serialnr = $request->serialnr;
+        $item->save();
+
+        return $item;
+    }
 }
