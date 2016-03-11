@@ -57,6 +57,35 @@ class TransactionController extends Controller {
     }
 
     /**
+     * Create Request of inventory item
+     *
+     * @param Request      $request
+     *
+     * @return array
+     */
+    public function request(Request $request)
+    {
+        $item = Inventory::where('serialnr', $request->serialnr)->first();
+
+        // If no item was found in database, create it.
+        if (count($item) < 1) {
+            $item = Inventory::createNewItem($request);
+        }
+
+        $stock = InventoryStock::where('inventory_id', $item->id)->where('location_id', 1)->first();
+
+        // If no stock was found in database, create one.
+        if (count($stock) < 1) {
+            $stock = InventoryStock::createEmptyStock($item);
+        }
+
+        $transaction = $stock->newTransaction();
+        $transaction->requested($request->quantity);
+
+        echo $transaction;
+    }
+
+    /**
      * Cancel the specified Request Transaction
      *
      * @param InventoryTransaction      $request

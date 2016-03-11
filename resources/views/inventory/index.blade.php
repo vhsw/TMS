@@ -20,7 +20,7 @@
 jQuery(document).ready(function() {
 
 
-var toolUrl = "{!!url('tool')!!}";
+var inventoryUrl = "{!!url('inventory')!!}";
 var table = $('#table1');
   table.dataTable({
          "bProcessing": true,
@@ -59,10 +59,10 @@ var table = $('#table1');
         "createdRow": function ( row, data, index ){
             var td = $('td', row);
 
-            td.eq(0).html('<a href="'+toolUrl+'/'+data[0]+'/view">'+data[1]+'</a>');
+            td.eq(0).html('<a href="'+inventoryUrl+'/'+data[0]+'/view">'+data[1]+'</a>');
 
             td.eq(3).html('<div class="btn-group btn-group-xs btn-group-solid">'+
-                '<a href="'+toolUrl+'/'+data[0]+'/edit" class="btn blue">Edit</a></div>');
+                '<a href="'+inventoryUrl+'/'+data[0]+'/edit" class="btn blue">Edit</a></div>');
         }
 
         });
