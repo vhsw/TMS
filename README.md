@@ -86,7 +86,7 @@ Spatie\Backup\BackupServiceProvider::class,
 Edit your .env files database configuration.
 
 ### 6. Database:
-Migrate and seed the database is not working right now:
+Migrate and seed the database:
 
 ```shell
 php artisan migrate
