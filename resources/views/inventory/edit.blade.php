@@ -12,6 +12,7 @@
 @section('js')
 {!! Html::script('global/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') !!}
 {!! Html::script('global/plugins/bootstrap-markdown/js/bootstrap-markdown.js') !!}
+{!! Html::script('js/inventory.js') !!}
 @endsection
 
 @section('script')
@@ -41,62 +42,9 @@ jQuery(document).ready(function() {
         tickIcon: 'fa-check'
     });
 
-    var generateSelect = function(id, data, selected){
-        var select = '<div id="category-' + id + '" class="col-md-2">'
-        +'<select name="category[]" class="bs-select form-control" data-show-subtext="true">'
-        +'<option value="0" data-content=""></option>';
-
-        $.each(data, function(i, category){
-            var icon = '<img src=\'' + iconUrl + '/' + category.icon + '.png\' height=\'22px\'>';
-
-            var s = '';
-            console.log(category.id);
-            if(category.id == selected) {
-                s = 'SELECTED';
-            }
-            select = select+'<option value="' + category.id + '" data-content="' + icon + ' '
-            + category.name + '" ' + s + '> ' + category.name + '</option>';
-        });
-        select = select + '</select></div>';
-
-        $("#categories").append(select);
-    }
-
-    var updateCategories = function(id, selected){
-        $.ajax({
-            url: '{!!url("categories/get-immediate-descendants")!!}',
-            dataType: 'json',
-            data: {id: id},
-            success: function( data ) {
-                console.log(data);
-                if(data.length != 0) {
-                    generateSelect( id, data, selected );
-                    $('.bs-select').selectpicker('refresh');
-                }
-            }
-        });
-    }
-
-    var generateSelectBoxes = function(id) {
-        $.ajax({
-            url: '{!!url("categories/generate-select-boxes")!!}',
-            dataType: 'json',
-            data: {id: id},
-            success: function( data ) {
-                if(data.length != 0) {
-                    $.each(data, function(i, categories){
-                        generateSelect( id, categories, selected[i+1] );
-                        $('.bs-select').selectpicker('refresh');
-                    });
-                }
-            }
-        });
-    }
-
     $('#categories').on('change', '.bs-select', function() {
         $(this).parent().closest('div').nextAll().remove();
-
-        updateCategories( $(this).val(), null );
+        updateCategories( $(this).val(), null);
     });
 
     generateSelectBoxes( {{ $item->category_id }} );

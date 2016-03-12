@@ -12,6 +12,7 @@
 @section('js')
 {!! Html::script('global/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') !!}
 {!! Html::script('global/plugins/bootstrap-markdown/js/bootstrap-markdown.js') !!}
+{!! Html::script('js/inventory.js') !!}
 @endsection
 
 @section('script')
@@ -24,38 +25,14 @@ jQuery(document).ready(function() {
         tickIcon: 'fa-check'
     });
 
-    var generateSelect = function(v, data){
-        var select = '<div id="category-' + v + '" class="col-md-2">'
-        +'<select name="category[]" class="bs-select form-control" data-show-subtext="true">'
-        +'<option value="0" data-content=""></option>';
-
-        $.each(data, function(i, category){
-            var icon = '<img src=\'' + iconUrl + '/' + category.icon + '.png\' height=\'22px\'>';
-            select = select + '<option value="' + category.id + '" data-content="' + icon + ' '
-                + category.name + '"> ' + category.name + '</option>';
-        });
-        select = select + '</select></div>';
-
-        $("#categories").append(select);
-    }
-
-    var updateCategories = function(v){
-        $.getJSON("{!!url('categories/get-immediate-descendants')!!}", {id: v})
-        .done(function( data ) {
-            if(data.length != 0) {
-                generateSelect( v, data );
-                $('.bs-select').selectpicker('refresh');
-            }
-        })
-    }
 
     $('#categories').on('change', '.bs-select', function() {
         $(this).parent().closest('div').nextAll().remove();
 
-        updateCategories( $(this).val() );
+        updateCategories( $(this).val(), null );
     });
 
-    updateCategories( 1 );
+    updateCategories( 1, null );
 
 });
 </script>
