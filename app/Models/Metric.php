@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Metric extends Model
+class Metric extends BaseModel
 {
     protected $table = 'metrics';
 }
