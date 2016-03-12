@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\Location;
+use App\Models\Metric;
 
 class LocationTableSeeder extends Seeder {
 
@@ -19,5 +20,12 @@ class LocationTableSeeder extends Seeder {
         $location->name = 'Tools';
         $location->save();
 
+
+		DB::table('metrics')->delete();
+
+		$metric = new Metric;
+		$metric->name = "Stk";
+		$metric->symbol = "stk";
+		$metric->save();
 	}
 }
