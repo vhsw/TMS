@@ -28,11 +28,6 @@ class TransactionController extends Controller {
 
     public function index()
     {
-        // Create Location
-        //$location = new Location;
-        //$location->name = 'Supplier';
-        //$location->save();
-
         return view('transaction.index');
     }
 
@@ -47,6 +42,7 @@ class TransactionController extends Controller {
             $requests->with('users', array('name'), 'id', 'inventory_stocks', 'user_id');
             $requests->with('inventories', array('name', 'serialnr'), 'id', 'inventory_stocks', 'inventory_id');
             //$requests->with('users', array('name'), 'user', 'user_id');
+
 
             return $requests->get();
         } else
@@ -79,6 +75,7 @@ class TransactionController extends Controller {
             $stock = InventoryStock::createEmptyStock($item);
         }
 
+        // create a request transaction
         $transaction = $stock->newTransaction();
         $transaction->requested($request->quantity);
 
@@ -127,40 +124,20 @@ class TransactionController extends Controller {
         return $request;
     }
 
+    /**
+     * Create Request of inventory item
+     *
+     * @param Request      $request
+     *
+     * @return array
+     */
+     public function edit(InventoryTransaction $request)
+     {
+         $suppliers = Supplier::all();
 
-    public function edit($id)
-    {
-        if($id)
-        {
-            // Set the proper status
-            $request = Requests::find($id);
-            $suppliers = Supplier::all();
-            $request_status = array();
 
-            if ($request->status == "ORDERED")
-            {
-                array_push($request_status, "ORDERED", "RECIEVED", "REST");
-            }
-            elseif($request->status == "RECIEVED" || $request->status == "REST")
-            {
-                array_push($request_status, "RECIEVED");
-            }
-            elseif($request->status == "REQUESTED")
-            {
-                array_push($request_status, "ORDERED", "REQUESTED");
-            }
-            else
-            {
-                array_push($request_status, "REST", "ORDERED", "REQUESTED", "RECIEVED");
-            }
-
-            return view('request.edit', compact('request', 'request_status', 'suppliers'));
-        }
-        else {
-
-            return redirect('requests');
-        }
-    }
+         return view('transaction.edit', compact('request', 'suppliers'));
+     }
 
 
     public function save(Request $request, $id)

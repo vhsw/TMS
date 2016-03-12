@@ -51,40 +51,51 @@ $( document ).ready(function() {
             }
         },
 
+        /*
+        0 transaction_id
+        1 state
+        2 Quantity
+        3 updated_at
+        4 inventory_id
+        5 user_id
+        6 username
+        7 inventory_name
+        8 Serialnr
+        */
+
         "columns": [
             { "visible" : false},
             null,
             null,
-            null,               //{ "visible" : false},
-            { "visible" : false},               //{ "visible" : false},
-            { "visible" : false},               //{ "width" : "1%", "orderable" : false},
-            null,               //{ "width" : "1%"},
-            null,               //{ "width" : "1%", "orderable" : false},
-            null,               //{"orderable" : false},
+            null,
+            { "visible" : false},
+            { "visible" : false},
+            null,
+            null,
+            null,
             {"data": null, "defaultContent": "", "width" : "1%"}
-        ]
+        ],
 
-        /*"createdRow": function ( row, data, index ){
-        var td = $('td', row);
-        switch(data[6]){
-        case 'REST': btnclass = "warning"; break;
-        case 'REQUESTED': btnclass = "danger"; break;
-        case 'ORDERED': btnclass = "info"; break;
-        case 'RECIEVED': btnclass = "success"; break;
-    }
-    td.eq(4).html('<span class="label label-'+btnclass+'">'+data[6]+'</span>');
+        "createdRow": function ( row, data, index ){
+            var td = $('td', row);
+            /*switch(data[6]){
+                case 'REST': btnclass = "warning"; break;
+                case 'REQUESTED': btnclass = "danger"; break;
+                case 'ORDERED': btnclass = "info"; break;
+                case 'RECIEVED': btnclass = "success"; break;
+            }*/
+            //td.eq(4).html('<span class="label label-'+btnclass+'">'+data[6]+'</span>');
 
-    td.eq(6).html('<span class="hidden">'+data[8]+'</span>'+moment(data[8], 'YYYY-MM-DD HH:mm:ss').add(1, 'h').fromNow());
+            //td.eq(3).html('<span class="hidden">'+data[8]+'</span>'+moment(data[8], 'YYYY-MM-DD HH:mm:ss').add(1, 'h').fromNow());
 
-    if(!data[3] == 0) {
-    td.eq(1).html('<a href="'+toolUrl+'/'+data[3]+'/view">'+data[2]+'</a>');
-}
+            if(!data[8] == 0) {
+                td.eq(5).html('<a href="'+toolUrl+'/'+data[4]+'/view">'+data[8]+'</a>');
+            }
 
-td.eq(8).html('<div class="btn-group btn-group-xs btn-group-solid">'+
-'<a href="'+requestUrl+'/'+data[0]+'/edit" class="btn blue">Edit</a></div>');
-}*/
-
-});
+            td.eq(6).html('<div class="btn-group btn-group-xs btn-group-solid">'+
+                '<a href="'+requestUrl+'/'+data[0]+'/edit" class="btn blue">Edit</a></div>');
+        }
+    });
 });
 
 
