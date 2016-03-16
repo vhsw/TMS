@@ -52,8 +52,8 @@
                 <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
                 <!-- END RESPONSIVE MENU TOGGLER -->
 
-                <!-- BEGIN PAGE TOP -->    
-    
+                <!-- BEGIN PAGE TOP -->
+
                    {{-- @include('includes.search') --}}
 
                     <!-- END HEADER SEARCH BOX -->
@@ -63,7 +63,7 @@
                         <ul class="nav navbar-nav pull-right">
                             @include('includes.topnav')
 
-                            
+
                         </ul>
                     </div>
                     <!-- END TOP NAVIGATION MENU -->
@@ -108,9 +108,9 @@
 
                         {{-- @include('includes.partials.messages') --}}
 
-                  
+
                                 @yield('content')
-                   
+
 
 
 
@@ -192,7 +192,7 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    
+
      $( document ).on( 'focus', ':input', function(){
         $( this ).attr( 'autocomplete', 'off' );
     });

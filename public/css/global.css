@@ -8924,7 +8924,7 @@ input.uniform-input,
 input.uniform-input:focus {
   background-color: #fff;
 }
-/* Overides 
+/* Overides
 ------------------------------------
 */
 
@@ -9029,7 +9029,7 @@ input.uniform-input:focus {
   overflow-x: hidden !important;
 }
 
-/* Generic Padding Helpers 
+/* Generic Padding Helpers
 ------------------------------------
 */
 
@@ -9501,6 +9501,10 @@ input.uniform-input:focus {
   margin-bottom: 15px;
 }
 
+.margin-20 {
+  margin: 20px 20px 20px 20px !important;
+}
+
 .m-t-20 {
   margin-top: 20px;
 }
@@ -9797,7 +9801,7 @@ input.uniform-input:focus {
   border-color: #000;
 }
 
-/* Border Helpers 
+/* Border Helpers
 ------------------------------------
 */
 

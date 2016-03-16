@@ -507,8 +507,8 @@ trait InventoryTrait
         /*
          * Make sure sku generation is enabled and the item has a category, if not we'll return false.
          */
-        if (!$this->skusEnabled() || !$this->hasCategory()) {
-            return false;
+        if (!$this->hasCategory()) {
+            return "false";
         }
         /*
          * If the item already has an SKU, we'll return it
@@ -519,15 +519,15 @@ trait InventoryTrait
         /*
          * Get the set SKU code length from the configuration file
          */
-        $codeLength = Config::get('inventory'.InventoryServiceProvider::$packageConfigSeparator.'sku_code_length');
+        $codeLength = 6;
         /*
          * Get the set SKU prefix length from the configuration file
          */
-        $prefixLength = Config::get('inventory'.InventoryServiceProvider::$packageConfigSeparator.'sku_prefix_length');
+        $prefixLength = 3;
         /*
          * Get the set SKU separator
          */
-        $skuSeparator = Config::get('inventory'.InventoryServiceProvider::$packageConfigSeparator.'sku_separator');
+        $skuSeparator = '';
         /*
          * Make sure we trim empty spaces in the separator if it's a string, otherwise we'll
          * set it to NULL

@@ -37,10 +37,11 @@ class TransactionController extends Controller {
         if ($request->ajax())
         {
             $requests = new AjaxTable($request);
-            $requests->select('inventory_transactions', array('id', 'state', 'quantity', 'updated_at'));
+            $requests->select('inventory_transactions', array('id', 'state', 'original_quantity', 'updated_at'));
             $requests->with('inventory_stocks', array('inventory_id', 'user_id'), 'id', 'inventory_transactions', 'stock_id');
             $requests->with('users', array('name'), 'id', 'inventory_stocks', 'user_id');
             $requests->with('inventories', array('name', 'serialnr'), 'id', 'inventory_stocks', 'inventory_id');
+            //$requests->with('inventory_transaction_histories', array('quantity_before'), 'id', 'inventory_stocks', 'inventory_id');
             //$requests->with('users', array('name'), 'user', 'user_id');
 
 
@@ -135,25 +136,13 @@ class TransactionController extends Controller {
      {
          $suppliers = Supplier::all();
 
-
          return view('transaction.edit', compact('request', 'suppliers'));
      }
 
 
-    public function save(Request $request, $id)
+    public function save(Request $request, $transaction)
     {
 
-        if($request->tool_serialnr)
-            $tool = Tool::where('serialnr', $request->tool_serialnr)->first();
-
-        // Format Tool
-        if(isset($tool)) {
-            $tool_id = $tool->id;
-            $barcode = $tool->barcode;
-        } else {
-            $tool_id = "";
-            $barcode = $request->barcode;
-        }
 
         /** Format Cost **/
         if($request->cost) {

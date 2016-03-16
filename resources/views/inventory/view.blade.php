@@ -13,6 +13,64 @@
 </style>
 @endsection
 
+@section('script')
+<script>
+
+    $("#request").click(function(){
+        reveal();
+        $("#form-request").removeClass("hidden").find("input[name='quantity']").focus();
+    });
+
+    @if (count($errors) > 0)
+    reveal();
+    $("#form-request").removeClass("hidden");
+    @endif
+
+</script>
+@endsection
+
+@section('form')
+<form action="{!!url('transaction/request')!!}" method="get" id="form-request">
+
+    @if (count($errors) > 0)
+    <div class="alert alert-danger">
+        @foreach($errors->all() as $error)
+        <strong>Error!</strong> {{ $error }}<br>
+        @endforeach
+    </div>
+    @endif
+
+    <div class="form-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">Name</label>
+                    <input name="name" value="{{ $item->name }}" readonly="" type="text" class="form-control input-lg">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Serialnr</label>
+                    <input type="text" name="serialnr" readonly="" value="{{ $item->serialnr }}" id="tool" class="form-control input-lg">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Quantity</label>
+                    <div class="input-group input-group-lg input-small">
+                        <input name="quantity" type="text" class="form-control input-lg input-small" />
+                        <span class="input-group-addon">Stk</span>
+                        <span class="input-group-btn pull-right">
+                            <button type="submit" class="btn green"><i class="fa fa-check"></i> Request</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+@endsection
+
 
 @section('content')
 
@@ -41,7 +99,7 @@ foreach($costs as $cost)
       <ul class="list-unstyled profile-nav">
         foreach($tool->pictures as $picture)
         <li class="pic-bordered padding-10">
-          <img src="{!! url('/files') !!}" class="img-responsive" alt="">
+          <img src="" class="img-responsive" alt="">
         </li>
         endforeach
       </ul>
@@ -120,7 +178,7 @@ foreach($costs as $cost)
               <a href="javascript:;"> Take out </a>
             </li>
             <li>
-              <a href="{!! url('/inventory/'.$item->id.'/request') !!}"> Request </a>
+              <button id="request" class="btn blue">Request</button>
             </li>
             @if(Auth::check() && Auth::user()->hasRole('admin'))
             <li>

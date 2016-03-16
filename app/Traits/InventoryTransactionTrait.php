@@ -660,6 +660,7 @@ trait InventoryTransactionTrait
         ], $this::STATE_REQUESTED_PENDING);
 
         $this->quantity = $quantity;
+        $this->original_quantity = $quantity;
 
         $this->state = $this::STATE_REQUESTED_PENDING;
 

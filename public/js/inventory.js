@@ -26,10 +26,12 @@ var generateSelectBoxes = function(id) {
         dataType: 'json',
         data: {id: id},
         success: function( data ) {
-            if(data.length != 0) {
+            if(data.length > 0) {
                 $.each(data, function(i, categories){
-                    $("#categories").append( generateSelect(id, categories, selected[i+1]) );
-                    $('.bs-select').selectpicker('refresh');
+                    if(categories.length > 0){
+                        $("#categories").append( generateSelect(id, categories, selected[i+1]) );
+                        $('.bs-select').selectpicker('refresh');
+                    }
                 });
             }
         }

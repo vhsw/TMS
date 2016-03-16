@@ -20,6 +20,8 @@ class CreateInventoryTransactionTables extends Migration
                 $table->string('name')->nullable();
                 $table->string('state');
                 $table->decimal('quantity', 8, 2)->default(0);
+                $table->decimal('original_quantity', 8, 2)->default(0);
+                $table->text('comments');
 
                 $table->foreign('user_id')->references('id')->on('users')
                     ->onUpdate('restrict')

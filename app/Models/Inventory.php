@@ -138,6 +138,13 @@ class Inventory extends BaseModel
         return false;
     }
 
+    /**
+     * Create new Item
+     *
+     * @param Request       $request
+     *
+     * @return Inventory    $item
+     */
     public static function createNewItem($request)
     {
         $item = new Inventory;
@@ -149,4 +156,25 @@ class Inventory extends BaseModel
 
         return $item;
     }
+
+    /**
+     * Get Next and Previous Items of an Item
+     *
+     * @return Array
+     */
+    public function getNextPrev()
+    {
+        return (object) ['prev' => $this->previous(), 'next' => $this->next()];
+    }
+
+    private function next()
+	{
+		return Inventory::where('id', '>', $this->id)->orderBy('id', 'asc')->first();
+	}
+
+
+	private function previous()
+	{
+		return Inventory::where('id', '<', $this->id)->orderBy('id', 'desc')->first();
+	}
 }
