@@ -38,7 +38,8 @@
     "js-cookie": "^2.1.0",
     "bootstrap-hover-dropdown": "^2.2.1",
     "blockUI": "*",
-    "bootstrap-switch": "^3.3.2"
+    "bootstrap-switch": "^3.3.2",
+    "summernote": "^0.8.1"
   },
   "resolutions": {
     "datatables": "1.10.7",
