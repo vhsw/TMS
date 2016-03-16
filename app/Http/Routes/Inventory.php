@@ -14,6 +14,7 @@ Route::get('inventory/{item}/request', 			'InventoryController@request');
 Route::post('inventory/db', 					'InventoryController@db');	// AJAX
 Route::get('inventory/typeahead', 				'InventoryController@typeahead'); // AJAX
 Route::get('inventory/barcode', 				'InventoryController@barcode'); // AJAX
+Route::get('inventory/{item}/generateSku', 		'InventoryController@generateSku'); // AJAX
 
 //post('plugins/download', 					'Plugins\CurlController@index');
 Route::get('plugins/download', 				'Plugins\CurlController@index');

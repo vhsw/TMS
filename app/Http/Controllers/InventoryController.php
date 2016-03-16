@@ -55,6 +55,18 @@ class InventoryController extends Controller {
     }
 
     /**
+     * Generate Sku
+     *
+     * @param Inventory        $item
+     *
+     * @return json
+     */
+    public function generateSku(Inventory $item)
+    {
+        return $item->generateSku();;
+    }
+
+    /**
      * Request a specific Inventory from View Page
      *
      * @param Request          $request (Ajax)
@@ -245,12 +257,11 @@ class InventoryController extends Controller {
     public function edit(Inventory $item)
     {
         $suppliers =    Supplier::all();
-        //$detail =       Detail::where('tool_id', '=', $tool->id)->first();
 
         // Create Navigation for Next and Previous Tool
-        //$navigate = $this->makeNextPrev($tool->id);
+        $navigate = $item->getNextPrev();
 
-        return view('inventory.edit', compact('item', 'suppliers'));
+        return view('inventory.edit', compact('item', 'suppliers', 'navigate'));
     }
 
     /**
@@ -283,22 +294,9 @@ class InventoryController extends Controller {
         $item->category_id = $category;
         $item->save();
 
-        $item->updateBarcode($request->barcode);
+        //$item->updateBarcode($request->barcode);
 
-        echo $item;
-
-    }
-
-
-    private function makeNextPrev($tool_id)
-    {
-        $prev = Tool::previous($tool_id);
-        $next = Tool::next($tool_id);
-
-        if (!$prev) { $prev = false; } else { $prev = $prev[0]->id; }
-        if (!$next) { $next = false; } else { $next = $next[0]->id; }
-
-        return ['prev' => $prev, 'next' => $next];
+        return $item;
     }
 
 

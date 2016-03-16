@@ -47,6 +47,30 @@ jQuery(document).ready(function() {
         updateCategories( $(this).val(), null);
     });
 
+
+    $('#btn-generateSKU').on('click', function() {
+        $.ajax({
+            url: APP_URL + '/inventory/{!! $item->id !!}/generateSku',
+            dataType: 'json',
+            success: function( data ) {
+                $("input[name=sku]").val(data.code);
+            }
+        });
+    });
+
+    $('#btn-save').on('click', function() {
+        $.ajax({
+            url: APP_URL + '/inventory/{!! $item->id !!}/save',
+            data: $('form').serializeArray(),
+            dataType: 'json',
+            success: function( data ) {
+                console.log(data);
+            }
+        });
+        return false;
+    });
+
+
     generateSelectBoxes( {{ $item->category_id }} );
 
 });
@@ -55,25 +79,22 @@ jQuery(document).ready(function() {
 
 
 @section('content')
-
-<form class="form-horizontal form-row-seperated" method="get" action="{!!url('inventory/'.$item->id.'/save')!!}">
+<form class="form-horizontal form-row-seperated" method="get">
     <div class="page-bar">
         <div class="row p-t-10 p-b-10">
             <div class="col-sm-2">
-                if(navigate['prev'])
-                <a href="{!!url('tool/edit')!!}" class="btn default"><i class="fa fa-arrow-left"></i> navigate['prev'] </a>
-                endif
+                @if($item->getNextPrev()->prev)
+                <a href="{!!url('inventory/'.($item->getNextPrev()->prev->id).'/edit')!!}" class="btn default"><i class="fa fa-arrow-left"></i> {{ $item->getNextPrev()->prev->id }}</a>
+                @endif
             </div>
             <div class="col-sm-10">
-                <button class="btn blue">Save</button>
-                <button type="submit" class="btn blue">Save</button>
-                if(navigate['next'])
-                <a href="url('tool/'.(navigate['next']).'/edit')" class="btn default pull-right">navigate['next'] <i class="fa fa-arrow-right"></i></a>
-                endif
+                <button id="btn-save" class="btn blue">Save</button>
+                @if($item->getNextPrev()->next)
+                <a href="url('tool/'.({{ $item->getNextPrev()->next->id }}).'/edit')" class="btn default pull-right">{{ $item->getNextPrev()->next->id }} <i class="fa fa-arrow-right"></i></a>
+                @endif
             </div>
         </div>
     </div>
-
 
     <div class="row">
         <div class="col-lg-12 p-t-20">
@@ -133,7 +154,12 @@ jQuery(document).ready(function() {
                                 <label class="col-md-2 control-label">Sku
                                 </label>
                                 <div class="col-md-5">
-                                    <input value="{{ $item->getSku() }}" type="text" class="form-control" name="sku">
+                                    <div class="input-group input-large">
+                                        <input value="{!! $item->getSku() !!}" type="text" class="form-control" name="sku">
+                                        <span class="input-group-btn">
+                                            <button id="btn-generateSKU" class="btn blue" type="button">Generate SKU</button>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 
