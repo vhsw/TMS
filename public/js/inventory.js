@@ -1,6 +1,9 @@
 
 var generateSelect = function(id, data, selected){
-    var select = '<div id="category-' + id + '" class="col-md-2">'
+
+    var i = $('.category').length + 1;
+    var select = '<div id="category-' + id + '" class="row category"><div class="form-group"><label class="control-label col-md-' + i + '"></label>'
+    +'<div class="col-md-6">'
     +'<select name="category[]" class="bs-select form-control" data-show-subtext="true">'
     +'<option value="0" data-content=""></option>';
 
@@ -14,7 +17,7 @@ var generateSelect = function(id, data, selected){
         select = select+'<option value="' + category.id + '" data-content="' + icon + ' '
         + category.name + '" ' + s + '> ' + category.name + '</option>';
     });
-    select = select + '</select></div>';
+    select = select + '</select></div></div></div>';
 
     return select;
 }
