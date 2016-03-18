@@ -48,6 +48,10 @@ var selected = [<?php
             updateCategories( $(this).val(), null);
         });
 
+        $('#brand').on('change', function() {
+            updateSuppliers( $(this).val() );
+        });
+
 
         $('#btn-generateSKU').on('click', function() {
             $.ajax({
@@ -57,6 +61,11 @@ var selected = [<?php
                     $("input[name=sku]").val(data.code);
                 }
             });
+        });
+
+        $('#btn-download').on('click', function() {
+            downloadToolInfo( $("select[name='supplier_id']").val(), $("input[name='name']").val() );
+            return false;
         });
 
         $('#btn-save').on('click', function() {
@@ -72,6 +81,7 @@ var selected = [<?php
         });
 
         generateSelectBoxes( {{ $item->category_id }} );
+        updateSuppliers( {{ $item->supplier_id }} );
 
         $('#summernote_1').summernote({
             height: 300,
@@ -133,12 +143,6 @@ var selected = [<?php
                     }
                 });
             }
-
-            $('#btn-download').on('click', function() {
-                downloadToolInfo( $("select[name='supplier_id']").val(), $("input[name='name']").val() );
-                return false;
-            });
-
 
         });
         </script>
@@ -224,18 +228,31 @@ var selected = [<?php
                                         <div class="row">
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Brand</label>
-                                                <div class="col-md-10">
-                                                    <div class="input-group col-lg-8">
-                                                        <select name="supplier_id" class="form-control">
+                                                <div class="col-md-5">
+                                                        <select id="brand" name="brand_id" class="form-control">
                                                             @foreach($suppliers as $supplier)
                                                             @if($supplier->producer)
                                                             <option value="{{ $supplier->id }}" {{ ($supplier->id == $item->supplier_id) ? 'SELECTED' : '' }}>{{ $supplier->name }}</option>
                                                             @endif
                                                             @endforeach
                                                         </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-2"></label>
+                                                <div class="col-md-10">
+                                                    <div class="input-group col-lg-8">
                                                         <span class="input-group-btn">
-                                                            <button id="btn-download" class="btn grey" type="button">Download Details</button>
+                                                            <button id="btn-download" class="btn grey" type="button">Download Details from</button>
                                                         </span>
+                                                        <select id="supplier" name="supplier_id" class="form-control">
+                                                            @foreach($suppliers as $supplier)
+                                                            <option value="{{ $supplier->id }}" {{ ($supplier->id == $item->supplier_id) ? 'SELECTED' : '' }}>{{ $supplier->name }}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>

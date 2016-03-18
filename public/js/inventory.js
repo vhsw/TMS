@@ -55,3 +55,31 @@ var updateCategories = function(id, selected){
         }
     });
 }
+
+var updateSuppliers = function(id){
+    $.ajax({
+        url: APP_URL + '/suppliers/get-possible-suppliers',
+        dataType: 'json',
+        data: {id: id},
+        success: function( data ) {
+
+            // Make array for check with indexOf
+            var check = [data[0].id, data[1].id ];
+
+            // TODO: Don't know why indexOf((integer), check) always return -1
+            // Select the first option
+            $('#supplier option[value=' + check[0] + ']').attr('selected', 'selected');
+
+            var option = $('#supplier').find('option');
+            $.each(option, function(i, supplier){
+
+                // If the select supplier is not in the array, hide the option
+                if ( supplier.value == check[0] || supplier.value == check[1]) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+    });
+}

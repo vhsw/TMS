@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
@@ -25,6 +25,12 @@ class SupplierController extends Controller {
         return view('data.suppliers', compact('suppliers'));
     }
 
+    public function getPossibleSuppliers(Request $request)
+    {
+        // Return the Supplier, including this brand
+        return Supplier::getSuppliersByBrand($request->id, true);
+    }
+
 
     public function create(Request $request)
     {
@@ -35,7 +41,7 @@ class SupplierController extends Controller {
             $producer = 0;
             $supplied_by = 0;
         }
-        
+
        $query = Supplier::create(array(
                 'name' => $request->name,
                 'producer' => $producer,

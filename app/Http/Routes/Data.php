@@ -13,6 +13,8 @@ Route::get('data/locations', 				'LocationController@index');
 
 // SUPPLIERS
 
+Route::get('suppliers/get-possible-suppliers', 		      'SupplierController@getPossibleSuppliers'); // AJAX
+
 Route::get('data/suppliers', 				'SupplierController@index');
 Route::get('data/supplier/{id}/view', 		'SupplierController@view');
 Route::get('data/supplier/{id}/edit', 		'SupplierController@edit');
