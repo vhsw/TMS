@@ -5,7 +5,6 @@
 @section('css')
 {!! Html::style('global/plugins/datatables/media/css/jquery.dataTables.min.css') !!}
 {!! Html::style('global/plugins/datatables-bootstrap3-plugin/media/css/datatables-bootstrap3.css') !!}
-{!! Html::style('global/plugins/typeahead.js-bootstrap3.less/typeaheadjs.css') !!}
 @endsection
 
 @section('js')
@@ -13,7 +12,6 @@
 {!! Html::script('global/scripts/datatable.js') !!}
 {!! Html::script('global/plugins/datatables/media/js/jquery.dataTables.js') !!}
 {!! Html::script('global/plugins/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.min.js') !!}
-{!! Html::script('global/plugins/typeahead.js/dist/typeahead.bundle.min.js') !!}
 @endsection
 
 @section('style')
@@ -96,37 +94,6 @@ $( document ).ready(function() {
                 '<a href="'+requestUrl+'/'+data[0]+'/edit" class="btn blue">Edit</a></div>');
         }
     });
-});
-
-
-$(function() {
-
-
-    var tools = new Bloodhound({
-        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.name); },
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        limit: 10,
-        remote: {
-            url: '{!!url('inventory/typeahead')!!}?query=%QUERY',
-            wildcard: '%QUERY',
-            filter: function(list) {
-                return $.map(list, function(d) { return { tool: d }; });
-            }
-        }
-
-    });
-
-    tools.initialize();
-    $('#tool').typeahead(null, {
-        name: 'tool',
-        displayKey: 'tool',
-        source: tools.ttAdapter()
-    });
-
-
-
-
-
 });
 
 

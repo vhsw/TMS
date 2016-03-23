@@ -18,6 +18,7 @@
     {!! Html::style('http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all') !!}
     {!! Html::style('global/plugins/font-awesome/css/font-awesome.min.css') !!}
     {!! Html::style('global/plugins/simple-line-icons/css/simple-line-icons.css') !!}
+    {!! Html::style('global/plugins/typeahead.js-bootstrap3.less/typeaheadjs.css') !!}
     <!-- GLOBAL STYLE (Sass) -->
     {!! Html::style('css/global.css') !!}
     <!-- PAGE SPECIFIC STYLE -->
@@ -151,6 +152,7 @@
 {!! Html::script('global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') !!}
 {!! Html::script('global/plugins/blockUI/jquery.blockUI.js') !!}
 {!! Html::script('global/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js') !!}
+{!! Html::script('global/plugins/typeahead.js/dist/typeahead.bundle.min.js') !!}
 {!! Html::script('js/johnnyhuman.overlay.js') !!}
 <!-- PAGE SPECIFIC SCRIPTS -->
 @yield('js')
@@ -160,9 +162,11 @@
 <script>
 
     var overlay = $('.burger-trigger').overlay({
-        'ajaxUserUrl' : '{!! url("login") !!}',
-        'ajaxResourceUrl' : '{!! url("resource/change") !!}',
-        'ajaxSearchUrl' : '{!! url("tools/barcode") !!}'
+        'ajaxUserUrl' :             '{!! url("login") !!}',
+        'ajaxResourceUrl' :         '{!! url("resource/change") !!}',
+        'ajaxSearchBarcodeUrl' :    '{!! url("inventory/instant-search-barcode") !!}',
+        'ajaxSearchSerialnrUrl' :   '{!! url("inventory/instant-search-serialnr") !!}',
+        'ajaxFindItemBySerialnr' :   '{!! url("inventory/instant-item-serialnr") !!}',
     });
 
     var reveal = function reveal() {
