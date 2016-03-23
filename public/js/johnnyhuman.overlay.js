@@ -2,6 +2,7 @@
 
     'use strict';
 
+
     var Overlay = function( element, options ) {
         this.$element = $(element);
         this.options = $.extend(true, {}, $.fn.overlay.defaults, options);
@@ -13,9 +14,23 @@
 /** INIT OVERLAY
 /********************************************/
     Overlay.prototype.init = function() {
-        var _this = this;   
+        var _this = this;
 
-        console.log("init"); 
+        var instantSearch = new Bloodhound({
+            datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.name); },
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            limit: 10,
+            remote: {
+                url: this.options.ajaxSearchSerialnrUrl + '?query=%QUERY',
+                wildcard: '%QUERY',
+                filter: function(list) {
+                    return $.map(list, function(d) { return { instantSearch: d }; });
+                }
+            }
+
+        });
+
+        instantSearch.initialize();
 
         //Cache it
         this.$resourceButton    = $(document).find(this.options.resourceButton);
@@ -28,6 +43,12 @@
         this.$usernameField     = this.$userForm.find('[type="text"]');
         this.$passwordField     = this.$userForm.find('[type="password"]');
         this.$searchField       = this.$searchForm.find('[type="text"]');
+
+        this.$searchField.typeahead(null, {
+            name: 'instantSearch',
+            displayKey: 'instantSearch',
+            source: instantSearch.ttAdapter()
+        });
 
         this.$resourceButton.on('click', function() {
             _this.toggleOverlay('resource');
@@ -68,8 +89,25 @@
         });
 
         this.$searchField.on('keyup', function(e) {
-            _this.typeahead(e);
+            e = e || event; // to deal with IE
+            if (e.keyCode == 27) {
+                return;
+            }
+            var str = _this.$searchField.val();
+
+            if ( str.charAt(0) == "(" && str.slice(-1) == ")" ) {
+                console.log("Search Barcode: " + str);
+                _this.ajaxSearchByBarcode(str);
+
+            } else {
+                _this.$barcodeForm.addClass('hidden');
+            }
         });
+
+        this.$searchField.on('typeahead:selected', function(evt, item) {
+            console.log("Selected: " + _this.$searchField.val());
+            _this.ajaxSearchBySerialnr(_this.$searchField.val());
+        })
 
     }
 
@@ -97,26 +135,6 @@
     }
 
 /**
-/** Typeahead
-/********************************************/
-    Overlay.prototype.typeahead = function(e) {
-        e = e || event; // to deal with IE
-        if (e.keyCode == 27) {
-            return;
-        }
-        var str = this.$searchField.val();
-
-        if ( str.charAt(0) == "(" && str.slice(-1) == ")" ) {
-            console.log("Search Barcode: " + str);
-            this.ajaxSearch(str);
-
-        } else {
-            console.log("Search: " + str);
-            this.$barcodeForm.addClass('hidden');
-        }
-    }
-
-/**
 /** Toggle Overlay [search, user, resource]
 /********************************************/
     Overlay.prototype.toggleOverlay = function(action, key) {
@@ -138,7 +156,7 @@
                 var tmpStr = this.$searchField.val();
                 this.$searchField.val('');
                 this.$searchField.val(tmpStr);
-            }  
+            }
         }
         else if (action == 'user') {
             this.$userForm.removeClass("hidden");
@@ -156,29 +174,48 @@
 
     };
 
-/**
-/** Ajax Search
-/********************************************/
-    Overlay.prototype.ajaxSearch = function(str){
+    /**
+    /** Ajax Instant Barcode Search
+    /********************************************/
+    Overlay.prototype.ajaxSearchByBarcode = function(str){
         var _this = this;
-
-        $.getJSON( this.options.ajaxSearchUrl, {query: str})
-            .done(function( data ) {
-                if(data) {
-                    _this.$element.find("#barcodeError").addClass('hidden');
-                    _this.$element.find("#picture").html('<img src="'+APP_URL+'/files'+data['pictures'][0]['path']+'" alt="" width="280px" style="vertical-align:middle;">');
-                    _this.$element.find("#title").html('<a href="'+APP_URL+'/tool/'+data['id']+'/view" style="font-size: 19px; font-weight: 600;">'+data['serialnr']+'</a>');
-                    _this.$element.find("#location").html('Location: <a href="javascript:;"> '+ data['stocks'][0]['location'] +'</a> - <span class="font-grey-cascade">'+ data['stocks'][0]['amount'] +' stk</span>');
-                    _this.$element.find("#info").html('<h4>'+data['category']['name']+'</h4><h4>'+data['name0']+'</h4><h4>'+data['supplier']['name']+'</h4>');
-                    _this.$barcodeForm.removeClass('hidden');
-                } else {
-                    _this.$barcodeForm.addClass('hidden');
-                    _this.$element.find("#barcodeError").removeClass('hidden');
-                }
+        $.getJSON( this.options.ajaxSearchBarcodeUrl, {query: str})
+        .done(function( data ) {
+            _this.paintData(data);
         });
     }
 
-/**
+    /**
+    /** Ajax Get Item by Serialnr Search
+    /********************************************/
+    Overlay.prototype.ajaxSearchBySerialnr = function(str){
+        var _this = this;
+        $.getJSON( this.options.ajaxFindItemBySerialnr, {query: str})
+        .done(function( data ) {
+            _this.paintData(data);
+        });
+    }
+
+    /**
+    /** Ajax Get Item by Serialnr Search
+    /********************************************/
+    Overlay.prototype.paintData = function(data){
+        var _this = this;
+
+        console.log(data);
+        if(data) {
+            _this.$element.find("#barcodeError").addClass('hidden');
+            _this.$element.find("#picture").html('<img src="'+APP_URL+'/files" alt="" width="280px" style="vertical-align:middle;">');
+            _this.$element.find("#title").html('<a href="'+APP_URL+'/tool/'+data['id']+'/view" style="font-size: 19px; font-weight: 600;">'+data['serialnr']+'</a>');
+            _this.$element.find("#location").html('Location: <a href="javascript:;"> '+ '</a> - <span class="font-grey-cascade">'+ ' stk</span>');
+            _this.$element.find("#info").html('<h4>'+data['category']['name']+'</h4><h4>'+data['name0']+'</h4><h4>'+data['suppliers']['name']+'</h4>');
+            _this.$barcodeForm.removeClass('hidden');
+        } else {
+            _this.$barcodeForm.addClass('hidden');
+            _this.$element.find("#barcodeError").removeClass('hidden');
+        }
+    }
+    /**
 /** Ajax User
 /********************************************/
     Overlay.prototype.ajaxUser = function(){
