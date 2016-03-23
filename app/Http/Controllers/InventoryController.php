@@ -120,40 +120,62 @@ class InventoryController extends Controller {
 
     }
 
-
-    // TODO: Speed Up by putting this outside the app and use PDO::ATTR_PERSISTENT
-    public function typeahead(Request $request)
+    /**
+     * Returns all serialnumbers found from Ajax call
+     *
+     * @param Request          $request (Ajax)
+     *
+     * @return json array
+     */
+    public function instantSearchSerialnr(Request $request)
     {
-        if ($request->ajax())
-        {
-            $results = array();
+        $results = array();
 
-            $tools = DB::table('tools')
-                ->select('serialnr')
-                ->where('serialnr', 'like', '%'.$request->input("query").'%')
-                ->orderBy('serialnr', 'desc')
-                ->get();
+        $items = Inventory::fuzzySearch('inventories', 'serialnr', $request->input('query'));
 
-            foreach($tools as $tool) {
-              $results[] =  $tool->serialnr;
-            }
-
-            return json_encode($results);
+        foreach($items as $item) {
+            $results[] =  $item->serialnr;
         }
+
+        return json_encode($results);
     }
 
-
-    public function barcode(Request $request)
+    /**
+     * Returns one item from Inventory matching the barcode
+     * that was requested from Ajax call
+     *
+     * @param Request          $request (Ajax)
+     *
+     * @return json array
+     */
+    public function instantSearchBarcode(Request $request)
     {
-        if ($request->ajax())
-        {
-            $query = rtrim($request->input("query"), ")");
-            $query = trim($query, "(");
+        $barcode = $request->input('query');
 
-            $result = Tool::getItemByInstantSearch($query);
-
-            return json_encode($result);
+        if($barcode[0] == "(") {
+            $barcode = rtrim($request->input('query'), ")");
+            $barcode = trim($barcode, "(");
         }
+        $result = Inventory::findByBarcode($barcode);
+
+        return json_encode($result);
+    }
+
+    /**
+     * Returns one item from Inventory matching the serialnr
+     * that was requested from Ajax call
+     *
+     * @param Request          $request (Ajax)
+     *
+     * @return json array
+     */
+    public function getInventoryBySerialnr(Request $request)
+    {
+        $serialnr = $request->input('query');
+
+        $result = Inventory::findBySerialnr($serialnr);
+
+        return json_encode($result);
     }
 
 
