@@ -54,12 +54,12 @@ class Inventory extends BaseModel
     */
     public static function findBySerialnr($serialnr)
     {
-        $instance = new static();
+        $item = Inventory::with('category')
+            ->with('suppliers')
+            ->where('serialnr', $serialnr)->first();
 
-        $tool = $instance->where('serialnr', $serialnr)->first();
-
-        if ($tool) {
-            return $tool;
+        if ($item) {
+            return $item;
         }
 
         return false;
@@ -103,7 +103,7 @@ class Inventory extends BaseModel
         $instance = new static();
 
         $barcode = $instance
-            ->sku()
+            ->barcode()
             ->getRelated()
             ->with('item')
             ->where('barcode', $barcode)
