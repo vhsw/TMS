@@ -278,7 +278,7 @@ class InventoryController extends Controller {
      */
     public function edit(Inventory $item)
     {
-        $suppliers =    Supplier::all();
+        $suppliers = Supplier::all();
 
         // Create Navigation for Next and Previous Tool
         $navigate = $item->getNextPrev();
@@ -312,7 +312,6 @@ class InventoryController extends Controller {
         $item->serialnr = $request->serialnr;
         $item->name = $request->name;
         $item->name0 = $request->name0;
-        //$item->supplier_id = $request->supplier_id;
         $item->category_id = $category;
         $item->save();
 
