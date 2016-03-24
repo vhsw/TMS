@@ -41,7 +41,6 @@ var generateSelectBoxes = function(id) {
     });
 }
 
-
 var updateCategories = function(id, selected){
     $.ajax({
         url: APP_URL + '/categories/get-immediate-descendants',
@@ -62,25 +61,60 @@ var changeSupplier = function(id, item){
         dataType: 'json',
         data: {id: id},
         success: function( data ) {
-console.log(data);
-            // Make array for check with indexOf
-            var check = [data[0].id, data[1].id ];
 
-            // TODO: Don't know why indexOf((integer), check) always return -1
-
-            var option = $('#supplier').find('option');
-            $.each(option, function(i, supplier){
-                $(this).attr('selected', false);
-                // If the select supplier is not in the array, hide the option
-                if ( supplier.value == check[0] || supplier.value == check[1]) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
+            var html = '';
+            $.each(data, function(i, supplier){
+                html = html + '<option value="' + supplier.id + '">' + supplier.name + '</option>';
             });
 
-            // Select the first option
-            $('#supplier option[value=' + check[0] + ']').attr('selected', true);
+            $('#supplier').find('option').remove().end()
+                .append(html);
+        }
+    });
+}
+
+var downloadToolInfo = function(){
+    $.ajax({
+        url: APP_URL + '/inventory/download',
+        cache: false,
+        dataType: 'json',
+        data: $('form').serializeArray(),
+        success: function(data){
+            console.log(data);
+            $('input[name=name0]').val(data.title1);
+            $('#summernote_1').summernote('code', data.description);
+
+            /*data.images.forEach(function(url){
+                $('#images').append('<img src="'+ url +'"><br>');
+            });
+
+            $('#tool_info').show();
+            $('.save').show();*/
+        },
+        error: function( XMLHttpRequest, jqXHR, textStatus ){
+            console.log(XMLHttpRequest);
+        }
+    });
+}
+
+var saveToolInfo = function(id, data){
+
+    data.title1 = $('input[name=title1]').val();
+    data.title2 = $('input[name=title2]').val();
+    data.description = $('textarea[name=description]').val();
+    //console.log(data);
+
+    $.ajax({
+        url: "{!! url('plugins/download/save') !!}",
+        cache: false,
+        data: {id: id, data: data},
+        success: function(ev){
+            console.log(ev)
+            $('#tool_info').hide();
+            //$('.save').hide();
+        },
+        error: function( XMLHttpRequest, jqXHR, textStatus ){
+            console.log(XMLHttpRequest);
         }
     });
 }

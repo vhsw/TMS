@@ -20,6 +20,7 @@
 
 var iconUrl = "{!!url('img/ICO')!!}";
 var item = {{ $item->id }};
+var possibleSuppliers = {!! $item->suppliers[0] !!};
 
 var selected = [<?php
 
@@ -65,7 +66,7 @@ var selected = [<?php
         });
 
         $('#btn-download').on('click', function() {
-            downloadToolInfo( $("select[name='supplier_id']").val(), $("input[name='name']").val() );
+            downloadToolInfo();
             return false;
         });
 
@@ -92,57 +93,6 @@ var selected = [<?php
                 ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']]
             ]});
-
-
-            var _data;
-            var downloadToolInfo = function(supplier_id, searchstr){
-                $.ajax({
-                    url: "{!! url('plugins/download') !!}",
-                    cache: false,
-                    dataType: "json",
-                    data: {supplier_id: supplier_id, searchstr: searchstr},
-                    success: function(data){
-                        console.log(data);
-                        /*_data = data;
-                        $('input[name=title1]').val(data.title1);
-                        $('input[name=title2]').val(data.title2);
-                        $('textarea[name=description]').html(data.description);
-
-                        var html;
-                        data.images.forEach(function(url){
-                            $('#images').append('<img src="'+ url +'"><br>');
-                        });
-
-                        $('#tool_info').show();
-                        $('.save').show();*/
-                    },
-                    error: function( XMLHttpRequest, jqXHR, textStatus ){
-                        console.log(XMLHttpRequest);
-                    }
-                });
-            }
-
-            var saveToolInfo = function(id, data){
-
-                data.title1 = $('input[name=title1]').val();
-                data.title2 = $('input[name=title2]').val();
-                data.description = $('textarea[name=description]').val();
-                //console.log(data);
-
-                $.ajax({
-                    url: "{!! url('plugins/download/save') !!}",
-                    cache: false,
-                    data: {id: id, data: data},
-                    success: function(ev){
-                        console.log(ev)
-                        $('#tool_info').hide();
-                        //$('.save').hide();
-                    },
-                    error: function( XMLHttpRequest, jqXHR, textStatus ){
-                        console.log(XMLHttpRequest);
-                    }
-                });
-            }
 
         });
         </script>
@@ -249,8 +199,8 @@ var selected = [<?php
                                                             <button id="btn-download" class="btn grey" type="button">Download Details from</button>
                                                         </span>
                                                         <select id="supplier" name="supplier_id" class="form-control">
-                                                            @foreach($suppliers as $supplier)
-                                                            <option value="{{ $supplier->id }}" {{ ($supplier->id == $item->supplier_id) ? 'SELECTED' : '' }}>{{ $supplier->name }}</option>
+                                                            @foreach(App\Models\Supplier::getSuppliersByBrand($item->suppliers[0]->id, true) as $supplier)
+                                                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -263,7 +213,7 @@ var selected = [<?php
                                             <div class="form-group">
                                                 <label class="control-label col-md-1"></label>
                                                 <div class="col-md-11">
-                                                    <div name="summernote" id="summernote_1"></div>
+                                                    <div name="description" id="summernote_1"></div>
                                                 </div>
                                             </div>
                                         </div>

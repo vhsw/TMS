@@ -18,9 +18,8 @@ Route::get('inventory/{item}/change-supplier',  'SupplierController@changeSuppli
 Route::post('inventory/db', 					'InventoryController@db');	// AJAX
 Route::get('inventory/barcode', 				'InventoryController@barcode'); // AJAX
 Route::get('inventory/{item}/generateSku', 		'InventoryController@generateSku'); // AJAX
+Route::get('inventory/download', 				'Plugins\CurlController@index'); // AJAX
 
-//post('plugins/download', 					    'Plugins\CurlController@index');
-Route::get('plugins/download', 				    'Plugins\CurlController@index');
 Route::get('plugins/download/save', 		    'ToolController@savetoolinfo');
 
 Route::get('data/categories/children', 	        'CategoryController@children'); // AJAX
