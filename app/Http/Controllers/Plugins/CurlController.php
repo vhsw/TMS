@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers\Plugins;
 
@@ -10,6 +10,7 @@ use App\Models\Cost;
 use App\Models\Supplier;
 use App\Models\Category;
 use HtmlDom;
+use HtmlDomNode;
 
 class CurlController extends Controller {
 
@@ -18,35 +19,28 @@ class CurlController extends Controller {
 
 	public function __construct()
     {
- 
+
     }
 
     public function index(Request $request)
     {
-    	if ($request->ajax()) 
-        { 
-        	
 	    	$this->ch = curl_init();
 	    	curl_setopt($this->ch, CURLOPT_HEADER, true);
 	        curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, TRUE);
 	        curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, false);
 	        curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
 
-	    	$supplier_id = $request->tool_info_supplier;
-	    	$this->supplier = Supplier::find($supplier_id);
+	    	$this->supplier = Supplier::find($request->input('supplier_id'));
 
 	    	if (method_exists($this, $this->supplier->shortname))
 	    	{
 	    		$fn = $this->supplier->shortname;
-	    		$result = $this->$fn($request->searchstr, $fn);
+	    		$result = $this->$fn($request->input('name'), $fn);
 	    	}
 
 	    	curl_close($this->ch);
 
 	    	return json_encode($result);
-	    } else {
-	    	return "Ajax error";
-	    }
     }
 
     public function hoffmann($str, $fn)
@@ -54,7 +48,7 @@ class CurlController extends Controller {
     	//prepare search string
     	$str = str_replace(' ', '-', $str);
 
-    	curl_setopt($this->ch, CURLOPT_URL, 
+    	curl_setopt($this->ch, CURLOPT_URL,
     		"https://www.hoffmann-group.com/US/en/hus/search?type=product&search=".$str);
 
     	$output = curl_exec($this->ch);
@@ -66,7 +60,7 @@ class CurlController extends Controller {
         $title = $html->find('title', 0);
         if($title != null)
         {
-        	$title = explode(' |', strip_tags($title))[0];
+        	$title = strip_tags($title);
         }
 
         $imgs = $html->find('img[class=js-loupe]');
@@ -101,7 +95,7 @@ class CurlController extends Controller {
         //prepare search string
         $str = str_replace(' ', '', $str);
 
-        curl_setopt($this->ch, CURLOPT_URL, 
+        curl_setopt($this->ch, CURLOPT_URL,
             "http://www.sandvik.coromant.com/en-gb/products/pages/productdetails.aspx?c=".$str);
 
         $output = curl_exec($this->ch);
