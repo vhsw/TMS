@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Models\Supplier;
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Requests\CreateSupplierRequest;
@@ -25,10 +26,33 @@ class SupplierController extends Controller {
         return view('data.suppliers', compact('suppliers'));
     }
 
-    public function getPossibleSuppliers(Request $request)
+    /**
+     * Get the possible Suppliers including the Items brand
+     *
+     * @param integer          $id
+     *
+     * @return json            Supplier
+     */
+    public function getPossibleSuppliers(Request $supplier)
     {
-        // Return the Supplier, including this brand
-        return Supplier::getSuppliersByBrand($request->id, true);
+        return Supplier::getSuppliersByBrand($supplier->input('id'), true);
+    }
+
+    /**
+     * Changes the Supplier for the Inventory Item
+     *
+     * @param Request          $supplier (Ajax)
+     * @param Inventory        $item
+     *
+     * @return boolean
+     */
+    public function changeSupplier(Request $supplier, Inventory $item)
+    {
+        if ( $item->changeSupplierTo($supplier->input('id')) ) {
+            return $this->getPossibleSuppliers($supplier);
+        }
+
+        return false;
     }
 
 

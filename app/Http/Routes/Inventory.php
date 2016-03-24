@@ -14,6 +14,7 @@ Route::get('inventory/{item}/request', 			'InventoryController@request');
 Route::get('inventory/instant-search-barcode',  'InventoryController@instantSearchBarcode'); // AJAX
 Route::get('inventory/instant-search-serialnr', 'InventoryController@instantSearchSerialnr'); // AJAX
 Route::get('inventory/instant-item-serialnr', 	'InventoryController@getInventoryBySerialnr'); // AJAX
+Route::get('inventory/{item}/change-supplier',  'SupplierController@changeSupplier'); // AJAX
 Route::post('inventory/db', 					'InventoryController@db');	// AJAX
 Route::get('inventory/barcode', 				'InventoryController@barcode'); // AJAX
 Route::get('inventory/{item}/generateSku', 		'InventoryController@generateSku'); // AJAX

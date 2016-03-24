@@ -46,6 +46,39 @@ class Inventory extends BaseModel
     }
 
     /**
+     * Returns a supplier by the specified ID.
+     *
+     * @param int|string $id
+     *
+     * @return mixed
+     */
+    private function getSupplierById($id)
+    {
+        return Supplier::find($id);
+    }
+
+    /**
+    * Change the brand (supplier) of the Inventory.
+    * TODO: Now it removes all suppliers of...
+    *       the Inventory and add the new one.
+    *
+    * @param integer    supplier
+    *
+    * @return bool
+    */
+    public function changeSupplierTo($supplier)
+    {
+        $this->removeAllSuppliers();
+
+        if ( $this->addSupplier($supplier) ){
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
     * Returns an item record by the specified Serialnr.
     *
     * @param string serialnr

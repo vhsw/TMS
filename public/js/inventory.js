@@ -56,13 +56,13 @@ var updateCategories = function(id, selected){
     });
 }
 
-var updateSuppliers = function(id){
+var changeSupplier = function(id, item){
     $.ajax({
-        url: APP_URL + '/suppliers/get-possible-suppliers',
+        url: APP_URL + '/inventory/' + item + '/change-supplier',
         dataType: 'json',
         data: {id: id},
         success: function( data ) {
-
+console.log(data);
             // Make array for check with indexOf
             var check = [data[0].id, data[1].id ];
 

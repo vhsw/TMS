@@ -19,6 +19,7 @@
 <script>
 
 var iconUrl = "{!!url('img/ICO')!!}";
+var item = {{ $item->id }};
 
 var selected = [<?php
 
@@ -49,7 +50,7 @@ var selected = [<?php
         });
 
         $('#brand').on('change', function() {
-            updateSuppliers( $(this).val() );
+            changeSupplier( $(this).val(), item );
         });
 
 
@@ -81,7 +82,6 @@ var selected = [<?php
         });
 
         generateSelectBoxes( {{ $item->category_id }} );
-        updateSuppliers( {{ $item->supplier_id }} );
 
         $('#summernote_1').summernote({
             height: 300,
@@ -232,7 +232,7 @@ var selected = [<?php
                                                         <select id="brand" name="brand_id" class="form-control">
                                                             @foreach($suppliers as $supplier)
                                                             @if($supplier->producer)
-                                                            <option value="{{ $supplier->id }}" {{ ($supplier->id == $item->supplier_id) ? 'SELECTED' : '' }}>{{ $supplier->name }}</option>
+                                                            <option value="{{ $supplier->id }}" {{ ($supplier->id == $item->suppliers[0]->id) ? 'SELECTED' : '' }}>{{ $supplier->name }}</option>
                                                             @endif
                                                             @endforeach
                                                         </select>
