@@ -24,9 +24,9 @@ class Supplier extends BaseModel
         $supplier = Supplier::where('id', $brand->supplied_by)->first();
 
         if($includeThis === true) {
-            return json_encode( array($supplier, $brand) );
+            return array($supplier, $brand);
         }
 
-        return json_encode( array($supplier) );
+        return array($supplier);
     }
 }
