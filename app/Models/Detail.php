@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 namespace App\Models;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-class Detail extends BaseModel 
+class Detail extends BaseModel
 {
 
 	protected $table = 'details';
@@ -13,20 +13,10 @@ class Detail extends BaseModel
 	protected $guarded = ['id'];
 
 
-	public function tool()
+	public function inventory()
     {
-        return $this->belongsTo('App\Models\Tool');
+        return $this->belongsTo('App\Models\Invetory');
     }
 
-
-    public static function saveDetails($id, $data)
-    {
-    	Detail::create(array(
-            'tool_id' => $id,
-            'title1' => $data['title1'],
-            'title2' => $data['title2'],
-            'cuttingdata' => $data['cuttingdata'],
-            'description' => $data['description']
-        ));
-    }
+	
 }
