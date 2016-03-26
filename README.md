@@ -46,7 +46,7 @@ Pull the remote repository and merge it with Laravel:
 
 ```shell
 git init
-git remote add origin git@github.com:matapuna/uhlelo.git
+git remote add origin git@github.com:johnny-human/uhlelo.git
 git pull origin master
 git reset --hard origin/master
 ```
@@ -68,7 +68,7 @@ bower install
 The installed packages end up in /public/global/plugins
 
 ### 5. Config:
-Add this to your Config/App.php:
+Add this to your Config/App.php in their respective places:
 
 ```php
 Collective\Html\HtmlServiceProvider::class,
