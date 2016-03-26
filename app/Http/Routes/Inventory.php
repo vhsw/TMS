@@ -17,6 +17,7 @@ Route::get('inventory/instant-item-serialnr', 	'InventoryController@getInventory
 Route::get('inventory/{item}/change-supplier',  'SupplierController@changeSupplier'); // AJAX
 Route::post('inventory/db', 					'InventoryController@db');	// AJAX
 Route::get('inventory/barcode', 				'InventoryController@barcode'); // AJAX
+Route::get('inventory/crop-image', 			    'InventoryController@cropImage'); // AJAX
 Route::get('inventory/{item}/generateSku', 		'InventoryController@generateSku'); // AJAX
 Route::get('inventory/download', 				'Plugins\CurlController@index'); // AJAX
 

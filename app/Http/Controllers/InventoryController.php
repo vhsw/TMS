@@ -10,6 +10,7 @@ use Searchy;
 use App\Models\Cost;
 use App\Models\File;
 use App\Models\Detail;
+use App\Models\Picture;
 use App\Models\Location;
 use App\Models\Supplier;
 use App\Models\Category;
@@ -311,13 +312,25 @@ class InventoryController extends Controller {
 
         $item->serialnr = $request->serialnr;
         $item->name = $request->name;
-        $item->name0 = $request->name0;
+        //$item->name0 = $request->name0;
         $item->category_id = $category;
         $item->save();
 
+        //$item->saveDetails($request);
+
+        $supplier = Supplier::find($request->supplier_id);
+        return Picture::saveImages($item, $supplier, $request->images);
+
+
         //$item->updateBarcode($request->barcode);
 
-        return $item;
+        //return $item;
+    }
+
+
+    public function cropImage(Request $image)
+    {
+        \App\Services\ImageCrop::image(url('temp/'.$image->path), public_path('temp').'/'.$image->path);
     }
 
 
@@ -348,42 +361,6 @@ class InventoryController extends Controller {
             }
         }
         return "Success";
-    }
-
-
-    private function savePicture($id, $data, $url)
-    {
-        $path = '/pictures/'.$data['fn'].'/'.basename($url);
-
-        $picture = Picture::where('path', '=', $path)->first();
-        if($picture === null)
-        {
-            $content = file_get_contents($url);
-            Storage::disk('files')->put($path, $content);
-
-            $picture = Picture::create(array(
-                'title' => basename($url),
-                'path' => $path
-            ));
-
-            DB::table('pictures_tools')->insert([
-                'tool_id' => $id,
-                'picture_id' => $picture->id
-            ]);
-        } elseif ($picture)
-        {
-            $pictures_tools = DB::table('pictures_tools')
-            ->where('tool_id', $id)
-            ->where('picture_id', $picture->id)->first();
-
-            if(!$pictures_tools)
-            {
-                DB::table('pictures_tools')->insert([
-                    'tool_id' => $id,
-                    'picture_id' => $picture->id
-                ]);
-            }
-        }
     }
 
 //########### BUILD CATEGORY MENU ################//
