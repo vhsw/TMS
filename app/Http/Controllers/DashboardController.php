@@ -46,7 +46,7 @@ class DashboardController extends Controller {
 
 	public function test()
 	{
-		$result = Tool::findBySerialnr('4505354484 KC725M');
-		return view('test', compact('result'));
+		\App\Services\ImageCrop::image('https://static.hoffmann-group.com/medias/sys_master/root/haf/he6/8870973440030/b122380-ha-k39.jpg');
+		//return view('test', compact('result'));
 	}
 }
