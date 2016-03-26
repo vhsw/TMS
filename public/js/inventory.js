@@ -80,16 +80,38 @@ var downloadToolInfo = function(){
         dataType: 'json',
         data: $('form').serializeArray(),
         success: function(data){
-            console.log(data);
             $('input[name=name0]').val(data.title1);
             $('#summernote_1').summernote('code', data.description);
 
-            /*data.images.forEach(function(url){
-                $('#images').append('<img src="'+ url +'"><br>');
+            $.each(data.images, function(i, url){
+                generatePicture(i, url);
             });
+            $("input:radio[name=picture]:first").attr('checked', true);
+        },
+        error: function( XMLHttpRequest, jqXHR, textStatus ){
+            console.log(XMLHttpRequest);
+        }
+    });
+}
 
-            $('#tool_info').show();
-            $('.save').show();*/
+var generatePicture = function(i, url){
+    html = '<tr>'
+            + '<td><img id="image' + i + '" class="img-responsive" src="' + APP_URL + '/temp/' + url + '" alt=""><input name="images[image][]" type="hidden" value="' + url + '"></td>'
+            + '<td><label><input type="radio" name="picture" value="' + url + '"> </label></td>'
+            + '<td><a href="javascript:cropPicture(' + i + ', \'' + url + '\');" class="btn btn-default btn-xs">Crop</a></td>'
+            + '<td><a href="javascript:removePicture('+');" class="btn btn-default btn-xs"><i class="fa fa-times"></i> </a></td></tr>';
+
+    $('#pictures').find('tbody').append(html);
+}
+
+var cropPicture = function(i, url){
+    $.ajax({
+        url: APP_URL + '/inventory/crop-image',
+        data: {path: url},
+        success: function(data){
+            // Refresh Image by using timestamp
+            d = new Date();
+            $('#image' + i).attr('src', APP_URL + '/temp/' + url + '?timestamp='+d.getTime());
         },
         error: function( XMLHttpRequest, jqXHR, textStatus ){
             console.log(XMLHttpRequest);

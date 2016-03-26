@@ -147,7 +147,7 @@ var selected = [<?php
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Alt. Name</label>
                                                 <div class="col-md-10">
-                                                    <input value="{{ $item->name0 }}" type="text" class="form-control" name="name0">
+                                                    <input value="{{ $item->getDetails()['title'] }}" type="text" class="form-control" name="title">
                                                 </div>
                                             </div>
                                         </div>
@@ -227,27 +227,17 @@ var selected = [<?php
                                     </div>
 
                                     <h4 class="form-section">Pictures</h4>
-                                    <table class="table table-bordered table-hover">
+                                    <table id="pictures" class="table table-bordered table-hover">
                                         <thead>
                                             <tr role="row" class="heading">
                                                 <th> Image </th>
                                                 <th width="1%">First</th>
                                                 <th width="1%"></th>
+                                                <th width="1%"></th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <a href="../assets/pages/media/works/img1.jpg" class="fancybox-button" data-rel="fancybox-button">
-                                                        <img class="img-responsive" src="../assets/pages/media/works/img1.jpg" alt=""> </a>
-                                                    </td>
-                                                    <td>
-                                                        <label><input type="radio" name="product[images][1][image_type]" value="3" checked> </label>
-                                                    </td>
-                                                    <td>
-                                                        <a href="javascript:;" class="btn btn-default btn-sm"><i class="fa fa-times"></i> Remove </a>
-                                                    </td>
-                                                </tr>
+                                            <tbody>
+
                                             </tbody>
                                         </table>
                                     </div>

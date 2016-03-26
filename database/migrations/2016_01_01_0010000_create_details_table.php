@@ -12,25 +12,23 @@ class CreateDetailsTable extends Migration {
 	 */
 	public function up()
 	{
-		/*if (! Schema::hasTable('details'))
+		if (! Schema::hasTable('details'))
 		{
 			Schema::create('details', function(Blueprint $table)
 			{
-				$table->increments('id')->unsigned();
-				$table->integer('tool_id')->unsigned();
-				$table->text('title1');
-				$table->text('title2');
-				$table->text('cuttingdata');
+				$table->increments('id');
+				$table->integer('inventory_id')->unsigned();
+				$table->text('title');
 				$table->text('description');
+				$table->timestamps();
+                $table->softDeletes();
 
-				$table->timestamp('updated_at');
-                $table->timestamp('created_at');
-                $table->timestamp('deleted_at');
-
-                $table->foreign('tool_id')->references('id')->on('tools');
+				$table->foreign('inventory_id')->references('id')->on('inventories')
+                    ->onUpdate('restrict')
+                    ->onDelete('set null');
 
 			});
-		}*/
+		}
 	}
 
 	/**

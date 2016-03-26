@@ -45,6 +45,16 @@ class Inventory extends BaseModel
         return $this->belongsToMany('App\Models\Supplier', 'inventory_suppliers', 'inventory_id')->withTimestamps();
     }
 
+    public function details()
+    {
+        return $this->hasOne('App\Models\Detail', 'inventory_id', 'id');
+    }
+
+    public function pictures()
+    {
+        return $this->belongsToMany('App\Models\Picture', 'pictures_inventories', 'inventory_id', 'picture_id')->withPivot('first_choice');
+    }
+
     /**
      * Returns a supplier by the specified ID.
      *
@@ -112,6 +122,19 @@ class Inventory extends BaseModel
     }
 
     /**
+     * Returns true/false if the current item has Details.
+     *
+     * @return bool
+     */
+    public function hasDetails()
+    {
+        if ($this->details) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Returns the item's Barcode.
      *
      * @return null|string
@@ -120,6 +143,19 @@ class Inventory extends BaseModel
     {
         if ($this->hasBarcode()) {
             return $this->barcode->barcode;
+        }
+        return;
+    }
+
+    /**
+     * Returns the item's Details.
+     *
+     * @return null|string
+     */
+    public function getDetails()
+    {
+        if ($this->hasDetails()) {
+            return $this->details;
         }
         return;
     }
@@ -172,6 +208,30 @@ class Inventory extends BaseModel
     }
 
     /**
+     * Updates/saves the details
+     *
+     * @param $request
+     *
+     */
+    public function saveDetails($details)
+    {
+        if($this->hasDetails()) {
+            $this->details->update([
+                'description' => $details->description,
+                'title' => $details->title
+            ]);
+        } else {
+            Details::insert([
+                'inventory_id' => $this->id,
+                'description' => $details->description,
+                'title' => $details->title
+            ]);
+        }
+
+        return true;
+    }
+
+    /**
      * Create new Item
      *
      * @param Request       $request
@@ -189,6 +249,15 @@ class Inventory extends BaseModel
 
         return $item;
     }
+
+    public function hasPicture($pictureId)
+	{
+		return ! is_null(
+			$this->pictures()
+                 ->where('picture_id', $pictureId)
+                 ->first()
+		);
+	}
 
     /**
      * Get Next and Previous Items of an Item
