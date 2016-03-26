@@ -92,3 +92,14 @@ Migrate and seed the database:
 php artisan migrate
 php artisan db:seed
 ```
+
+### 7. Bugfix:
+When you have run composer update:
+Open
+```shell
+vendor/cucxabeng/simple-html-dom/src/cucxabeng/simple-html-dom/HtmlDom.php
+```
+Add
+```php
+use HtmlDomNode;
+```
