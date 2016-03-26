@@ -73,7 +73,7 @@ var selected = [<?php
         $('#btn-save').on('click', function() {
             $.ajax({
                 url: APP_URL + '/inventory/{!! $item->id !!}/save',
-                data: $('form').serializeArray(),
+                data: $('form').serialize() + '&description=' + encodeURIComponent( $('#summernote_1').summernote('code') ),
                 dataType: 'json',
                 success: function( data ) {
                     console.log(data);
@@ -103,12 +103,28 @@ var selected = [<?php
         <form class="form-horizontal form-row-seperated" method="get">
             <div class="page-bar">
                 <div class="row p-t-10 p-b-10">
-                    <div class="col-md-12">
+                    <div class="col-md-2">
                         @if($item->getNextPrev()->prev)
                         <a href="{!!url('inventory/'.($item->getNextPrev()->prev->id).'/edit')!!}" class="btn default"><i class="fa fa-arrow-left"></i> {{ $item->getNextPrev()->prev->id }}</a>
                         @endif
 
                         <button id="btn-save" class="btn blue">Save</button>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="input-group col-md-12">
+                            <span class="input-group-btn">
+                                <button id="btn-download" class="btn blue" type="button">Download Details from</button>
+                            </span>
+                            <select id="supplier" name="supplier_id" class="form-control">
+                                @foreach(App\Models\Supplier::getSuppliersByBrand($item->suppliers[0]->id, true) as $supplier)
+                                <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7">
                         @if($item->getNextPrev()->next)
                         <a href="{!!url('inventory/'.($item->getNextPrev()->next->id).'/edit')!!}" class="btn default pull-right">{{ $item->getNextPrev()->next->id }} <i class="fa fa-arrow-right"></i></a>
                         @endif
@@ -127,8 +143,8 @@ var selected = [<?php
 
                                         <div class="row">
                                             <div class="form-group">
-                                                <label class="control-label col-md-2">Serialnr</label>
-                                                <div class="col-md-10">
+                                                <label class="control-label col-md-3">Serialnr</label>
+                                                <div class="col-md-9">
                                                     <input value="{{ $item->serialnr }}" type="text" class="form-control" name="serialnr">
                                                 </div>
                                             </div>
@@ -136,8 +152,8 @@ var selected = [<?php
 
                                         <div class="row">
                                             <div class="form-group">
-                                                <label class="control-label col-md-2">Name</label>
-                                                <div class="col-md-10">
+                                                <label class="control-label col-md-3">Name</label>
+                                                <div class="col-md-9">
                                                     <input name="name" type="text" class="form-control" value="{{ $item->name }}">
                                                 </div>
                                             </div>
@@ -145,8 +161,8 @@ var selected = [<?php
 
                                         <div class="row">
                                             <div class="form-group">
-                                                <label class="control-label col-md-2">Alt. Name</label>
-                                                <div class="col-md-10">
+                                                <label class="control-label col-md-3">Supplier Name</label>
+                                                <div class="col-md-9">
                                                     <input value="{{ $item->getDetails()['title'] }}" type="text" class="form-control" name="title">
                                                 </div>
                                             </div>
@@ -154,8 +170,8 @@ var selected = [<?php
 
                                         <div class="row">
                                             <div class="form-group">
-                                                <label class="control-label col-md-2">Barcode</label>
-                                                <div class="col-md-8">
+                                                <label class="control-label col-md-3">Barcode</label>
+                                                <div class="col-md-9">
                                                     <input value="{{ $item->getBarcode() }}" type="text" class="form-control" name="barcode">
                                                 </div>
                                             </div>
@@ -163,8 +179,8 @@ var selected = [<?php
 
                                         <div class="row">
                                             <div class="form-group">
-                                                <label class="control-label col-md-2">Sku</label>
-                                                <div class="col-md-10">
+                                                <label class="control-label col-md-3">Sku</label>
+                                                <div class="col-md-9">
                                                     <div class="input-group col-lg-8">
                                                         <input value="{!! $item->getSku() !!}" type="text" class="form-control" name="sku">
                                                         <span class="input-group-btn">
@@ -177,8 +193,8 @@ var selected = [<?php
 
                                         <div class="row">
                                             <div class="form-group">
-                                                <label class="control-label col-md-2">Brand</label>
-                                                <div class="col-md-5">
+                                                <label class="control-label col-md-3">Brand</label>
+                                                <div class="col-md-4">
                                                         <select id="brand" name="brand_id" class="form-control">
                                                             @foreach($suppliers as $supplier)
                                                             @if($supplier->producer)
@@ -186,24 +202,6 @@ var selected = [<?php
                                                             @endif
                                                             @endforeach
                                                         </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-2"></label>
-                                                <div class="col-md-10">
-                                                    <div class="input-group col-lg-8">
-                                                        <span class="input-group-btn">
-                                                            <button id="btn-download" class="btn grey" type="button">Download Details from</button>
-                                                        </span>
-                                                        <select id="supplier" name="supplier_id" class="form-control">
-                                                            @foreach(App\Models\Supplier::getSuppliersByBrand($item->suppliers[0]->id, true) as $supplier)
-                                                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

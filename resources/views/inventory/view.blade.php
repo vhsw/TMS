@@ -97,11 +97,13 @@ foreach($costs as $cost)
   <div class="row">
     <div class="col-md-4">
       <ul class="list-unstyled profile-nav">
-        foreach($tool->pictures as $picture)
-        <li class="pic-bordered padding-10">
-          <img src="" class="img-responsive" alt="">
-        </li>
-        endforeach
+        @foreach($item->pictures as $picture)
+            @if($picture->pivot->first_choice == 1)
+                <li class="pic-bordered padding-10">
+                    <img src="{{ url('files/'.$picture->path.$picture->title)}}" class="img-responsive" alt="">
+                </li>
+            @endif
+        @endforeach
       </ul>
     </div>
 
@@ -109,7 +111,7 @@ foreach($costs as $cost)
       <div class="row">
         <div class="col-md-8 profile-info">
           <h1 class="font-green sbold uppercase">{{ $item->serialnr }}</h1>
-          <h5 class="font-green sbold uppercase">if($detail) endif</h5>
+          <h5 class="font-green sbold uppercase">@if($item->hasDetails()) {{ $item->details->title }} @endif</h5>
           <br>
 
           <table class="table table-advance table-hover">
@@ -136,13 +138,13 @@ foreach($costs as $cost)
 
               <tr>
                 <td><b>Brand</b></td>
-                <td> </td>
+                <td> {{ $item->suppliers[0]->name }}</td>
                 <td></td>
               </tr>
             </tbody>
           </table>
 
-          if($detail)  endif
+         @if($item->hasDetails()) {!! $item->details->description !!} @endif
 
         </div>
         <!--end col-md-8-->

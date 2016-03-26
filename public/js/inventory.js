@@ -80,7 +80,7 @@ var downloadToolInfo = function(){
         dataType: 'json',
         data: $('form').serializeArray(),
         success: function(data){
-            $('input[name=name0]').val(data.title1);
+            $('input[name=title]').val(data.title1);
             $('#summernote_1').summernote('code', data.description);
 
             $.each(data.images, function(i, url){
@@ -112,28 +112,6 @@ var cropPicture = function(i, url){
             // Refresh Image by using timestamp
             d = new Date();
             $('#image' + i).attr('src', APP_URL + '/temp/' + url + '?timestamp='+d.getTime());
-        },
-        error: function( XMLHttpRequest, jqXHR, textStatus ){
-            console.log(XMLHttpRequest);
-        }
-    });
-}
-
-var saveToolInfo = function(id, data){
-
-    data.title1 = $('input[name=title1]').val();
-    data.title2 = $('input[name=title2]').val();
-    data.description = $('textarea[name=description]').val();
-    //console.log(data);
-
-    $.ajax({
-        url: "{!! url('plugins/download/save') !!}",
-        cache: false,
-        data: {id: id, data: data},
-        success: function(ev){
-            console.log(ev)
-            $('#tool_info').hide();
-            //$('.save').hide();
         },
         error: function( XMLHttpRequest, jqXHR, textStatus ){
             console.log(XMLHttpRequest);

@@ -47,16 +47,16 @@ class Picture extends BaseModel
     {
 		// Get the short name of supplier
 		$supplier = $supplier->shortname;
-		$path = 'pictures\\'.$supplier.'\\';
+		$path = 'pictures/'.$supplier.'/';
 
 		foreach ($images['image'] as $image)
 		{
-			$picture = Picture::where('path', '=', $path.basename($image))->first();
+			$picture = Picture::where('path', '=', $path.$image)->first();
 
 			// If Picture exist in database, check if it's attached to this Item.
 			// If Picture don't exist in database, create it and attach it to this Item.
 			if($picture === null){
-				$picture = new Picture(['path' => $path.basename($image), 'title' => $image]);
+				$picture = new Picture(['path' => $path, 'title' => $image]);
 				$picture->save();
 				$picture->moveImage();
 				$item->pictures()->attach($picture->id);
