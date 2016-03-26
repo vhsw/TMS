@@ -162,7 +162,6 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Cucxabeng\HtmlDom\HtmlDomServiceProvider::class,
         TomLingham\Searchy\SearchyServiceProvider::class,
-        Spatie\Backup\BackupServiceProvider::class,
 
     ],
 
