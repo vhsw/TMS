@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Detail;
 use App\Traits\InventoryTrait;
 use App\Traits\InventoryVariantTrait;
 
@@ -221,7 +222,7 @@ class Inventory extends BaseModel
                 'title' => $details->title
             ]);
         } else {
-            Details::insert([
+            Detail::insert([
                 'inventory_id' => $this->id,
                 'description' => $details->description,
                 'title' => $details->title
