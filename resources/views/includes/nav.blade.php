@@ -94,6 +94,24 @@
     </ul>
 </li>
 
+<li class="nav-item {{ \App\Services\Active::pattern('report/*', 'active open') }}">
+    <a href="javascript:;" class="nav-link nav-toggle">
+        <i class="icon-layers"></i>
+        <span class="title">Reports</span>
+        <span class="selected "></span>
+        <span class="arrow {{ \App\Services\Active::pattern('report/*', 'open') }}"></span>
+    </a>
+    <ul class="sub-menu">
+        <li class="nav-item {{ \App\Services\Active::pattern('report/total-inventory', 'active open') }}">
+            <a href="{!!url('report/total-inventory')!!}" class="nav-link ">
+                <i class="icon-list"></i>
+                <span class="title">Total Inventory</span>
+                {!! \App\Services\Active::pattern('report/total-inventory', '<span class="selected"></span>') !!}
+            </a>
+        </li>
+    </ul>
+</li>
+
 <li class="nav-item {{ \App\Services\Active::pattern('system/*', 'active open') }}">
     <a href="javascript:;" class="nav-link nav-toggle">
         <i class="icon-settings"></i>

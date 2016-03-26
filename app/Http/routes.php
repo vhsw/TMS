@@ -20,6 +20,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::group(['middleware' => 'role:admin'], function() {
 		require(__DIR__ . "/Routes/Data.php");
 		require(__DIR__ . "/Routes/System.php");
+		require(__DIR__ . "/Routes/Report.php");
 
 		Route::get('tool/{id}/edit', 			'ToolController@edit');
 		Route::get('tool/{id}/save', 			'ToolController@save');

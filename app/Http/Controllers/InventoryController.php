@@ -11,7 +11,6 @@ use App\Models\Cost;
 use App\Models\File;
 use App\Models\Detail;
 use App\Models\Picture;
-use App\Models\Location;
 use App\Models\Supplier;
 use App\Models\Category;
 use App\Models\Inventory;
@@ -361,6 +360,13 @@ class InventoryController extends Controller {
             }
         }
         return "Success";
+    }
+
+    public function getTotalInventory()
+    {
+        $stocks = InventoryStock::all();
+
+        return view('report.total-inventory', compact('stocks'));
     }
 
 //########### BUILD CATEGORY MENU ################//
