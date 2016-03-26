@@ -10,6 +10,7 @@ use App\Models\Cost;
 use App\Models\Supplier;
 use App\Models\Category;
 use HtmlDom;
+use App\Models\Picture;
 use HtmlDomNode;
 
 class CurlController extends Controller {
@@ -67,14 +68,16 @@ class CurlController extends Controller {
         $images = array();
         foreach($imgs as $img)
         {
-        	array_push($images, $img->src);
+        	array_push($images, basename($img->src));
+			Picture::saveTempPicture($img->src);
         }
 
         $data = $html->find('img[class=img-nudge]', 0);
         if($data != null)
         {
         	$data = 'https://www.hoffmann-group.com'.$data->src;
-        	array_push($images, $data);
+        	array_push($images, basename($data));
+			Picture::saveTempPicture($data);
         }
 
         $result = array(
