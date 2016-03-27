@@ -211,7 +211,9 @@ var selected = [<?php
                                             <div class="form-group">
                                                 <label class="control-label col-md-1"></label>
                                                 <div class="col-md-11">
-                                                    <div name="description" id="summernote_1"></div>
+                                                    <div name="description" id="summernote_1">
+                                                        {!! isset($item->details) ? $item->details->description : '' !!}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -235,7 +237,22 @@ var selected = [<?php
                                             </tr>
                                         </thead>
                                             <tbody>
+                                                <?php $i = 0; ?>
+                                                @foreach($item->pictures as $picture)
+                                                    <?php $i = $i + 1; ?>
 
+                                                <tr>
+                                                    <td>
+                                                        <img id="image{{ $i }}" class="img-responsive" src="{{url('files/'.$picture->path.$picture->title)}}" alt="">
+                                                        <input name="images[image][]" type="hidden" value="{{$picture->title}}"></td>
+                                                    <td>
+                                                        <label><input type="radio" name="picture" value="{{$picture->title}}" {{ ($picture->pivot->first_choice == 1) ? 'checked' : '' }}> </label></td>
+                                                    <td>
+                                                        <a href="javascript:cropPicture({{ $i }}, '{{$picture->title}}');" class="btn btn-default btn-xs">Crop</a></td>
+                                                    <td>
+                                                        <a href="javascript:removePicture();" class="btn btn-default btn-xs"><i class="fa fa-times"></i> </a></td>
+                                                </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
