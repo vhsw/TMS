@@ -51,7 +51,7 @@ var selected = [<?php
         });
 
         $('#brand').on('change', function() {
-            changeSupplier( $(this).val(), item );
+            changeBrand( $(this).val(), item );
         });
 
 
@@ -117,9 +117,11 @@ var selected = [<?php
                                 <button id="btn-download" class="btn blue" type="button">Download Details from</button>
                             </span>
                             <select id="supplier" name="supplier_id" class="form-control">
-                                @foreach(App\Models\Supplier::getSuppliersByBrand($item->suppliers[0]->id, true) as $supplier)
-                                <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                                @endforeach
+                                @if($item->brand)
+                                    @foreach(App\Models\Supplier::getSuppliersByBrand($item->brand->id, true) as $supplier)
+                                    <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -197,9 +199,11 @@ var selected = [<?php
                                                 <div class="col-md-4">
                                                         <select id="brand" name="brand_id" class="form-control">
                                                             @foreach($suppliers as $supplier)
-                                                            @if($supplier->producer)
-                                                            <option value="{{ $supplier->id }}" {{ ($supplier->id == $item->suppliers[0]->id) ? 'SELECTED' : '' }}>{{ $supplier->name }}</option>
-                                                            @endif
+                                                                @if($supplier->producer && $item->brand)
+                                                                    <option value="{{ $supplier->id }}" {{ ($supplier->id == $item->brand->id) ? 'SELECTED' : '' }}>{{ $supplier->name }}</option>
+                                                                @elseif($supplier->producer)
+                                                                    <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                                                @endif
                                                             @endforeach
                                                         </select>
                                                 </div>

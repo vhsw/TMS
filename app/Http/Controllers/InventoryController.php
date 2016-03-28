@@ -311,7 +311,7 @@ class InventoryController extends Controller {
 
         $item->serialnr = $request->serialnr;
         $item->name = $request->name;
-        //$item->name0 = $request->name0;
+        $item->brand_id = $request->brand_id;
         $item->category_id = $category;
         $item->save();
 

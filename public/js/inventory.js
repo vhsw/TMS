@@ -55,9 +55,9 @@ var updateCategories = function(id, selected){
     });
 }
 
-var changeSupplier = function(id, item){
+var changeBrand = function(id, item){
     $.ajax({
-        url: APP_URL + '/inventory/' + item + '/change-supplier',
+        url: APP_URL + '/inventory/' + item + '/change-brand',
         dataType: 'json',
         data: {id: id},
         success: function( data ) {

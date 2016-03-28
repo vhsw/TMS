@@ -15,7 +15,7 @@ Route::get('inventory/{item}/request', 			'InventoryController@request');
 Route::get('inventory/instant-search-barcode',  'InventoryController@instantSearchBarcode');
 Route::get('inventory/instant-search-serialnr', 'InventoryController@instantSearchSerialnr');
 Route::get('inventory/instant-item-serialnr', 	'InventoryController@getInventoryBySerialnr');
-Route::get('inventory/{item}/change-supplier',  'SupplierController@changeSupplier');
+Route::get('inventory/{item}/change-brand',     'SupplierController@changeBrand');
 Route::post('inventory/db', 					'InventoryController@db');
 Route::get('inventory/barcode', 				'InventoryController@barcode');
 Route::get('inventory/crop-image', 			    'InventoryController@cropImage');

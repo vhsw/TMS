@@ -39,16 +39,16 @@ class SupplierController extends Controller {
     }
 
     /**
-     * Changes the Supplier for the Inventory Item
+     * Changes the brand for the Inventory Item
      *
      * @param Request          $supplier (Ajax)
      * @param Inventory        $item
      *
      * @return boolean
      */
-    public function changeSupplier(Request $supplier, Inventory $item)
+    public function changeBrand(Request $supplier, Inventory $item)
     {
-        if ( $item->changeSupplierTo($supplier->input('id')) ) {
+        if ( $item->changeBrandTo($supplier->input('id')) ) {
             return $this->getPossibleSuppliers($supplier);
         }
 

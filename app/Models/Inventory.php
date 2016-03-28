@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DB;
 use App\Models\Detail;
 use App\Traits\InventoryTrait;
 use App\Traits\InventoryVariantTrait;
@@ -46,6 +47,11 @@ class Inventory extends BaseModel
         return $this->belongsToMany('App\Models\Supplier', 'inventory_suppliers', 'inventory_id')->withTimestamps()->withPivot('cost');
     }
 
+    public function brand()
+    {
+        return $this->hasOne('App\Models\Supplier', 'id', 'brand_id');
+    }
+
     public function details()
     {
         return $this->hasOne('App\Models\Detail', 'inventory_id', 'id');
@@ -57,27 +63,23 @@ class Inventory extends BaseModel
     }
 
     /**
-     * Returns the current price from supplier.
+     * Returns the current supplier pivot table.
      *
-     * @param int $supplier_id
-     *
-     * @return decimal
+     * @return Object
      */
-    public function getCurrentSupplierCost($supplier_id)
+    public function getCurrentSupplierPivot()
     {
-        $suppliers = $this->suppliers;
-        $pivots = $suppliers->pluck('pivot')
-                ->where('supplier_id', $supplier_id)
-                ->sortBy('created_at')
-                ->last();
+        $supplier = DB::table('inventory_suppliers')
+                ->where('inventory_id', $this->id)
+                ->orderBy('created_at', 'desc')->first();
 
-        return $pivots->cost;
+        return $supplier;
     }
 
     /**
      * Returns a list of all costs for this item.
      *
-     * @return Collection       array
+     * @return Collection
      */
     public function getAllCosts()
     {
@@ -86,6 +88,27 @@ class Inventory extends BaseModel
                 ->sortBy('created_at');
 
         return $pivots;
+    }
+
+    /**
+     * Gets the current supplier.
+     *
+     * @return Object
+     */
+    public function getCurrentSupplier()
+    {
+        $supplier = $this->getCurrentSupplierPivot();
+        return Supplier::find($supplier->supplier_id);
+    }
+
+    /**
+     * Gets the current supplier cost.
+     *
+     * @return decimal
+     */
+    public function getCurrentSupplierCost()
+    {
+        return $this->getCurrentSupplierPivot()->cost;
     }
 
     /**
@@ -101,23 +124,18 @@ class Inventory extends BaseModel
     }
 
     /**
-    * Change the brand (supplier) of the Inventory.
-    * TODO: Now it removes all suppliers of...
-    *       the Inventory and add the new one.
+    * Change the brand of the Inventory.
     *
     * @param integer    supplier
     *
     * @return bool
     */
-    public function changeSupplierTo($supplier)
+    public function changeBrandTo($supplier)
     {
-        $this->removeAllSuppliers();
+        $this->brand_id = $supplier;
+        $this->save();
 
-        if ( $this->addSupplier($supplier) ){
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
 

@@ -73,26 +73,6 @@
 
 
 @section('content')
-
-<?php
-// Get Only Unique Costs
-/*
-$oldid=0;
-$costtable = "";
-foreach($costs as $cost)
-{
-  $id = $cost->supplier_id;
-  if($oldid <> $id) {
-    $costtable ="<tr>
-    <td><b>Supplier</b></td><td>".$cost->supplier->name."</td><td>".$cost->cost." NOK</td>
-    </tr>";
-    $cost = $cost->cost;
-
-  }
-  $oldid = $id;
-}*/
-?>
-
 <div class="profile">
   <div class="row">
     <div class="col-md-4">
@@ -123,6 +103,12 @@ foreach($costs as $cost)
               </tr>
 
               <tr>
+                <td><b>Current Supplier</b></td>
+                <td> {{ $item->getCurrentSupplier()->name }}</td>
+                <td></td>
+              </tr>
+
+              <tr>
                 <td><b>Supplier SN</b></td>
                 <td> {{ $item->name }}</td>
                 <td></td>
@@ -138,7 +124,7 @@ foreach($costs as $cost)
 
               <tr>
                 <td><b>Brand</b></td>
-                <td> {{ $item->suppliers[0]->name }}</td>
+                <td> {!! $item->brand ? $item->brand->name : '' !!}</td>
                 <td></td>
               </tr>
             </tbody>
@@ -165,7 +151,7 @@ foreach($costs as $cost)
                   <span class="sale-info"> Cost
                     <i class="fa fa-img-down"></i>
                   </span>
-                  <span class="sale-num"> </span>
+                  <span class="sale-num"> {{ $item->getCurrentSupplierCost($item->suppliers[0]->id) }} </span>
                 </li>
                 <li>
                   <span class="sale-info"> Total Use </span>
