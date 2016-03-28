@@ -7,6 +7,7 @@ use Auth;
 use App\User;
 use App\Models\Tool;
 use App\Models\Picture;
+use App\Models\Supplier;
 use App\Models\Inventory;
 use App\Models\Requests;
 use App\Http\Controllers\Controller;
@@ -49,7 +50,7 @@ class DashboardController extends Controller {
 	{
 		$item = Inventory::find(1);
 
-		$result = $item->getAllCosts();
+		$result = Supplier::getSuppliersByBrand(6);
 
 		echo json_encode($result);
 
