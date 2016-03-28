@@ -19,6 +19,7 @@ class CreateInventoryTables extends Migration
                 $table->integer('category_id')->unsigned()->nullable();
                 $table->integer('user_id')->unsigned()->nullable();
                 $table->integer('metric_id')->unsigned();
+                $table->integer('brand_id')->unsigned()->nullable();
                 $table->string('name');
                 $table->string('name0');
                 $table->string('serialnr');
@@ -35,6 +36,10 @@ class CreateInventoryTables extends Migration
                 $table->foreign('metric_id')->references('id')->on('metrics')
                     ->onUpdate('restrict')
                     ->onDelete('cascade');
+
+                $table->foreign('brand_id')->references('id')->on('suppliers')
+                    ->onUpdate('restrict')
+                    ->onDelete('set null');
             });
         }
 
