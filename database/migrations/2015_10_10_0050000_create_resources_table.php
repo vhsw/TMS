@@ -16,16 +16,15 @@ class CreateResourcesTable extends Migration {
 		{
 			Schema::create('resources', function(Blueprint $table)
 			{
-				$table->increments('id')->unsigned();
+				$table->increments('id');
 				$table->string('name')->index();
 				$table->string('short_name')->index();
 				$table->string('controller')->index();
-				
-				$table->timestamp('updated_at');
-                $table->timestamp('created_at');
-                $table->timestamp('deleted_at');
+
+				$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+                $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 			});
-		}	
+		}
 	}
 
 	/**

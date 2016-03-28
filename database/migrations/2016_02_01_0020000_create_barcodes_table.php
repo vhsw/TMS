@@ -16,9 +16,11 @@ class CreateBarcodesTable extends Migration {
         {
             Schema::create('barcodes', function (Blueprint $table) {
                 $table->increments('id');
-                $table->timestamps();
                 $table->integer('inventory_id')->unsigned();
                 $table->string('barcode');
+
+				$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+                $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 
                 $table->foreign('inventory_id')->references('id')->on('inventories')
                     ->onUpdate('restrict')

@@ -20,7 +20,9 @@ class CreateDetailsTable extends Migration {
 				$table->integer('inventory_id')->unsigned();
 				$table->text('title');
 				$table->text('description');
-				$table->timestamps();
+
+				$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+                $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
                 $table->softDeletes();
 
 				$table->foreign('inventory_id')->references('id')->on('inventories')

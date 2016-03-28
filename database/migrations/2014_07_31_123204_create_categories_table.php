@@ -14,13 +14,15 @@ class CreateCategoriesTable extends Migration
         {
             Schema::create('categories', function (Blueprint $table) {
                 $table->increments('id');
-                $table->timestamps();
                 $table->integer('parent_id')->nullable()->index();
                 $table->integer('lft')->nullable()->index();
                 $table->integer('rgt')->nullable()->index();
                 $table->integer('depth')->nullable();
                 $table->string('name');
                 $table->string('icon');
+
+                $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+                $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 
                 /*
                  * This field is for scoping categories, use it if you

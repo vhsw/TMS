@@ -16,12 +16,12 @@ class CreateSystemTable extends Migration {
 		{
 			Schema::create('system', function(Blueprint $table)
 			{
+				$table->increments('id');
 				$table->string('variable');
 				$table->text('content');
-				
-				$table->timestamp('updated_at');
-                $table->timestamp('created_at');
-                $table->timestamp('deleted_at');
+
+				$table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+                $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 			});
 		}
 	}
