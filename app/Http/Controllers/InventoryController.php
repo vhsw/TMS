@@ -318,7 +318,7 @@ class InventoryController extends Controller {
         $item->saveDetails($request);
 
         $supplier = Supplier::find($request->supplier_id);
-        return Picture::saveImages($item, $supplier, $request->images);
+        return Picture::saveImages($item, $supplier, $request);
 
 
         //$item->updateBarcode($request->barcode);

@@ -43,15 +43,16 @@ class Picture extends BaseModel
      *
      * @return
      */
-	public static function saveImages($item, $supplier, $images)
+	public static function saveImages($item, $supplier, $request)
     {
 		// Get the short name of supplier
 		$supplier = $supplier->shortname;
 		$path = 'pictures/'.$supplier.'/';
 
-		foreach ($images['image'] as $image)
+		foreach ($request->images['image'] as $image)
 		{
 			$picture = Picture::where('path', '=', $path.$image)->first();
+			$first_choice = ($request->picture == $image) ? 1 : 0;
 
 			// If Picture exist in database, check if it's attached to this Item.
 			// If Picture don't exist in database, create it and attach it to this Item.
@@ -59,7 +60,7 @@ class Picture extends BaseModel
 				$picture = new Picture(['path' => $path, 'title' => $image]);
 				$picture->save();
 				$picture->moveImage();
-				$item->pictures()->attach($picture->id);
+				$item->pictures()->attach($picture->id, ['first_choice' => $first_choice]);
 			} elseif($picture) {
 
 				// If item don't have picture attached, attach it!
