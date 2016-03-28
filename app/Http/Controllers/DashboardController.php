@@ -49,7 +49,7 @@ class DashboardController extends Controller {
 	{
 		$item = Inventory::find(1);
 
-		$result = $item->getCurrentSupplierCost(6);
+		$result = $item->getAllCosts();
 
 		echo json_encode($result);
 

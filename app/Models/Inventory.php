@@ -61,14 +61,31 @@ class Inventory extends BaseModel
      *
      * @param int $supplier_id
      *
-     * @return mixed
+     * @return decimal
      */
     public function getCurrentSupplierCost($supplier_id)
     {
         $suppliers = $this->suppliers;
-        $pivots = $suppliers->pluck('pivot')->where('supplier_id', $supplier_id)->sortBy('created_at')->last();
+        $pivots = $suppliers->pluck('pivot')
+                ->where('supplier_id', $supplier_id)
+                ->sortBy('created_at')
+                ->last();
 
         return $pivots->cost;
+    }
+
+    /**
+     * Returns a list of all costs for this item.
+     *
+     * @return Collection       array
+     */
+    public function getAllCosts()
+    {
+        $suppliers = $this->suppliers;
+        $pivots = $suppliers->pluck('pivot')
+                ->sortBy('created_at');
+
+        return $pivots;
     }
 
     /**
