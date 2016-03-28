@@ -43,7 +43,7 @@ class Inventory extends BaseModel
 
     public function suppliers()
     {
-        return $this->belongsToMany('App\Models\Supplier', 'inventory_suppliers', 'inventory_id')->withTimestamps();
+        return $this->belongsToMany('App\Models\Supplier', 'inventory_suppliers', 'inventory_id')->withTimestamps()->withPivot('cost');
     }
 
     public function details()
@@ -54,6 +54,21 @@ class Inventory extends BaseModel
     public function pictures()
     {
         return $this->belongsToMany('App\Models\Picture', 'pictures_inventories', 'inventory_id', 'picture_id')->withPivot('first_choice');
+    }
+
+    /**
+     * Returns the current price from supplier.
+     *
+     * @param int $supplier_id
+     *
+     * @return mixed
+     */
+    public function getCurrentSupplierCost($supplier_id)
+    {
+        $suppliers = $this->suppliers;
+        $pivots = $suppliers->pluck('pivot')->where('supplier_id', $supplier_id)->sortBy('created_at')->last();
+
+        return $pivots->cost;
     }
 
     /**

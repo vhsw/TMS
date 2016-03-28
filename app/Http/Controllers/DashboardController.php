@@ -7,6 +7,7 @@ use Auth;
 use App\User;
 use App\Models\Tool;
 use App\Models\Picture;
+use App\Models\Inventory;
 use App\Models\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Controller as BaseController;
@@ -46,7 +47,13 @@ class DashboardController extends Controller {
 
 	public function test()
 	{
-		\App\Services\ImageCrop::image('https://static.hoffmann-group.com/medias/sys_master/root/haf/he6/8870973440030/b122380-ha-k39.jpg');
+		$item = Inventory::find(1);
+
+		$result = $item->getCurrentSupplierCost(6);
+
+		echo json_encode($result);
+
+		dd($result);
 		//return view('test', compact('result'));
 	}
 }
