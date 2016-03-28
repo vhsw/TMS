@@ -106,6 +106,7 @@ class TransactionController extends Controller {
      */
     public function order(InventoryTransaction $request)
     {
+        $cost = $request->stock->item->getCurrentSupplierCost();
         $request->ordered($request->quantity);
 
         return $request;
@@ -134,66 +135,22 @@ class TransactionController extends Controller {
      */
      public function edit(InventoryTransaction $request)
      {
-         $suppliers = Supplier::all();
+         $suppliers = Supplier::getMainSuppliers();
 
          return view('transaction.edit', compact('request', 'suppliers'));
      }
 
 
-    public function save(Request $request, $transaction)
+    public function save(InventoryTransaction $transaction, Request $request)
     {
+        $currentSupplier = $transaction->stock->item->getCurrentSupplierPivot();
 
-
-        /** Format Cost **/
-        if($request->cost) {
-            $cost = $request->cost; //str_replace(',', '', substr($request->cost, 4));
-        } else {
-            $cost = '0.00';
+        // Check if supplier or cost have changed and add new Cost.
+        if ($currentSupplier->cost != $request->cost || $currentSupplier->supplier_id != $request->supplier_id) {
+            $transaction->addCost($request->cost, $request->supplier_id);
         }
 
-        // If Status changed to ORDERED
-        if($request->status == "ORDERED") {
-
-            if ($tool_id != "") {
-                $lastCost = Cost::getLastCost($tool_id);
-
-                // If new price, add to cost table
-                if($lastCost != $cost) {
-                    $costRow = new Cost;
-                    $costRow->tool_id = $tool_id;
-                    $costRow->supplier_id = $request->supplier_id;
-                    $costRow->cost = $cost;
-                    $costRow->save();
-                }
-            }
-
-            System::addExpense($cost * $request->amount); // Update the Expense Statistic
-        }
-
-        //return view('test', compact('cost'));
-
-        $item = Requests::find($id);
-
-        $item->description = $request->description;
-        $item->tool_serialnr = $request->tool_serialnr;
-        $item->barcode = $barcode;
-        $item->tool_id = $tool_id;
-        $item->amount = $request->amount;
-        $item->comments = $request->comments;
-        $item->status = $request->status;
-        $item->cost = $cost;
-
-        $user = User::find($item->user_id);
-        if($request->status == "ORDERED") {
-            $user->newNotification()->withType('Request')->withBody('has been ordered')
-                ->regarding($item)->deliver();
-        } elseif($request->status == "RECIEVED") {
-            $user->newNotification()->withType('Request')->withBody('has been recieved')
-                ->regarding($item)->deliver();
-        }
-
-        $item->save();
-        return redirect('requests');
+        return 'true';
     }
 
 

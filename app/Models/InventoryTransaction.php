@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Traits\InventoryTransactionTrait;
+use DB;
 use App\Interfaces\StateableInterface;
+use App\Traits\InventoryTransactionTrait;
 
 class InventoryTransaction extends BaseModel implements StateableInterface
 {
@@ -27,5 +28,17 @@ class InventoryTransaction extends BaseModel implements StateableInterface
     public function histories()
     {
         return $this->hasMany('App\Models\InventoryTransactionHistory', 'transaction_id', 'id');
+    }
+
+
+    public function addCost($cost, $supplier_id)
+    {
+        DB::table('inventory_suppliers')->insert([
+            'inventory_id' => $this->stock->item->id,
+            'supplier_id'  => $supplier_id,
+            'cost'         => $cost
+        ]);
+
+        return true;
     }
 }

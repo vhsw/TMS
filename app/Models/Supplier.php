@@ -29,4 +29,14 @@ class Supplier extends BaseModel
 
         return array($supplier);
     }
+
+    public static function getMainSuppliers()
+    {
+        $suppliers = Supplier::where('supplied_by', '>', 0)->get();
+        $main_supplier_ids = $suppliers->unique('supplied_by')
+                ->pluck('supplied_by')
+                ->toArray();
+
+        return Supplier::find($main_supplier_ids);
+    }
 }

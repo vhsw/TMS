@@ -11,8 +11,6 @@
 {!! Html::script('global/plugins/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js') !!}
 @endsection
 
-
-
 @section('script')
 <script type="text/javascript">
 $(function() {
@@ -40,11 +38,21 @@ $(function() {
         source: tools.ttAdapter()
     });
 
+    $('#btn-save').on('click', function() {
+        $.ajax({
+            url: APP_URL + '/transaction/{!! $request->id !!}/save',
+            data: $('form').serialize(),
+            dataType: 'json',
+            success: function( data ) {
+                console.log(data);
+            }
+        });
+        return false;
+    });
+
 
 
     $("#mask-currency").inputmask();
-
-
 });
 </script>
 @endsection
@@ -86,7 +94,7 @@ $(function() {
                     <div class="col-md-6">
 
                         <!-- BEGIN FORM-->
-                        <form action="{!!url('transaction/' . $request->id . '/save')!!}" method="post" class="horizontal-form">
+                        <form action="" method="get" class="horizontal-form">
 
                             <div class="form-body">
                                 <div class="row">
@@ -121,16 +129,11 @@ $(function() {
                                         <label class="control-label col-md-2">Supplier</label>
                                         <div class="col-md-6 p-b-10">
                                             <select class="form-control" name="supplier_id">
-                                                if (isset($request->tool))
-                                                foreach($suppliers as $supplier)
-                                                <option value="$supplier->id" ></option>
-                                                endforeach
-                                                else
-                                                <option value="" SELECTED></option>
-                                                foreach($suppliers as $supplier)
-                                                <option value="$supplier->id"></option>
-                                                endforeach
-                                                endif
+                                                @if (isset($request->stock->item))
+                                                @foreach($suppliers as $supplier)
+                                                <option value="{{ $supplier->id }}" {{ ( $supplier->id == $request->stock->item->getCurrentSupplier()->id ) ? 'SELECTED' : '' }}>{{ $supplier->name }}</option>
+                                                @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
@@ -145,22 +148,17 @@ $(function() {
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label class="control-label">Cost</label>
-                                            <div class="input-group">
-                                                <input value="" name="cost" class="form-control" id="mask-currency" data-inputmask="'alias': 'numeric', 'groupSeparator': '.', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'" />
-                                                <span class="input-group-btn">
-                                                    <button class="btn blue" type="button">Get</button>
-                                                </span>
-                                            </div>
+                                            <input value="{{ $request->stock->item->getCurrentSupplierCost() }}" name="cost" class="form-control" id="mask-currency" data-inputmask="'alias': 'numeric', 'groupSeparator': '.', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'" />
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label class="control-label">Total</label>
-                                            <input type="text" class="form-control" name="total" readonly>
+                                            <input type="text" class="form-control" name="total" value="{!! ($request->stock->item->getCurrentSupplierCost() * $request->original_quantity) !!}" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -176,7 +174,7 @@ $(function() {
 
                                 <div class="row">
                                     <div class="col-md-offset-3 col-md-9">
-                                        <button type="submit" class="btn green">Save</button>
+                                        <button id="btn-save" class="btn blue">Save</button>
                                         <button type="button" class="btn default">Cancel</button>
                                     </div>
                                 </div>

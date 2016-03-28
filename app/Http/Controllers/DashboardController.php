@@ -48,9 +48,9 @@ class DashboardController extends Controller {
 
 	public function test()
 	{
-		$item = Inventory::find(1);
+		//$item = Inventory::find(1);
 
-		$result = Supplier::getSuppliersByBrand(6);
+		$result = Supplier::getMainSuppliers();
 
 		echo json_encode($result);
 
