@@ -41,4 +41,12 @@ class InventoryTransaction extends BaseModel implements StateableInterface
 
         return true;
     }
+
+    public function changeQuantityTo($quantity)
+    {
+        // Updates the quantity
+        $this->quantity = $quantity;
+        $this->original_quantity = $quantity;
+        $this->save();
+    }
 }

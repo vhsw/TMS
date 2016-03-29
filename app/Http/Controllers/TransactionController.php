@@ -106,7 +106,6 @@ class TransactionController extends Controller {
      */
     public function order(InventoryTransaction $request)
     {
-        $cost = $request->stock->item->getCurrentSupplierCost();
         $request->ordered($request->quantity);
 
         return $request;
@@ -121,7 +120,7 @@ class TransactionController extends Controller {
      */
     public function receive(InventoryTransaction $request)
     {
-        $request->received();
+        $request->receivedAll( 'recieved', $request->stock->item->getCurrentSupplierCost() );
 
         return $request;
     }
@@ -143,14 +142,20 @@ class TransactionController extends Controller {
 
     public function save(InventoryTransaction $transaction, Request $request)
     {
+        // If quantity has changed and the transaction has the state of Request, update the quantity
+        if ($transaction->original_quantity != $request->quantity && $transaction->isRequest) {
+            $transaction->changeQuantityTo($request->quantity);
+        }
+
         $currentSupplier = $transaction->stock->item->getCurrentSupplierPivot();
 
-        // Check if supplier or cost have changed and add new Cost.
+        // If supplier or cost have changed, add new Cost.
         if ($currentSupplier->cost != $request->cost || $currentSupplier->supplier_id != $request->supplier_id) {
             $transaction->addCost($request->cost, $request->supplier_id);
         }
 
-        return 'true';
+        $transaction->comments = $request->comments;
+        $transaction->save();
     }
 
 

@@ -186,7 +186,7 @@ var selected = [<?php
                                                     <div class="input-group col-lg-8">
                                                         <input value="{!! $item->getSku() !!}" type="text" class="form-control" name="sku">
                                                         <span class="input-group-btn">
-                                                            <button id="btn-generateSKU" class="btn grey" type="button">Generate SKU</button>
+                                                            <button id="btn-generateSKU" class="btn grey" type="button">Regenerate SKU</button>
                                                         </span>
                                                     </div>
                                                 </div>

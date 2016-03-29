@@ -63,7 +63,7 @@ class InventoryController extends Controller {
      */
     public function generateSku(Inventory $item)
     {
-        return $item->generateSku();;
+        return $item->regenerateSku();;
     }
 
     /**
@@ -90,8 +90,8 @@ class InventoryController extends Controller {
         }
 
         // Create new Request Transaction (order-requested)
-        $transaction = $stock->newTransaction('Request Transaction');
-        $transaction->requested(10);
+        $transaction = $stock->newTransaction();
+        $transaction->requested($request->quantity);
 
         return $transaction;
     }

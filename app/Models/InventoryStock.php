@@ -44,8 +44,7 @@ class InventoryStock extends BaseModel
         $stock = $item->newStockOnLocation(Location::find(1));
 
         $stock->quantity = 0;
-        $stock->cost = '0.00';
-        $stock->reason = 'Requested';
+        $stock->reason = 'stock created';
         $stock->save();
 
         return $stock;
