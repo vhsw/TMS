@@ -1,21 +1,21 @@
                             <!-- BEGIN NOTIFICATION DROPDOWN -->
                             <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                      
+
                             {{-- @include('includes.partials.notifications') --}}
-                            
+
                             <!-- END NOTIFICATION DROPDOWN -->
                             <!-- BEGIN INBOX DROPDOWN -->
                             <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                            
+
                             {{-- @include('includes.partials.newmessages') --}}
 
                             <!-- END INBOX DROPDOWN -->
-                            <!-- BEGIN TODO DROPDOWN -->
+                            <!-- BEGIN TO DO DROPDOWN -->
                             <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                            
+
                             {{-- @include('includes.partials.tasks') --}}
 
-                            <!-- END TODO DROPDOWN -->
+                            <!-- END TO DO DROPDOWN -->
 
 
                             <li class="dropdown dropdown-user dropdown-dark" data-toggle="user">
@@ -24,7 +24,7 @@
                                     {{ Auth::check() ? Auth::user()->name : 'Login' }}</span>
                                     <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
                                     <img alt="" class="img-circle" src="" /> </a>
-                                
+
                             </li>
 
                             @if(Auth::check())
@@ -35,7 +35,7 @@
                                     <span class="username username-hide-on-mobile">{{ Auth::user()->resource->short_name }}</span>
                                     <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
                                     <img alt="" class="img-circle" src="" /> </a>
-                                
+
                             </li>
                             @endif
 

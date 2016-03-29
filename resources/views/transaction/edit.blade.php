@@ -101,7 +101,7 @@ $(function() {
                                     <div class="form-group">
                                         <label class="control-label col-md-2">Name</label>
                                         <div class="col-md-10 p-b-10">
-                                            <input name="name" type="text" class="form-control" value="{{ $request->stock->item->name }}" readonly>
+                                            <p class="form-control-static">{{ $request->stock->item->name }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -110,7 +110,7 @@ $(function() {
                                     <div class="form-group">
                                         <label class="control-label col-md-2">Serialnr</label>
                                         <div class="col-md-10 p-b-10">
-                                            <input name="serialnr" type="text" class="form-control" value="{{ $request->stock->item->serialnr }}" readonly>
+                                            <p class="form-control-static">{{ $request->stock->item->serialnr }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -119,7 +119,7 @@ $(function() {
                                     <div class="form-group">
                                         <label class="control-label col-md-2">Barcode</label>
                                         <div class="col-md-10 p-b-10">
-                                            <input name="serialnr" type="text" class="form-control" value="{{ $request->stock->item->getBarcode() }}" readonly>
+                                            <p class="form-control-static">{{ $request->stock->item->getBarcode() }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -128,7 +128,7 @@ $(function() {
                                     <div class="form-group">
                                         <label class="control-label col-md-2">Supplier</label>
                                         <div class="col-md-6 p-b-10">
-                                            <select class="form-control" name="supplier_id">
+                                            <select class="form-control" name="supplier_id" {{ !$request->isRequest() ? 'readonly' : '' }}>
                                                 @if (isset($request->stock->item))
                                                 @foreach($suppliers as $supplier)
                                                 <option value="{{ $supplier->id }}" {{ ( $supplier->id == $request->stock->item->getCurrentSupplier()->id ) ? 'SELECTED' : '' }}>{{ $supplier->name }}</option>
@@ -144,14 +144,14 @@ $(function() {
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label class="control-label">Quantity</label>
-                                            <input type="text" class="form-control" name="quantity" value="{{ $request->original_quantity }}">
+                                            <input type="text" class="form-control" name="quantity" value="{{ $request->original_quantity }}" {{ !$request->isRequest() ? 'readonly' : '' }}>
                                         </div>
                                     </div>
 
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label class="control-label">Cost</label>
-                                            <input value="{{ $request->stock->item->getCurrentSupplierCost() }}" name="cost" class="form-control" id="mask-currency" data-inputmask="'alias': 'numeric', 'groupSeparator': '.', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'" />
+                                            <input value="{{ $request->stock->item->getCurrentSupplierCost() }}" name="cost" class="form-control" id="mask-currency" data-inputmask="'alias': 'numeric', 'groupSeparator': '.', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'placeholder': '0'" {{ ($request->isOrderReceived() || $request->isCancelled()) ? 'readonly' : '' }}>
                                         </div>
                                     </div>
 
@@ -167,14 +167,15 @@ $(function() {
                                     <div class="form-group">
                                         <label class="control-label col-md-2">Comments</label>
                                         <div class="col-md-10 p-b-10">
-                                            <input name="name" type="text" class="form-control" value="{{ $request->comments }}">
+                                            <input name="comments" type="text" class="form-control" value="{{ $request->comments }}" {{ ($request->isOrderReceived() || $request->isCancelled()) ? 'readonly' : '' }}>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-offset-3 col-md-9">
-                                        <button id="btn-save" class="btn blue">Save</button>
+                                        @if (!$request->isOrderReceived() && !$request->isCancelled())
+                                            <button id="btn-save" class="btn blue">Save</button>
+                                        @endif
                                         <button type="button" class="btn default">Cancel</button>
                                     </div>
                                 </div>
@@ -182,9 +183,10 @@ $(function() {
                         </form>
                     </div>
                     <div class="col-md-6">
+
                         @foreach( $request->getHistory() as $history )
                         <div class="note note-info margin-20">
-                            {{ $history->state_after }} {!! App\Services\CustomDate::formatHuman($history->updated_at) !!} by {{ $history->user->name }}
+                            {{ $history->makeReadable() }}
                         </div>
                         @endforeach
                     </div>

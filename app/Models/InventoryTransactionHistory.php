@@ -28,4 +28,19 @@ class InventoryTransactionHistory extends BaseModel
     {
         return $this->belongsTo('App\User', 'user_id', 'id');
     }
+
+    public function makeReadable()
+    {
+        $before = $this->state_before;
+        $after = $this->state_after;
+        $message = '';
+
+        if ($before == 'requested' && $after == 'requested') {
+            $message = 'updated';
+        } else {
+            $message = $after;
+        }
+
+        return $message. ' ' .\App\Services\CustomDate::formatHuman($this->updated_at). ' by ' .$this->user->name;
+    }
 }

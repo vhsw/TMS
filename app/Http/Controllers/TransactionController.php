@@ -143,7 +143,7 @@ class TransactionController extends Controller {
     public function save(InventoryTransaction $transaction, Request $request)
     {
         // If quantity has changed and the transaction has the state of Request, update the quantity
-        if ($transaction->original_quantity != $request->quantity && $transaction->isRequest) {
+        if ($transaction->original_quantity <> $request->quantity && $transaction->isRequest()) {
             $transaction->changeQuantityTo($request->quantity);
         }
 
