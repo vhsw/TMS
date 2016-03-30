@@ -50,9 +50,9 @@ class DashboardController extends Controller {
 	{
 		//$item = Inventory::find(1);
 
-		$result = Supplier::getMainSuppliers();
+		$result = Supplier::find(6);
 
-		echo json_encode($result);
+		echo json_encode($result->getTotalInventoryValue());
 
 		dd($result);
 		//return view('test', compact('result'));
