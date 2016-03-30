@@ -261,7 +261,6 @@
 
     function loadLocale(name) {
         var oldLocale = null;
-        // TODO: Find a better way to register and load all the locales in Node
         if (!locales[name] && typeof module !== 'undefined' &&
                 module && module.exports) {
             try {
@@ -680,7 +679,6 @@
     function setMonth (mom, value) {
         var dayOfMonth;
 
-        // TODO: Move this out of here!
         if (typeof value === 'string') {
             value = mom.localeData().monthsParse(value);
             // TODO: Another silent failure?

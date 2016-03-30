@@ -1,5 +1,5 @@
 /*********************************
- METRONIC SQUARE STYLE COMPONENTS 
+ METRONIC SQUARE STYLE COMPONENTS
 *********************************/
 
 /* Cubic Bezier Transition */
@@ -57,8 +57,8 @@ body {
 }
 
 /*
- Internet Explorer 10 doesn't differentiate device width from viewport width, and thus doesn't 
- properly apply the media queries in Bootstrap's CSS. To address this, 
+ Internet Explorer 10 doesn't differentiate device width from viewport width, and thus doesn't
+ properly apply the media queries in Bootstrap's CSS. To address this,
  you can optionally include the following CSS and JavaScript to work around this problem until Microsoft issues a fix.
 */
 
@@ -79,8 +79,8 @@ body {
 }
 
 /*
- Internet Explorer 10 doesn't differentiate device width from viewport width, 
- and thus doesn't properly apply the media queries in Bootstrap's CSS. To address this, following CSS code applied 
+ Internet Explorer 10 doesn't differentiate device width from viewport width,
+ and thus doesn't properly apply the media queries in Bootstrap's CSS. To address this, following CSS code applied
 */
 
 @-ms-viewport {
@@ -2050,7 +2050,7 @@ Simple Line Icons Demo
   }
 }
 
-/*** 
+/***
 Glyphicons Demo
 ***/
 
@@ -2220,7 +2220,7 @@ Custom buttons based on bootstrap SASS
 }
 
 /***
-Custom color buttons 
+Custom color buttons
 ***/
 
 .btn.white:not(.btn-outline) {
@@ -7983,7 +7983,7 @@ Chats
 }
 
 /***
-Customized Bootstrap Close Icon 
+Customized Bootstrap Close Icon
 ***/
 
 .close {
@@ -8904,7 +8904,7 @@ Forms
 }
 
 /***
-Custom color buttons 
+Custom color buttons
 ***/
 
 .form-control.white {
@@ -10350,7 +10350,7 @@ Metro icons
 }
 
 /***
-Customized Bootstrap Modal 
+Customized Bootstrap Modal
 ***/
 
 .modal {
@@ -11243,7 +11243,7 @@ Portlets
 }
 
 /***
-Custom colored portlets 
+Custom colored portlets
 ***/
 
 .portlet > .portlet-body.white,
@@ -18680,7 +18680,7 @@ Light Table
 }
 
 /***
-Customized Bootstrap Tabs 
+Customized Bootstrap Tabs
 ***/
 
 /* Tabs and pills */
@@ -20255,7 +20255,7 @@ AngularJS Basic Animations
 }
 
 /***
-Timeline 
+Timeline
 ***/
 
 .timeline {
@@ -20454,7 +20454,7 @@ Timeline
 }
 
 /***
-Tasks Widget 
+Tasks Widget
 ***/
 
 .tasks-widget:after {
@@ -22295,7 +22295,7 @@ Tasks Widget
 }
 
 /***
-Custom color buttons 
+Custom color buttons
 ***/
 
 .bg-white {
@@ -24374,7 +24374,7 @@ Color library demo
 @charset "UTF-8";
 
 /******************************
- 3RD PARTY PLUGIN CUSTOMIZATION 
+ 3RD PARTY PLUGIN CUSTOMIZATION
 ******************************/
 
 /* Cubic Bezier Transition */
@@ -24807,7 +24807,7 @@ Bootstrap Select
 }
 
 /***
-Bootstrap Switch 
+Bootstrap Switch
 ***/
 
 .bootstrap-switch {
@@ -27954,8 +27954,8 @@ Page Header
   }
 }
 
-/*** 
-Horizontal Menu 
+/***
+Horizontal Menu
 ***/
 
 .page-header.navbar {
@@ -31496,8 +31496,8 @@ Page sidebar
   padding: 4px 0px !important;
 }
 
-/***  
-Page Loading       
+/***
+Page Loading
 ***/
 
 .page-on-load {
@@ -31513,7 +31513,7 @@ Page Loading
 }
 /* Cubic Bezier Transition */
 
-/*********** 
+/***********
     Page Header
     ***********/
 
@@ -32303,7 +32303,7 @@ Page Loading
 }
 
 /******
-    Page Footer 
+    Page Footer
     ******/
 
 .page-footer .page-footer-inner {

@@ -42,11 +42,11 @@ $(window).load(function() {
 
 @section('content')
 
-<div class="page-bar">        
+<div class="page-bar">
 <div class="row p-t-10 p-b-10">
     <div class="col-md-3">
 
-        <button id="btn-add" class="btn blue">Add Resource</button> 
+        <button id="btn-add" class="btn blue">Add Resource</button>
 
     </div>
     <div class="col-md-5">
@@ -73,8 +73,8 @@ $(window).load(function() {
 
 
 <div class="row">
-    <div class="col-lg-12 p-t-20">
-        
+    <div class="col-lg-12">
+
         <table class="table table-striped table-bordered table-advance table-hover" id="table1" cellspacing="0" width="100%">
                <thead>
                   <tr>
@@ -93,7 +93,7 @@ $(window).load(function() {
                   </tr>
                </thead>
                <tbody>
-                  
+
 @foreach($resources as $resource)
 
               <tr class="odd gradeX">
@@ -111,11 +111,10 @@ $(window).load(function() {
                         {{ $resource->controller }}
                      </td>
                   </tr>
-@endforeach                  
+@endforeach
                </tbody>
             </table>
 
     </div>
 </div>
 @endsection
-
