@@ -49,18 +49,6 @@ $( document ).ready(function() {
             }
         },
 
-        /*
-        0 transaction_id
-        1 state
-        2 Quantity
-        3 updated_at
-        4 inventory_id
-        5 user_id
-        6 username
-        7 inventory_name
-        8 Serialnr
-        */
-
         "columns": [
             { "visible" : false},
             null,
@@ -94,6 +82,13 @@ $( document ).ready(function() {
                 '<a href="'+requestUrl+'/'+data[0]+'/edit" class="btn blue">Edit</a></div>');
         }
     });
+
+    $('input[name=serialnr]').typeahead(null, {
+        name: 'instantSearch',
+        displayKey: 'instantSearch',
+        source: overlay.data().pg.instantSearch.ttAdapter()
+    });
+
 });
 
 
@@ -115,6 +110,7 @@ $("#btn-add").click(function(){
 reveal();
 $("#form-request").removeClass("hidden");
 @endif
+
 
 </script>
 @endsection

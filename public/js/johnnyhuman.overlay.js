@@ -16,7 +16,7 @@
     Overlay.prototype.init = function() {
         var _this = this;
 
-        var instantSearch = new Bloodhound({
+        this.instantSearch = new Bloodhound({
             datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.name); },
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             limit: 10,
@@ -30,7 +30,7 @@
 
         });
 
-        instantSearch.initialize();
+        this.instantSearch.initialize();
 
         //Cache it
         this.$resourceButton    = $(document).find(this.options.resourceButton);
@@ -47,7 +47,7 @@
         this.$searchField.typeahead(null, {
             name: 'instantSearch',
             displayKey: 'instantSearch',
-            source: instantSearch.ttAdapter()
+            source: this.instantSearch.ttAdapter()
         });
 
         this.$resourceButton.on('click', function() {
