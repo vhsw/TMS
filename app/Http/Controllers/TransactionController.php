@@ -43,14 +43,11 @@ class TransactionController extends Controller {
             $requests->with('inventories', array('name', 'serialnr'), 'id', 'inventory_stocks', 'inventory_id');
             //$requests->with('inventory_transaction_histories', array('quantity_before'), 'id', 'inventory_stocks', 'inventory_id');
             //$requests->with('users', array('name'), 'user', 'user_id');
-
-
             return $requests->get();
         } else
         {
-
+            return null;
         }
-
     }
 
     /**
@@ -123,6 +120,19 @@ class TransactionController extends Controller {
         $request->receivedAll( 'recieved', $request->stock->item->getCurrentSupplierCost() );
 
         return $request;
+    }
+
+    /**
+     * Take specified quantity from stock
+     *
+     * @param InventoryTransaction      $request
+     *
+     * @return redirect
+     */
+    public function take(InventoryStock $stock, Request $request)
+    {
+        $stock->take( $request->quantity, 'taken by user' );
+        return redirect()->back()->with('message', $request->quantity. ' has been taken!');
     }
 
     /**

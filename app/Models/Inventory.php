@@ -63,6 +63,18 @@ class Inventory extends BaseModel
     }
 
     /**
+     * Returns the total quantity of this items stocks.
+     *
+     * @return Int
+     */
+    public function getTotalStockQuantity()
+    {
+        $quantity = $this->stocks()->sum('quantity');
+
+        return $quantity;
+    }
+
+    /**
      * Returns the current supplier pivot table.
      *
      * @return Object

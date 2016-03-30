@@ -21,6 +21,11 @@
         $("#form-request").removeClass("hidden").find("input[name='quantity']").focus();
     });
 
+    $("#take").click(function(){
+        reveal();
+        $("#form-take").removeClass("hidden").find("input[name='quantity']").focus();
+    });
+
     @if (count($errors) > 0)
     reveal();
     $("#form-request").removeClass("hidden");
@@ -50,7 +55,7 @@
 
                 <div class="form-group">
                     <label class="control-label">Serialnr</label>
-                    <input type="text" name="serialnr" readonly="" value="{{ $item->serialnr }}" id="tool" class="form-control input-lg">
+                    <input type="text" name="serialnr" readonly="" value="{{ $item->serialnr }}" class="form-control input-lg">
                 </div>
 
                 <div class="form-group">
@@ -69,10 +74,74 @@
 
 
 </form>
+
+
+<form action="{!!url('transaction/'.$item->stocks[0]->id.'/take')!!}" method="get" id="form-take">
+
+    @if (count($errors) > 0)
+    <div class="alert alert-danger">
+        @foreach($errors->all() as $error)
+        <strong>Error!</strong> {{ $error }}<br>
+        @endforeach
+    </div>
+    @endif
+
+    <div class="form-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">Name</label>
+                    <input name="name" value="{{ $item->name }}" readonly="" type="text" class="form-control input-lg">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Serialnr</label>
+                    <input type="text" name="serialnr" readonly="" value="{{ $item->serialnr }}" class="form-control input-lg">
+                    <input type="hidden" name="id" readonly="" value="{{ $item->id }}" class="form-control input-lg">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Quantity</label>
+                    <div class="input-group input-group-lg input-small">
+                        <input name="quantity" type="text" class="form-control input-lg input-small" />
+                        <span class="input-group-addon">Stk</span>
+                        <span class="input-group-btn pull-right">
+                            <button type="submit" class="btn green"><i class="fa fa-check"></i> Take</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>
 @endsection
 
 
 @section('content')
+<div class="page-bar">
+<div class="row p-t-10 p-b-10">
+    <div class="col-md-3">
+
+        <button id="take" class="btn blue">Take</button>
+
+        <button id="request" class="btn blue">Request</button>
+
+      @if(Auth::check() && Auth::user()->hasRole('admin'))
+
+        <a class="btn blue" href="{!! url('/inventory/'.$item->id.'/edit') !!}"> Edit </a>
+
+      @endif
+
+    </div>
+</div>
+</div>
+
+
+
+
+
 <div class="profile">
   <div class="row">
     <div class="col-md-4">
@@ -145,7 +214,7 @@
                   <span class="sale-info"> In Stock
                     <i class="fa fa-img-up"></i>
                   </span>
-                  <span class="sale-num"> </span>
+                  <span class="sale-num"> {{ (int) $item->getTotalStockQuantity() }}</span>
                 </li>
                 <li>
                   <span class="sale-info"> Cost
@@ -154,26 +223,13 @@
                   <span class="sale-num"> {{ $item->getCurrentSupplierCost($item->suppliers[0]->id) }} </span>
                 </li>
                 <li>
-                  <span class="sale-info"> Total Use </span>
+                  <span class="sale-info"> Total use </span>
                   <span class="sale-num"> 2377 </span>
                 </li>
               </ul>
             </div>
           </div>
 
-          <ul class="list-unstyled profile-nav">
-            <li>
-              <a href="javascript:;"> Take out </a>
-            </li>
-            <li>
-              <button id="request" class="btn blue">Request</button>
-            </li>
-            @if(Auth::check() && Auth::user()->hasRole('admin'))
-            <li>
-              <a href="{!! url('/inventory/'.$item->id.'/edit') !!}"> Edit </a>
-            </li>
-            @endif
-          </ul>
         </div>
         <!--end col-md-4-->
       </div>
