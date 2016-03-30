@@ -39,4 +39,20 @@ class Supplier extends BaseModel
 
         return Supplier::find($main_supplier_ids);
     }
+
+    public function getTotalInventoryValue()
+    {
+        $stocks = InventoryStock::where('quantity', '>', 0)->get();
+        $value = 0;
+
+        foreach($stocks as $stock)
+        {
+            $pivot = $stock->item->getCurrentSupplierPivot();
+            if($pivot->supplier_id == $this->id) {
+                $value += ($stock->quantity * $pivot->cost);
+            }
+        }
+
+        return $value;
+    }
 }

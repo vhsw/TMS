@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
@@ -7,6 +7,7 @@ use Auth;
 use App\User;
 use App\Models\Tool;
 use App\Models\Requests;
+use App\Models\Supplier;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Controller as BaseController;
 
@@ -16,7 +17,7 @@ class StatisticController extends Controller {
 	{
         $expenses = DB::table('statistic_expenses')->where('year', date('Y'))->get();
 
-        // Create JSON 
+        // Create JSON
         $data = '[';
         $futureMonth = '';
         $nextMonth = date('n') + 1;
@@ -36,6 +37,22 @@ class StatisticController extends Controller {
         $data .= ']';
 
         header('Content-type: application/json');
+        echo $data;
+	}
+
+	public function chartTotalInventoryPerSupplier()
+	{
+		$suppliers = Supplier::getMainSuppliers();
+
+		$data = '[';
+		foreach($suppliers as $supplier)
+		{
+			$data .= '{"supplier": "'.$supplier->name.'", "value": '.$supplier->getTotalInventoryValue().', "color": "#FF6600"},';
+		}
+		$data = substr($data, 0, -1);
+        $data .= ']';
+
+		header('Content-type: application/json');
         echo $data;
 	}
 }
