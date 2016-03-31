@@ -2,8 +2,8 @@
 
 Custom made internal web application for tool control, procurement, inventory tracking and knowledge management. The goal is to maintain a more effective production or work flow in CNC machine shops. There is information available instantly for inventories and their locations, and for every purchase orders. It automatically send budget and purchase information, inventory and history reports  to economy manager. It also handles knowledge related to work processes, machines, industry and manufacturing standards. The underlying system is PHP7, Laravel 5.2, MySQL on a Windows Apache server.
 
-* **User Management**
 * **Fuzzy Searching**
+* **User Management**
 * **Notification system**
 * **Budget and reporting**
 * **Fetching latest commits**
@@ -11,13 +11,14 @@ Custom made internal web application for tool control, procurement, inventory tr
 * **Instant barcode scanning search**
 * **Ability for users to request inventory**
 * **Full overview over requested and ordered inventory**
-* **Fetches and stores inventory information from suppliers**
 * **Instant login, changing of user and work place/resource**
+* **Fetches and stores inventory information from suppliers**
 
 ### Pictures
 
-| <img src="https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc1.jpg" width="250px"> | <img src="https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc2.jpg" width="250px"> |
-| <img src="https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc3.jpg" width="250px"> | <img src="https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc4.jpg" width="250px"> |
+<img src="https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc1.jpg" width="250px"> <img src="https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc2.jpg" width="250px">
+
+<img src="https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc3.jpg" width="250px"> <img src="https://raw.githubusercontent.com/matapuna/uhlelo/master/public/img/sc4.jpg" width="250px">
 
 ### Requirement
 
