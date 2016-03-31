@@ -77,7 +77,7 @@ class TransactionController extends Controller {
         $transaction = $stock->newTransaction();
         $transaction->requested($request->quantity);
 
-        echo $transaction;
+        return redirect()->back()->with('message', $request->quantity. ' stk has been requested!');
     }
 
     /**
@@ -132,7 +132,7 @@ class TransactionController extends Controller {
     public function take(InventoryStock $stock, Request $request)
     {
         $stock->take( $request->quantity, 'taken by user' );
-        return redirect()->back()->with('message', $request->quantity. ' has been taken!');
+        return redirect()->back()->with('message', $request->quantity. ' stk has been taken!');
     }
 
     /**
