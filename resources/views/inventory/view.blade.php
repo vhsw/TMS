@@ -37,14 +37,6 @@
 @section('form')
 <form action="{!!url('transaction/request')!!}" method="get" id="form-request">
 
-    @if (count($errors) > 0)
-    <div class="alert alert-danger">
-        @foreach($errors->all() as $error)
-        <strong>Error!</strong> {{ $error }}<br>
-        @endforeach
-    </div>
-    @endif
-
     <div class="form-body">
         <div class="row">
             <div class="col-md-12">
@@ -75,16 +67,8 @@
 
 </form>
 
-
+@if ($item->getTotalStockQuantity() <> 0)
 <form action="{!!url('transaction/'.$item->stocks[0]->id.'/take')!!}" method="get" id="form-take">
-
-    @if (count($errors) > 0)
-    <div class="alert alert-danger">
-        @foreach($errors->all() as $error)
-        <strong>Error!</strong> {{ $error }}<br>
-        @endforeach
-    </div>
-    @endif
 
     <div class="form-body">
         <div class="row">
@@ -113,9 +97,8 @@
             </div>
         </div>
     </div>
-
-
 </form>
+@endif
 @endsection
 
 
@@ -123,17 +106,15 @@
 <div class="page-bar">
 <div class="row p-t-10 p-b-10">
     <div class="col-md-3">
-
-        <button id="take" class="btn blue">Take</button>
+        @if ($item->getTotalStockQuantity() <> 0)
+            <button id="take" class="btn blue">Take</button>
+        @endif
 
         <button id="request" class="btn blue">Request</button>
 
-      @if(Auth::check() && Auth::user()->hasRole('admin'))
-
-        <a class="btn blue" href="{!! url('/inventory/'.$item->id.'/edit') !!}"> Edit </a>
-
-      @endif
-
+        @if(Auth::check() && Auth::user()->hasRole('admin'))
+            <a class="btn blue" href="{!! url('/inventory/'.$item->id.'/edit') !!}"> Edit </a>
+        @endif
     </div>
 </div>
 </div>

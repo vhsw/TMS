@@ -15,6 +15,7 @@
 {!! Html::script('global/plugins/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.min.js') !!}
 {!! Html::script('global/plugins/amcharts3/amcharts/amcharts.js') !!}
 {!! Html::script('global/plugins/amcharts3/amcharts/serial.js') !!}
+{!! Html::script('global/plugins/amcharts3/amcharts/plugins/dataloader/dataloader.min.js') !!}
 @endsection
 
 @section('script')
@@ -29,23 +30,19 @@ $( document ).ready(function() {
             [10, 20, 50, -1],
             [10, 20, 50, "All"] // change per page values here
         ],
-        "pageLength": 10
+        "pageLength": 20
     });
-});
 
 
-var initChart = function() {
         var chart = AmCharts.makeChart("chart", {
             "theme": "light",
             "type": "serial",
             "startDuration": 2,
-
             "fontFamily": 'Open Sans',
-
             "color":    '#888',
 
             "dataLoader": {
-                "url": APP_URL + "/statistic/total-inventory-per-supplie",
+                "url": APP_URL + "/statistic/total-inventory-per-supplier",
                 "format": "json"
             },
 
@@ -81,20 +78,17 @@ var initChart = function() {
                 "menuItems": [{
                     "icon": '/lib/3/images/export.png',
                     "format": 'png'
-                }]
+                }, 0]
             }
-        }, 0);
-    }
+        });
 
 
 
-$(window).load(function() {
     $('div.dataTables_filter > label').children('input').appendTo('#dataTables_filter').removeClass('input-inline input-sm input-small');
     $('div.dataTables_length > label').children('select').appendTo('#dataTables_length').removeClass('input-inline');
     $('div.dataTables_length').remove();
     $('div.dataTables_filter').remove();
 
-    initChart();
 });
 </script>
 @endsection
@@ -128,31 +122,30 @@ $(window).load(function() {
 </div>
 
 
-
+<div class="row p-t-20">
+    <div class="col-md-7">
 <div class="portlet light bordered">
                                         <div class="portlet-title">
                                             <div class="caption">
                                                 <i class="icon-bar-chart font-green-haze"></i>
-                                                <span class="caption-subject bold uppercase font-green-haze"> 3D Chart</span>
-                                                <span class="caption-helper">3d cylinder chart</span>
+                                                <span class="caption-subject bold uppercase font-green-haze">Chart</span>
+                                                <span class="caption-helper">total inventory by supplier</span>
                                             </div>
                                             <div class="tools">
                                                 <a href="javascript:;" class="collapse"> </a>
-                                                <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                                                <a href="javascript:;" class="reload"> </a>
                                                 <a href="javascript:;" class="fullscreen"> </a>
-                                                <a href="javascript:;" class="remove"> </a>
                                             </div>
                                         </div>
                                         <div class="portlet-body">
-                                            <div id="chart" class="chart" style="height: 400px;"> </div>
+                                            <div id="chart" class="chart" style="height: 250px;"> </div>
                                         </div>
                                     </div>
-
+                                </div>
+                                </div>
 
 
 <div class="row">
-    <div class="col-lg-12 p-t-20">
+    <div class="col-lg-12">
 
         <table class="table table-striped table-bordered table-advance table-hover" id="table1" cellspacing="0" width="100%">
             <thead>
