@@ -1,6 +1,6 @@
 # Tool Management System
 
-## Instation
+## Installation
 
 Install docker and docker compose
 
