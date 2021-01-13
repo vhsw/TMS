@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:5
+    environment:
+      MYSQL_ROOT_PASSWORD: MJJ58C8Da5J1fxAFHkbP8NVA5tkQQ3QT
+      MYSQL_DATABASE: tms
+  server:
+    build:
+      context: .
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "true"
+      APP_KEY: HretHEbfZsoIqv661GGX2Vo5FlC0g0q5
+      APP_TIMEZONE: Europe/Moscow
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PASSWORD: MJJ58C8Da5J1fxAFHkbP8NVA5tkQQ3QT
+      DB_DATABASE: tms
+    depends_on:
+      - db
+    ports:
+      - 8080:8080

@@ -145,7 +145,7 @@
         <script type="text/javascript">
         var APP_URL = {!! json_encode(url('/')) !!};
         </script>
-        {!! Html::script('global/plugins/jquery/dist/jquery.min.js') !!}
+        {!! Html::script('global/plugins/jquery/jquery.min.js') !!}
         {!! Html::script('global/plugins/bootstrap/dist/js/bootstrap.min.js') !!}
         {!! Html::script('js/global.js') !!}
         {!! Html::script('global/plugins/js-cookie/src/js.cookie.js') !!}

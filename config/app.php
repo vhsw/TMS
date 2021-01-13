@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'timezone' => 'Europe/Oslo',
+    'timezone' => env('APP_TIMEZONE', 'Europe/Moscow'),
 
     /*
     |--------------------------------------------------------------------------

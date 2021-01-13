@@ -37,7 +37,7 @@
     "typeahead.js-bootstrap3.less": "typeahead.js-bootstrap-css#^1.2.1",
     "js-cookie": "^2.1.0",
     "bootstrap-hover-dropdown": "^2.2.1",
-    "blockUI": "*",
+    "blockUI": "malsup/blockui#*",
     "bootstrap-switch": "^3.3.2",
     "summernote": "^0.8.1"
   },
