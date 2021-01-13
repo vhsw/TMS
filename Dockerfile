@@ -24,7 +24,7 @@ RUN composer install --no-dev --verbose --no-scripts
 
 
 
-FROM php:5
+FROM php:7.0
 RUN docker-php-ext-install pdo pdo_mysql
 COPY . /var/www
 COPY --from=composer /var/www /var/www
